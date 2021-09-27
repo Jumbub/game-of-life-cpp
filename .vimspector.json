@@ -1,0 +1,14 @@
+{
+  "configurations": {
+    "local": {
+      "adapter": "vscode-cpptools",
+      "configuration": {
+        "request": "launch",
+        "program": "build/graphics",
+        "MIMode": "gdb",
+        "MIDebuggerPath": "/usr/bin/gdb",
+        "extrenalConsole": true
+      }
+    }
+  }
+}
