@@ -31,14 +31,19 @@ int main() {
   while (!exit) {
     auto startSdl = std::chrono::steady_clock::now();
 
-    for (int y = 0; y < 600; ++y)
-      for (int x = 0; x < 600; ++x) {
+    std::vector<SDL_Point> points;
+
+    // Reset to black
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
+    // Draw white pixels
+    for (int y = 0; y < height; ++y)
+      for (int x = 0; x < width; ++x)
         if (board[y][x])
-          SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        else
-          SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderDrawPoint(renderer, x, y);
-      }
+          points.push_back({x, y});
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDrawPoints(renderer, &points[0], points.size());
 
     SDL_RenderPresent(renderer);
     while (SDL_PollEvent(&event))
