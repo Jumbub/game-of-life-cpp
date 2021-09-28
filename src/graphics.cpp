@@ -4,16 +4,6 @@
 #include <chrono>
 #include <iostream>
 
-Board randomBoard(int width, int height) {
-  Board board(height, std::vector<bool>(width));
-  for (int y = 0; y < 600; ++y) {
-    for (int x = 0; x < 600; ++x) {
-      board[y][x] = rand() % 2;
-    }
-  }
-  return board;
-}
-
 int main() {
   const int width = 600;
   const int height = 600;

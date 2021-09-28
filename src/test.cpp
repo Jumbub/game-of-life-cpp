@@ -38,6 +38,13 @@ TEST_CASE("block (horizontal wrap)", "[nextBoard]") {
   REQUIRE(nextBoard(input) == expected);
 }
 
+TEST_CASE("block (corner wrap)", "[nextBoard]") {
+  Board input = {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}};
+  Board expected = {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}};
+
+  REQUIRE(nextBoard(input) == expected);
+}
+
 TEST_CASE("bee-hive", "[nextBoard]") {
   Board input = {{0, 0, 0, 0, 0, 0},
                  {0, 0, 1, 1, 0, 0},
