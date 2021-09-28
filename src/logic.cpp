@@ -10,8 +10,8 @@ using NeighbourPositions = std::array<Position, 8>;
 
 Board randomBoard(int width, int height) {
   Board board(height, std::vector<bool>(width));
-  for (int y = 0; y < 600; ++y) {
-    for (int x = 0; x < 600; ++x) {
+  for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
       board[y][x] = rand() % 2;
     }
   }
