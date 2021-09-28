@@ -4,7 +4,7 @@ COMPILER_FLAGS = -Wall -std=c++2a
 BENCHMARK_FLAGS = -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread
 PROFILE_FLAGS = $(BENCHMARK_FLAGS) -pg
 
-LINKER_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+LINKER_FLAGS = -lSDL2
 LINKER_FLAGS_TEST = $(LINKER_FLAGS)
 
 OBJ_NAME = build/graphics
