@@ -1,59 +1,47 @@
 #include "logic.cpp"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_timer.h>
+#include <SFML/Graphics.hpp>
 #include <chrono>
 #include <iostream>
 
 int main() {
-  const int width = 600;
-  const int height = 600;
+  sf::RenderWindow window(sf::VideoMode(200, 200), "game-of-speed");
+  auto [width, height] = window.getSize();
 
-  SDL_Event event;
-  SDL_Renderer *renderer;
-  SDL_Window *window;
-  SDL_Init(SDL_INIT_VIDEO);
-  SDL_CreateWindowAndRenderer(width, height, 0, &window, &renderer);
+  auto board = randomBoard(width, height);
 
-  auto begin = std::chrono::steady_clock::now();
-  int frames = 0;
-  int exit = 0;
+  sf::Image image;
+  image.create(width, height);
 
-  Board board = randomBoard(width, height);
+  sf::Texture texture;
+  texture.loadFromImage(image);
 
-  while (!exit) {
-    for (int y = 0; y < 600; ++y)
-      for (int x = 0; x < 600; ++x) {
-        if (board[y][x])
-          SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        else
-          SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderDrawPoint(renderer, x, y);
-      }
+  sf::Sprite sprite;
+  sprite.setTexture(texture);
 
-    SDL_RenderPresent(renderer);
-
+  while (window.isOpen()) {
+    // Compute next board
     board = nextBoard(board);
 
-    while (SDL_PollEvent(&event))
-      if (event.key.keysym.sym == SDLK_ESCAPE)
-        exit = 1;
+    // Render board
+    for (int y = 0; y < height; y++)
+      for (int x = 0; x < width; x++)
+        if (board[y][x])
+          image.setPixel(x, y, sf::Color::White);
+        else
+          image.setPixel(x, y, sf::Color::Black);
+    texture.loadFromImage(image);
+    sprite.setTexture(texture);
+    window.draw(sprite);
+    window.display();
 
-    frames++;
-    if (frames > 60) {
-      auto end = std::chrono::steady_clock::now();
-      std::cout << "Microseconds per 60 frames: "
-                << std::chrono::duration_cast<std::chrono::microseconds>(end -
-                                                                         begin)
-                       .count()
-                << std::endl;
-      begin = std::chrono::steady_clock::now();
-      frames = 0;
+    // Window events
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed ||
+          event.type == sf::Event::KeyPressed)
+        window.close();
     }
   }
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-  return EXIT_SUCCESS;
 
   return 0;
 }
