@@ -38,7 +38,9 @@ Board nextBoard(Board input) {
   if (width == 0)
     return input;
 
-  for (int y = 0; y < height; y++)
+  Board output(height, std::vector<bool>(width));
+
+  for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       auto alive = input[y][x];
       auto neighbourKeys = getNeighbourPositions(x, y, width, height);
@@ -53,14 +55,14 @@ Board nextBoard(Board input) {
       auto neighboursAlive =
           std::count(neighbourValues.begin(), neighbourValues.end(), true);
 
-      if (alive) {
-        if (neighboursAlive == 2 || neighboursAlive == 3)
-          input[y][x] = true;
-        else
-          input[y][x] = false;
-      } else if (neighboursAlive == 3)
-        input[y][x] = true;
+      if (alive && (neighboursAlive < 2 || neighboursAlive > 3))
+        output[y][x] = false;
+      else if (!alive && neighboursAlive == 3)
+        output[y][x] = true;
+      else
+        output[y][x] = alive;
     }
+  }
 
-  return input;
+  return output;
 }
