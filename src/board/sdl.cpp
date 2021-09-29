@@ -4,7 +4,7 @@
 Board boardForSdlWindow(SDL_Window *window) {
   int width, height;
   SDL_GetWindowSize(window, &width, &height);
-  return randomBoard(width, height);
+  return benchmarkBoard(width, height);
 }
 
 void renderBoardSdl(Board board, SDL_Renderer *renderer) {

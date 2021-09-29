@@ -4,7 +4,7 @@
       "adapter": "vscode-cpptools",
       "configuration": {
         "request": "launch",
-        "program": "build/test",
+        "program": "build/interactive",
         "MIMode": "gdb",
         "MIDebuggerPath": "/usr/bin/gdb",
         "extrenalConsole": true
