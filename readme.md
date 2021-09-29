@@ -1,8 +1,6 @@
 # Game of Speed
 
-A personal challenge to see how fast I can render Conway's Game of Life per pixel on a 2k monitor.
-
-## Results
+Conway's Game of Life as fast as possible.
 
 ## Setting up
 
@@ -14,4 +12,8 @@ https://www.libsdl.org/
 
 `make benchmark`
 
-# Install this guy inside the build folder
+Install this guy inside the build folder
+
+## References
+
+Used to create the benchmark tiles from an image: https://www.dcode.fr/binary-image
