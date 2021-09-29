@@ -35,8 +35,10 @@ Board benchmarkBoard(int width, int height) {
         if (x >= width / 2)
           board[y][x] = (x / 8) % 2 != (y / 8) % 2;
       } else {
-        if (y < BREEDER_HEIGHT && x < BREEDER_WIDTH) {
-          board[y][x] = BREEDER[y][x];
+        const int breederMarginY = (height / 2 - BREEDER_HEIGHT) / 2;
+        const int breederY = y - breederMarginY;
+        if (breederY > 0 && breederY < BREEDER_HEIGHT && x < BREEDER_WIDTH) {
+          board[y][x] = BREEDER[breederY][x];
         } else {
           board[y][x] = false;
         }
