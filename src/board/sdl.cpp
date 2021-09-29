@@ -1,7 +1,7 @@
 #include "sdl.h"
-#include "random.h"
+#include "generate.h"
 
-Board randomBoardForSdlWindow(SDL_Window *window) {
+Board boardForSdlWindow(SDL_Window *window) {
   int width, height;
   SDL_GetWindowSize(window, &width, &height);
   return randomBoard(width, height);

@@ -11,8 +11,8 @@ OUTPUT_BENCHMARK = build/benchmark
 OUTPUT_BENCHMARK_PROFILE = build/benchmark_profile
 OUTPUT_TEST = build/test
 
-OBJS = src/board/next.cpp src/board/random.cpp
-OBJS_GRAPHICS = src/board/next.cpp src/board/sdl.cpp src/board/random.cpp
+OBJS = src/board/next.cpp src/board/generate.cpp
+OBJS_GRAPHICS = src/board/next.cpp src/board/sdl.cpp src/board/generate.cpp
 
 interactive:
 	$(CC) src/entrypoints/interactive.cpp $(COMPILER_FLAGS) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)

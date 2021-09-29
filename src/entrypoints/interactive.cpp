@@ -1,5 +1,5 @@
+#include "../board/generate.h"
 #include "../board/next.h"
-#include "../board/random.h"
 #include "../board/sdl.h"
 #include "../util/profile.cpp"
 #include <SDL2/SDL.h>
@@ -18,17 +18,22 @@ int main() {
                               &renderer);
 
   // Generate initial board
-  auto board = randomBoardForSdlWindow(window);
+  auto board = boardForSdlWindow(window);
 
   bool running = true;
   while (running) {
-    // Exit on escape key
-    while (SDL_PollEvent(&event))
-      if (event.key.keysym.sym == SDLK_ESCAPE)
+    while (SDL_PollEvent(&event)) {
+      // Exit when told, or Escape is pressed
+      if ((event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ||
+          (event.type == SDL_QUIT) ||
+          (event.type == SDL_WINDOWEVENT &&
+           event.window.event == SDL_WINDOWEVENT_CLOSE))
         running = false;
-      else if (event.type == SDL_WINDOWEVENT_RESIZED)
-        std::cout << "Resized window";
-    /* board = randomBoardForSdlWindow(window); */
+      // Re-create board when Enter is pressed
+      else if (event.type == SDL_KEYDOWN &&
+               event.key.keysym.scancode == SDL_SCANCODE_RETURN)
+        board = boardForSdlWindow(window);
+    }
 
     board = nextBoard(board);
     renderBoardSdl(board, renderer);
