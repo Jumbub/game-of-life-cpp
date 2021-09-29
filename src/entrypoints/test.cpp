@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 
-#include "logic.cpp"
+#include "../board/next.h"
 #include <catch2/catch.hpp>
 
 TEST_CASE("nothing", "[nextBoard]") {
