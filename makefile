@@ -2,7 +2,7 @@ CC = g++
 
 COMPILER_FLAGS = -Wall -std=c++2a
 COMPILER_FLAGS_BENCHMARK = $(COMPILER_FLAGS) -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread
-COMPILER_FLAGS_BENCHMARK_PROFILE = $(COMPILER_FLAGS_BENCHMARK) -pg
+COMPILER_FLAGS_BENCHMARK_PROFILE = $(COMPILER_FLAGS_BENCHMARK)
 
 LINKER_FLAGS_GRAPHICS = -lSDL2
 
@@ -11,8 +11,8 @@ OUTPUT_BENCHMARK = build/benchmark
 OUTPUT_BENCHMARK_PROFILE = build/benchmark_profile
 OUTPUT_TEST = build/test
 
-OBJS = src/board/next.cpp src/board/generate.cpp
-OBJS_GRAPHICS = src/board/next.cpp src/board/sdl.cpp src/board/generate.cpp
+OBJS = src/util/profile.cpp src/board/next.cpp src/board/generate.cpp
+OBJS_GRAPHICS = $(OBJS) src/board/sdl.cpp
 
 interactive:
 	$(CC) src/entrypoints/interactive.cpp $(COMPILER_FLAGS) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
@@ -26,7 +26,5 @@ benchmark:
 	$(CC) src/entrypoints/benchmark.cpp $(COMPILER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT_BENCHMARK) $(OBJS_GRAPHICS)
 	./$(OUTPUT_BENCHMARK) > results/benchmark.txt
 
-benchmark_profile: $(OBJS)
-	$(CC) src/entrypoints/benchmark.cpp $(COMPILER_FLAGS_BENCHMARK_PROFILE) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT_BENCHMARK_PROFILE) $(OBJS_GRAPHICS)
-	uftrace record $(OUTPUT_BENCHMARK_PROFILE)
-	uftrace dump --chrome > results/benchmark.chrome_profile
+profile: $(OBJS)
+	$(CC) src/entrypoints/interactive.cpp $(COMPILER_FLAGS_BENCHMARK_PROFILE) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT_BENCHMARK_PROFILE) $(OBJS_GRAPHICS)

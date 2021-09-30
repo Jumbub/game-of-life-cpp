@@ -1,7 +1,7 @@
 #include "../board/generate.h"
 #include "../board/next.h"
 #include "../board/sdl.h"
-#include "../util/profile.cpp"
+#include "../util/profile.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
 #include <iostream>

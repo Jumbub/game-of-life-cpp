@@ -1,4 +1,5 @@
 build
 .ccls-cache
 uftrace.data
+uftrace.data.old
 *.o
