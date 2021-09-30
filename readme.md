@@ -1,5 +1,7 @@
 # Game of Speed
 
+![](art/gol.png)
+
 Conway's Game of Life as fast as possible.
 
 ## Gettings started
