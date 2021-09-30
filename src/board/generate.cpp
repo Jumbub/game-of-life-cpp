@@ -28,7 +28,7 @@ Board benchmarkBoard(int width, int height) {
   auto board = std::shared_ptr<bool[]>(new bool[width*height]);
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
-      const int i = y * height + x;
+      const int i = y * width + x;
       if (y > height / 2) {
         if (x < width / 2)
           board[i] = rand() % 2;
