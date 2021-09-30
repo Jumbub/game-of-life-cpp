@@ -1,8 +1,10 @@
 # Game of Speed
 
+Conway's Game of Life as fast as possible.
+
 ![](art/gol.png)
 
-Conway's Game of Life as fast as possible.
+(Pictured above is the "benchmark" world)
 
 ## Gettings started
 
