@@ -1,5 +1,6 @@
 #include "sdl.h"
 #include "generate.h"
+#include <vector>
 
 Board boardForSdlWindow(SDL_Window *window) {
   int width, height;
@@ -8,10 +9,12 @@ Board boardForSdlWindow(SDL_Window *window) {
 }
 
 void renderBoardSdl(Board board, SDL_Renderer *renderer) {
+  const auto &[input, width, height] = board;
+
   std::vector<SDL_Point> points;
-  for (int y = 0; y < (int)board.size(); ++y)
-    for (int x = 0; x < (int)board[0].size(); ++x)
-      if (board[y][x])
+  for (int y = 0; y < height; ++y)
+    for (int x = 0; x < width; ++x)
+      if (input[y * width + x])
         points.push_back({x, y});
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

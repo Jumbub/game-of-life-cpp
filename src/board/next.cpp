@@ -23,44 +23,46 @@ const NeighbourPositions getNeighbourPositions(const int px, const int py,
       if (yy < 0)
         yy = yy + height;
 
-      positions[i++] = {xx, yy};
+      positions[i++] = yy * width + xx;
     }
   return positions;
 }
 
-Board nextBoard(Board input) {
-  const int height = input.size();
+Board nextBoard(Board board) {
+  const auto &[input, width, height] = board;
   if (height == 0)
-    return input;
-  const int width = input[0].size();
+    return board;
   if (width == 0)
-    return input;
+    return board;
 
-  Board output(height, std::vector<bool>(width));
+  auto output = std::shared_ptr<bool[]>(new bool[width*height]);
 
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
-      auto alive = input[y][x];
-      auto neighbourKeys = getNeighbourPositions(x, y, width, height);
+      const int i = y * width + x;
 
-      std::array<bool, 8> neighbourValues = {};
-      std::transform(neighbourKeys.begin(), neighbourKeys.end(),
-                     neighbourValues.begin(), [&input](Position pos) -> bool {
-                       const auto &[x, y] = pos;
-                       return input[y][x];
-                     });
+      auto alive = input[i];
 
-      auto neighboursAlive =
-          std::count(neighbourValues.begin(), neighbourValues.end(), true);
+      auto neighboursPositions = getNeighbourPositions(x, y, width, height);
+      int neighboursCount = 0;
+      for (int n = 0; n < 8; n++) {
+        if (input[neighboursPositions[n]])
+          neighboursCount++;
 
-      if (alive && (neighboursAlive < 2 || neighboursAlive > 3))
-        output[y][x] = false;
-      else if (!alive && neighboursAlive == 3)
-        output[y][x] = true;
+        // Optimisation (exit early if we know it's a dead cell)
+        if (neighboursCount > 3) {
+          break;
+        }
+      }
+
+      if (alive && (neighboursCount < 2 || neighboursCount > 3))
+        output[i] = false;
+      else if (!alive && neighboursCount == 3)
+        output[i] = true;
       else
-        output[y][x] = alive;
+        output[i] = alive;
     }
   }
 
-  return output;
+  return {output, width, height};
 }

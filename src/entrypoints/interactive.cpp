@@ -18,7 +18,9 @@ int main() {
                               &renderer);
 
   // Generate initial board
+  auto p1 = startProfiling();
   auto board = boardForSdlWindow(window);
+  stopProfiling(p1, "Generated first board");
 
   bool running = true;
   while (running) {
@@ -35,8 +37,13 @@ int main() {
         board = boardForSdlWindow(window);
     }
 
+    auto p2 = startProfiling();
     board = nextBoard(board);
+    stopProfiling(p2, "Calculated next board");
+
+    auto p3 = startProfiling();
     renderBoardSdl(board, renderer);
+    stopProfiling(p3, "Rendered next board");
   }
 
   SDL_DestroyRenderer(renderer);

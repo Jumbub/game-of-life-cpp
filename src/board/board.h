@@ -2,8 +2,8 @@
 
 #include <array>
 #include <tuple>
-#include <vector>
+#include <array>
+#include <memory>
 
-using Board = std::vector<std::vector<bool>>;
-using Position = std::tuple<int, int>;
-using NeighbourPositions = std::array<Position, 8>;
+using Board = std::tuple<std::shared_ptr<bool[]>, int, int>;
+using NeighbourPositions = std::array<int, 8>;
