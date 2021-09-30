@@ -2,18 +2,25 @@
 
 Conway's Game of Life as fast as possible.
 
-## Setting up
+## Gettings started
 
-### Required software
-
-https://github.com/google/benchmark
+### Required
 
 https://www.libsdl.org/
 
-`make benchmark`
+https://github.com/google/benchmark
 
-Install this guy inside the build folder
+### Commands
+
+Running the "interactive" benchmark (resizing & restarting):
+
+`make`
+
+Running the proper benchmkark:
+
+`make benchmark`
 
 ## References
 
-Used to create the benchmark tiles from an image: https://www.dcode.fr/binary-image
+Great util for generating binary image files:
+https://www.dcode.fr/binary-image
