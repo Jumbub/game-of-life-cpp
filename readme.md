@@ -8,21 +8,21 @@ Conway's Game of Life as fast as possible.
 
 ## Gettings started
 
-### Required
-
-https://www.libsdl.org/
-
-https://github.com/google/benchmark
-
-### Commands
-
-Running the "interactive" benchmark (resizing & restarting):
+### Running the app
 
 `make`
 
-Running the proper benchmkark:
+Requires:
+
+- https://www.libsdl.org/
+
+### Running a benchmark
 
 `make benchmark`
+
+Requires:
+
+- https://github.com/google/benchmark
 
 ## References
 
