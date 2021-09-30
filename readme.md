@@ -16,6 +16,14 @@ Requires:
 
 - https://www.libsdl.org/
 
+### Running the tests
+
+`make test`
+
+Requires:
+
+- https://github.com/catchorg/Catch2
+
 ### Running a benchmark
 
 `make benchmark`
