@@ -5,4 +5,4 @@
 
 Board boardForSdlWindow(SDL_Window *window);
 
-void renderBoardSdl(Board board, SDL_Renderer *renderer);
+void renderBoardSdl(Board board, SDL_Renderer *renderer, SDL_Texture *texture);
