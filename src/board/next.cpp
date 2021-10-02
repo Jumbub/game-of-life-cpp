@@ -13,7 +13,7 @@ Board nextBoard(Board board) {
   if (width == 0)
     return board;
 
-  auto output = std::shared_ptr<Cell[]>(new Cell[width*height]);
+  auto output = new Cell[width*height];
 
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
@@ -51,6 +51,8 @@ Board nextBoard(Board board) {
         output[i] = state;
     }
   }
+
+  free(input);
 
   return {output, width, height};
 }

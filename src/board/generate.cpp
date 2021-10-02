@@ -7,7 +7,7 @@
 #include <tuple>
 
 Board randomBoard(int width, int height) {
-  auto board = std::shared_ptr<Cell[]>(new Cell[width * height]);
+  auto board = new Cell[width * height];
   for (int i = 0; i < height * width; ++i)
     board[i] = rand() % 2 ? ALIVE : DEAD;
   return {board, width, height};
@@ -25,7 +25,7 @@ Board benchmarkBoard(int width, int height) {
         "Did not meet minimum height required for the benchmark board");
 
   srand(0);
-  auto board = std::shared_ptr<Cell[]>(new Cell[width * height]);
+  auto board = new Cell[width * height];
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
       const int i = y * width + x;

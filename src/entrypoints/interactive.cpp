@@ -41,6 +41,7 @@ int main() {
       else if (event.type == SDL_KEYDOWN &&
                event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
 
+        free(get<0>(board));
         board = boardForSdlWindow(window);
         int width, height;
         SDL_GetWindowSize(window, &width, &height);
@@ -58,6 +59,8 @@ int main() {
     renderBoardSdl(board, renderer, texture);
     stopProfiling(p3, "Rendered next board");
   }
+
+  free(get<0>(board));
 
   SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);
