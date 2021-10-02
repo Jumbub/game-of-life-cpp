@@ -10,7 +10,7 @@ Board generate(std::vector<std::vector<bool>> input) {
   auto board = std::shared_ptr<bool[]>(new bool[width * height]);
   for (int y = 0; y < height; ++y)
     for (int x = 0; x < width; ++x)
-      board[y * width + x] = input[y][x];
+      board[y * width + x] = input[y][x] ? ALIVE : DEAD;
 
   return {board, width, height};
 }

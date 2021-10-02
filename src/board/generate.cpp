@@ -7,9 +7,9 @@
 #include <tuple>
 
 Board randomBoard(int width, int height) {
-  auto board = std::shared_ptr<bool[]>(new bool[width * height]);
+  auto board = std::shared_ptr<Cell[]>(new Cell[width * height]);
   for (int i = 0; i < height * width; ++i)
-    board[i] = rand() % 2;
+    board[i] = rand() % 2 ? ALIVE : DEAD;
   return {board, width, height};
 }
 
@@ -25,22 +25,22 @@ Board benchmarkBoard(int width, int height) {
         "Did not meet minimum height required for the benchmark board");
 
   srand(0);
-  auto board = std::shared_ptr<bool[]>(new bool[width * height]);
+  auto board = std::shared_ptr<Cell[]>(new Cell[width * height]);
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {
       const int i = y * width + x;
       if (y > height / 2) {
         if (x < width / 2)
-          board[i] = rand() % 2;
+          board[i] = rand() % 2 ? ALIVE : DEAD;
         if (x >= width / 2)
-          board[i] = (x / 8) % 2 != (y / 8) % 2;
+          board[i] = (x / 8) % 2 != (y / 8) % 2 ? ALIVE : DEAD;
       } else {
         const int breederMarginY = (height / 2 - BREEDER_HEIGHT) / 2;
         const int breederY = y - breederMarginY;
         if (breederY > 0 && breederY < BREEDER_HEIGHT && x < BREEDER_WIDTH) {
-          board[i] = BREEDER[breederY][x];
+          board[i] = BREEDER[breederY][x] ? ALIVE : DEAD;
         } else {
-          board[i] = false;
+          board[i] = DEAD;
         }
       }
     }

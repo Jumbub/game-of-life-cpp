@@ -13,13 +13,13 @@ Board nextBoard(Board board) {
   if (width == 0)
     return board;
 
-  auto output = std::shared_ptr<bool[]>(new bool[width*height]);
+  auto output = std::shared_ptr<Cell[]>(new Cell[width*height]);
 
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       const int i = y * width + x;
 
-      auto alive = input[i];
+      auto state = input[i];
 
       int neighboursCount = 0;
       for (int y2 = -1; y2 <= 1; y2++)
@@ -43,12 +43,12 @@ Board nextBoard(Board board) {
           }
         }
 
-      if (alive && (neighboursCount < 2 || neighboursCount > 3))
-        output[i] = false;
-      else if (!alive && neighboursCount == 3)
-        output[i] = true;
+      if (state && (neighboursCount < 2 || neighboursCount > 3))
+        output[i] = DEAD;
+      else if (!state && neighboursCount == 3)
+        output[i] = ALIVE;
       else
-        output[i] = alive;
+        output[i] = state;
     }
   }
 

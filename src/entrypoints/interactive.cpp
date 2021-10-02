@@ -17,6 +17,12 @@ int main() {
   SDL_CreateWindowAndRenderer(500, 500, SDL_WINDOW_RESIZABLE, &window,
                               &renderer);
 
+  // Window texture
+  int width, height;
+  SDL_GetWindowSize(window, &width, &height);
+  auto texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+                                   SDL_TEXTUREACCESS_STATIC, width, height);
+
   // Generate initial board
   auto p1 = startProfiling();
   auto board = boardForSdlWindow(window);
@@ -33,8 +39,15 @@ int main() {
         running = false;
       // Re-create board when Enter is pressed
       else if (event.type == SDL_KEYDOWN &&
-               event.key.keysym.scancode == SDL_SCANCODE_RETURN)
+               event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
+
         board = boardForSdlWindow(window);
+        int width, height;
+        SDL_GetWindowSize(window, &width, &height);
+        SDL_DestroyTexture(texture);
+        texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+                                    SDL_TEXTUREACCESS_STATIC, width, height);
+      }
     }
 
     auto p2 = startProfiling();
@@ -42,10 +55,11 @@ int main() {
     stopProfiling(p2, "Calculated next board");
 
     auto p3 = startProfiling();
-    renderBoardSdl(board, renderer);
+    renderBoardSdl(board, renderer, texture);
     stopProfiling(p3, "Rendered next board");
   }
 
+  SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
