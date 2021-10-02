@@ -34,13 +34,25 @@ Requires:
 
 ## Milestones
 
-### 40ms -> 23ms
+### 183% speed increase in logic
+
+Removing the shared\_ptr wrappers, speed > safety.
+
+[73e6448fe2a021d9063bf50323b4b99cd551ee15](https://github.com/Jumbub/game-of-speed/commit/73e6448fe2a021d9063bf50323b4b99cd551ee15)
+
+### 350% speed increase in rendering
+
+Rendering the board logic, rather than creating a list of pixels to render.
+
+[cda613a50c4314d087152fb26cf222c76d5ea92d](https://github.com/Jumbub/game-of-speed/commit/cda613a50c4314d087152fb26cf222c76d5ea92d)
+
+### 200% speed increase in logic
 
 Merging and inlining the "finding neighbour positions" and "counting neighbours" logic.
 
 [f64f4adbf7c6f956d2edcff397483de44ccaabec](https://github.com/Jumbub/game-of-speed/commit/f64f4adbf7c6f956d2edcff397483de44ccaabec)
 
-### 250ms -> 40ms
+### 625% speed increase in logic
 
 Switching from a 2D vector `std::vector<std::vector<bool>>` to a 1D array `std::unique_pr<new bool[]>`.
 
