@@ -7,7 +7,7 @@
 #include <SDL2/SDL.h>
 
 using Cell = Uint32;
-const Cell ALIVE = 255;
+const Cell ALIVE = SDL_MAX_UINT32;
 const Cell DEAD = 0;
 
 using Board = std::tuple<std::shared_ptr<Cell[]>, int, int>;
