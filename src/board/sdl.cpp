@@ -1,4 +1,5 @@
 #include "sdl.h"
+#include "../util/profile.h"
 #include "generate.h"
 #include <vector>
 
@@ -8,22 +9,11 @@ Board boardForSdlWindow(SDL_Window *window) {
   return benchmarkBoard(width, height);
 }
 
-void renderBoardSdl(Board board, SDL_Renderer *renderer) {
+void renderBoardSdl(Board board, SDL_Renderer *renderer, SDL_Texture *texture) {
   const auto &[input, width, height] = board;
 
-  auto points = std::unique_ptr<SDL_Point[]>(new SDL_Point[width * height]);
-  int count = 0;
-  for (int i = 0; i < width * height; i++)
-    if (input[i]) {
-      points[count] = {i % width, i / width};
-      count++;
-    }
+  SDL_UpdateTexture(texture, NULL, &input[0], width * sizeof(Uint32));
 
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-  SDL_RenderClear(renderer);
-
-  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderDrawPoints(renderer, &points[0], count);
-
+  SDL_RenderCopy(renderer, texture, nullptr, nullptr);
   SDL_RenderPresent(renderer);
 }

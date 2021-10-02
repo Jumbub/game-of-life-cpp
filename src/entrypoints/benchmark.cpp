@@ -4,11 +4,11 @@
 #include <SDL2/SDL.h>
 #include <benchmark/benchmark.h>
 
-static void BM_NextBoard(benchmark::State &state) {
-  const int width = 500;
-  const int height = 500;
+const int TEST_WIDTH = 2560;
+const int TEST_HEIGHT = 1440;
 
-  auto board = benchmarkBoard(width, height);
+static void BM_NextBoard(benchmark::State &state) {
+  auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
 
   for (auto _ : state) {
     board = nextBoard(board);
@@ -16,23 +16,23 @@ static void BM_NextBoard(benchmark::State &state) {
 }
 
 static void BM_RenderNextBoard(benchmark::State &state) {
-  const int width = 500;
-  const int height = 500;
-
-  auto board = benchmarkBoard(width, height);
+  auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
 
   // Initialize graphics
   SDL_Init(SDL_INIT_VIDEO);
   SDL_Renderer *renderer;
   SDL_Window *window;
-  SDL_CreateWindowAndRenderer(width, height, 0, &window, &renderer);
+  SDL_CreateWindowAndRenderer(TEST_WIDTH, TEST_HEIGHT, 0, &window, &renderer);
+  auto texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+                                    SDL_TEXTUREACCESS_STATIC, TEST_WIDTH, TEST_HEIGHT);
 
   for (auto _ : state) {
     board = nextBoard(board);
-    renderBoardSdl(board, renderer);
+    renderBoardSdl(board, renderer, texture);
   }
 
   // Destroy graphics
+  SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
