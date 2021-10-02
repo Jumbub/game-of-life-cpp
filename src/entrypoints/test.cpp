@@ -7,7 +7,7 @@ Board generate(std::vector<std::vector<Cell>> input) {
   const auto height = (int)input.size();
   const auto width = (int)input[0].size();
 
-  auto board = std::shared_ptr<Cell[]>(new Cell[width * height]);
+  auto board = new Cell[width * height];
   for (int y = 0; y < height; ++y)
     for (int x = 0; x < width; ++x)
       board[y * width + x] = input[y][x] ? ALIVE : DEAD;

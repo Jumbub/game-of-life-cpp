@@ -13,6 +13,8 @@ static void BM_NextBoard(benchmark::State &state) {
   for (auto _ : state) {
     board = nextBoard(board);
   }
+
+  free(get<0>(board));
 }
 
 static void BM_RenderNextBoard(benchmark::State &state) {
@@ -36,6 +38,8 @@ static void BM_RenderNextBoard(benchmark::State &state) {
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
+
+  free(get<0>(board));
 }
 
 BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MinTime(5);
