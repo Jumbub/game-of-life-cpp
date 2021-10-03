@@ -25,8 +25,7 @@ static void BM_RenderBoard(benchmark::State &state) {
   SDL_Renderer *renderer;
   SDL_Window *window;
   SDL_CreateWindowAndRenderer(TEST_WIDTH, TEST_HEIGHT, 0, &window, &renderer);
-  auto texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-                                    SDL_TEXTUREACCESS_STATIC, TEST_WIDTH, TEST_HEIGHT);
+  auto texture = createTexture(renderer, TEST_WIDTH, TEST_HEIGHT);
 
   for (auto _ : state) {
     renderBoardSdl(board, renderer, texture);

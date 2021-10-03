@@ -32,8 +32,7 @@ int main() {
   // Window texture
   int width, height;
   SDL_GetWindowSize(window, &width, &height);
-  auto texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-                                   SDL_TEXTUREACCESS_STATIC, width, height);
+  auto texture = createTexture(renderer, width, height);
 
   // Generate initial board
   auto board = boardForSdlWindow(window);
@@ -80,8 +79,7 @@ int main() {
       int width, height;
       SDL_GetWindowSize(window, &width, &height);
       SDL_DestroyTexture(texture);
-      texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-                                  SDL_TEXTUREACCESS_STATIC, width, height);
+      texture = createTexture(renderer, width, height);
       recreateBoard = false;
     }
 

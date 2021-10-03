@@ -9,7 +9,13 @@ Board boardForSdlWindow(SDL_Window *window) {
   return benchmarkBoard(width, height);
 }
 
-void renderBoardSdl(Board board, SDL_Renderer *renderer, SDL_Texture *texture) {
+SDL_Texture *createTexture(SDL_Renderer *renderer, const int &width,
+                           const int &height) {
+  return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+                           SDL_TEXTUREACCESS_STATIC, width, height);
+}
+
+void renderBoardSdl(const Board board, SDL_Renderer *renderer, SDL_Texture *texture) {
   const auto &[input, width, height] = board;
 
   static_assert(sizeof(input[0]) == sizeof(Uint32));
