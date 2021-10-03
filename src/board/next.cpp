@@ -43,18 +43,18 @@ void nextBoardSection(const int startY, const int endY, const Board &board,
     if (neighbours[0] == -1) {
       const auto previousX = (x - 1 + width) % width;
 
-      neighbours[0] = (input[yBelowBase + previousX] ? 1 : 0) +
-                      (input[yBase + previousX] ? 1 : 0) +
-                      (input[yAboveBase + previousX] ? 1 : 0);
+      neighbours[0] = (1 - (input[yBelowBase + previousX] + 1)) +
+                      (1 - (input[yBase + previousX] + 1)) +
+                      (1 - (input[yAboveBase + previousX] + 1));
     }
     if (neighbours[1] == -1) {
       neighbours[1] =
-          (input[yBelowBase + x] ? 1 : 0) + (input[yAboveBase + x] ? 1 : 0);
+          (1 - (input[yBelowBase + x] + 1)) + (1 - (input[yAboveBase + x] + 1));
     }
     const auto nextX = (x + 1) % width;
-    neighbours[2] = (input[yBelowBase + nextX] ? 1 : 0) +
-                    (input[yBase + nextX] ? 1 : 0) +
-                    (input[yAboveBase + nextX] ? 1 : 0);
+    neighbours[2] = (1 - (input[yBelowBase + nextX] + 1)) +
+                    (1 - (input[yBase + nextX] + 1)) +
+                    (1 - (input[yAboveBase + nextX] + 1));
 
     // Compute new cell state
     const int totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
