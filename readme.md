@@ -34,6 +34,12 @@ Requires:
 
 ## Milestones
 
+### 170% speed increase in logic
+
+Insane free performance improvement by passing the optimization flag `-Ofast`.
+
+[21761f93075a7aa26c314ae675b92df07c5f5892](https://github.com/Jumbub/game-of-speed/commit/21761f93075a7aa26c314ae675b92df07c5f5892)
+
 ### 125% speed increase in logic
 
 When converting values of `0`/`maxInt` to `0`/`1` we now use a mathematical expression `1 - (state + 1)` instead of a ternary.
