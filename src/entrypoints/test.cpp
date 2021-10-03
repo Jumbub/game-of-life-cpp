@@ -21,7 +21,7 @@ std::vector<std::vector<Cell>> ungenerate(Board board) {
   std::vector<std::vector<Cell>> output(height, std::vector<Cell>(width));
   for (int y = 0; y < height; ++y)
     for (int x = 0; x < width; ++x)
-      output[y][x] = input[y * width + x];
+      output[y][x] = input[y * width + x] == ALIVE ? 1 : 0;
 
   return output;
 }

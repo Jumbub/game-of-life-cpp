@@ -2,4 +2,4 @@
 
 #include "board.h"
 
-Board nextBoard(Board input);
+Board nextBoard(const Board &input);
