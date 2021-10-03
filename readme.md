@@ -34,6 +34,12 @@ Requires:
 
 ## Milestones
 
+### ∞% speed increase in rendering
+
+Segmented the rendering and computation into separate threads. _At this stage_ the rendering takes less time than the computation, so effectively I've reduced render time to 0.
+
+[2619b4164bd2fca3fd8b30dca22cd83a75fe43b9](https://github.com/Jumbub/game-of-speed/commit/2619b4164bd2fca3fd8b30dca22cd83a75fe43b9)
+
 ### 188% speed increase in logic
 
 Only compute the y levels for the above and below cells once per row.
