@@ -12,15 +12,15 @@ OUTPUT = build/out
 OBJS = src/util/profile.cpp src/board/next.cpp src/board/generate.cpp
 OBJS_GRAPHICS = $(OBJS) src/board/sdl.cpp
 
-interactive: build
-	$(CC) src/entrypoints/interactive.cpp $(COMPILER_FLAGS) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+main: build
+	$(CC) src/entrypoints/main.cpp $(COMPILER_FLAGS) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT)
 
 debug: build
-	$(CC) src/entrypoints/interactive.cpp -DENABLE_THREADING=0 $(COMPILER_FLAGS_DEBUG) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+	$(CC) src/entrypoints/main.cpp -DENABLE_THREADING=0 $(COMPILER_FLAGS_DEBUG) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 
 profile: build
-	$(CC) src/entrypoints/interactive.cpp -DENABLE_THREADING=0 $(COMPILER_FLAGS_PROFILE) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+	$(CC) src/entrypoints/main.cpp -DENABLE_THREADING=0 $(COMPILER_FLAGS_PROFILE) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 
 test: build
 	$(CC) src/entrypoints/test.cpp $(COMPILER_FLAGS) -ggdb -o $(OUTPUT) $(OBJS)

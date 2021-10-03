@@ -40,7 +40,7 @@ int main() {
   bool running = true;
   bool recreateBoard = false;
   while (running) {
-    auto loopTimer = startProfiling();
+    /* auto loopTimer = startProfiling(); */
 
 #ifdef ENABLE_THREADING
     std::promise<Board> nextBoardPromise;
@@ -56,9 +56,10 @@ int main() {
           (event.type == SDL_WINDOWEVENT &&
            event.window.event == SDL_WINDOWEVENT_CLOSE))
         running = false;
-      // Re-create board when Enter is pressed
-      else if (event.type == SDL_KEYDOWN &&
-               event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
+      // Re-create board when Enter is pressed, or window is resized
+      else if ((event.type == SDL_KEYDOWN &&
+            event.key.keysym.scancode == SDL_SCANCODE_RETURN) || (event.type == SDL_WINDOWEVENT &&
+           event.window.event == SDL_WINDOWEVENT_RESIZED)) {
         recreateBoard = true;
       } else if (event.type == SDL_KEYDOWN &&
                event.key.keysym.scancode == SDL_SCANCODE_J) {
@@ -89,9 +90,10 @@ int main() {
       SDL_DestroyTexture(texture);
       texture = createTexture(renderer, width, height);
       recreateBoard = false;
+      std::cout << "Re-created board: " << width << "x" << height << std::endl;
     }
 
-    stopProfiling(loopTimer, "Done loop");
+    /* stopProfiling(loopTimer, "Done loop"); */
   }
 
   free(get<0>(board));
