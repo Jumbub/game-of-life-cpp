@@ -60,6 +60,14 @@ int main() {
       else if (event.type == SDL_KEYDOWN &&
                event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
         recreateBoard = true;
+      } else if (event.type == SDL_KEYDOWN &&
+               event.key.keysym.scancode == SDL_SCANCODE_J) {
+        setThreads(getThreads()-1);
+        std::cout << "Setting thread count: " << getThreads() << std::endl;
+      } else if (event.type == SDL_KEYDOWN &&
+               event.key.keysym.scancode == SDL_SCANCODE_K) {
+        setThreads(getThreads()+1);
+        std::cout << "Setting thread count: " << getThreads() << std::endl;
       }
     }
 

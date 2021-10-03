@@ -2,20 +2,23 @@
 #include "../util/profile.h"
 #include <algorithm>
 #include <array>
+#include <future>
 #include <iostream>
+#include <thread>
 #include <tuple>
 #include <vector>
 
-Board nextBoard(const Board &board) {
+void nextBoardSection(const int startY, const int endY, const Board &board,
+                       Cell *output) {
   const auto &[input, width, height] = board;
-  auto output = new Cell[width * height];
 
   int neighbours[3];
   int yAboveBase;
   int yBelowBase;
   int yBase;
 
-  for (int i = 0; i < width * height; i++) {
+  const auto endI = endY * width;
+  for (int i = startY * width; i < endI; i++) {
     const int x = i % width;
     auto currentStateBool = input[i] == ALIVE ? 1 : 0;
 
@@ -45,8 +48,8 @@ Board nextBoard(const Board &board) {
                       (input[yAboveBase + previousX] ? 1 : 0);
     }
     if (neighbours[1] == -1) {
-      neighbours[1] = (input[yBelowBase + x] ? 1 : 0) +
-                      (input[yAboveBase + x] ? 1 : 0);
+      neighbours[1] =
+          (input[yBelowBase + x] ? 1 : 0) + (input[yAboveBase + x] ? 1 : 0);
     }
     const auto nextX = (x + 1) % width;
     neighbours[2] = (input[yBelowBase + nextX] ? 1 : 0) +
@@ -64,6 +67,39 @@ Board nextBoard(const Board &board) {
 
     // Add self to neighbours count
     neighbours[1] += currentStateBool;
+  }
+}
+
+int THREAD_COUNT =
+    std::max(std::thread::hardware_concurrency(), (unsigned int)1);
+
+int getThreads() { return THREAD_COUNT; }
+void setThreads(int n) { THREAD_COUNT = std::max(n, 1); }
+
+Board nextBoard(const Board &board) {
+  const auto &[input, width, height] = board;
+  auto output = new Cell[width * height];
+  const auto threads = getThreads();
+
+  const auto split = height / std::min(height, (int)threads);
+  const auto remainder = height % threads;
+
+  std::thread nextBoardSegments[threads];
+  for (int thread = 0; thread < threads; thread++) {
+    // Compute start and end indexes for threads
+    const auto startY = thread * split;
+    auto endY = (thread + 1) * split;
+
+    // In the case of an uneven divide, the last thread gets the left-overs
+    if (thread == threads - 1)
+      endY += remainder;
+
+    nextBoardSegments[thread] =
+        std::thread(&nextBoardSection, startY, endY, board, output);
+  }
+
+  for (int i = 0; i < threads; i++) {
+    nextBoardSegments[i].join();
   }
 
   free(input);

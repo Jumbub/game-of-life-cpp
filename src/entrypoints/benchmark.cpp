@@ -16,6 +16,7 @@ static void BM_NextBoard(benchmark::State &state) {
 
   free(get<0>(board));
 }
+BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime();
 
 static void BM_RenderBoard(benchmark::State &state) {
   auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
@@ -39,8 +40,6 @@ static void BM_RenderBoard(benchmark::State &state) {
 
   free(get<0>(board));
 }
-
-BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MinTime(5);
-BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MinTime(5);
+BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime();
 
 BENCHMARK_MAIN();

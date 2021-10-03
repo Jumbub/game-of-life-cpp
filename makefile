@@ -1,10 +1,10 @@
 CC = g++
 
 COMPILER_FLAGS = -Wall -std=c++2a -lpthread
-COMPILER_FLAGS_BENCHMARK = $(COMPILER_FLAGS) -isystem benchmark/include -Lbenchmark/build/src -lbenchmark
 COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -pg
 COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -ggdb
 
+LINKER_FLAGS_BENCHMARK = -isystem benchmark/include -Lbenchmark/build/src -lbenchmark
 LINKER_FLAGS_GRAPHICS = -lSDL2
 
 OUTPUT = build/out
@@ -26,8 +26,11 @@ test: build
 	$(CC) src/entrypoints/test.cpp $(COMPILER_FLAGS) -ggdb -o $(OUTPUT) $(OBJS)
 	./$(OUTPUT)
 
+benchmark_out: build
+	$(CC) src/entrypoints/benchmark.cpp $(COMPILER_FLAGS) $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+
 benchmark: build
-	$(CC) src/entrypoints/benchmark.cpp $(COMPILER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+	make benchmark_out
 	./$(OUTPUT) > results/benchmark.txt
 
 build:
