@@ -34,6 +34,14 @@ Requires:
 
 ## Milestones
 
+### 215% speed increase in logic
+
+Reduced the number of neighbour checks from 8 (all) to 3.
+
+Achieved by having a "sliding window" of the neighbour counts for the "left", "middle" and "right" neighbouring columns. When the next cell computes it's neighbours it shifts the window over (so "middle" becomes "left") and only has to generate the new "right" column.
+
+[01cce885bd57f1a5aa4d113a32f4413a61f826a5](https://github.com/Jumbub/game-of-speed/commit/01cce885bd57f1a5aa4d113a32f4413a61f826a5)
+
 ### 183% speed increase in logic
 
 Removing the shared\_ptr wrappers, speed > safety.
