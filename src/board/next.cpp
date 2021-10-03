@@ -6,27 +6,6 @@
 #include <tuple>
 #include <vector>
 
-void computeNeighbourColumns(char (&counts)[3], const Board &board, const int &x,
-                       const int &y) {
-  const auto &[input, width, height] = board;
-
-  for (int ox = -1; ox <= 1; ox++) {
-    counts[ox + 1] = 0;
-    for (int oy = -1; oy <= 1; oy++) {
-      // Do not count self
-      if (oy == 0 && ox == 0)
-        continue;
-
-      // Real offset calculations
-      const auto rox = (ox + x + width) % width;
-      const auto roy = (oy + y + height) % height;
-
-      if (input[roy * width + rox] == ALIVE)
-        counts[ox + 1]++;
-    }
-  }
-}
-
 Board nextBoard(const Board &board) {
   const auto &[input, width, height] = board;
   if (height == 0)
@@ -36,32 +15,56 @@ Board nextBoard(const Board &board) {
 
   auto output = new Cell[width * height];
 
-  char neighbours[3] = {0, 0, 0};
+  int neighbours[3];
+  int yAboveBase;
+  int yBelowBase;
+  int yBase;
 
   for (int i = 0; i < width * height; i++) {
     const int x = i % width;
-    const int y = i / width;
     auto currentState = input[i];
     auto currentStateBool = input[i] == ALIVE ? 1 : 0;
 
-    // Compute neighbour columns
+    // Slide neighbours
     if (x == 0) {
-      computeNeighbourColumns(neighbours, board, x, y);
+      // Clear neighbour columns
+      neighbours[0] = -1;
+      neighbours[1] = -1;
+      neighbours[2] = -1;
+
+      // Compute new Y levels
+      const int y = i / width;
+      yBase = y * width;
+      yBelowBase = ((y - 1 + height) % height) * width;
+      yAboveBase = ((y + 1) % height) * width;
     } else {
-      // Shift neighbour columns down
+      // Remove self from right neighbour column
+      neighbours[2] -= currentStateBool;
+
+      // Shift neighbour columns
       neighbours[0] = neighbours[1];
       neighbours[1] = neighbours[2];
-      neighbours[2] = 0;
+      neighbours[2] = -1;
+    }
 
-      // Remove self from neighbours
-      neighbours[1] -= currentStateBool;
+    // Compute neighbours
+    if (neighbours[0] == -1) {
+      const auto previousX = (x - 1 + width) % width;
 
-      // Compute next column of neighbours
-      const int nextX = (x + 1) % width;
-      for (int offsetY = -1; offsetY <= 1; offsetY++) {
-        const int neighbourI = nextX + ((y + offsetY + height) % height) * width;
-        neighbours[2] += input[neighbourI] == ALIVE ? 1 : 0;
-      }
+      neighbours[0] = (input[yBelowBase + previousX] ? 1 : 0) +
+                      (input[yBase + previousX] ? 1 : 0) +
+                      (input[yAboveBase + previousX] ? 1 : 0);
+    }
+    if (neighbours[1] == -1) {
+      neighbours[1] = (input[yBelowBase + x] ? 1 : 0) +
+                      (input[yAboveBase + x] ? 1 : 0);
+    }
+    if (neighbours[2] == -1) {
+      const auto nextX = (x + 1) % width;
+
+      neighbours[2] = (input[yBelowBase + nextX] ? 1 : 0) +
+                      (input[yBase + nextX] ? 1 : 0) +
+                      (input[yAboveBase + nextX] ? 1 : 0);
     }
 
     // Compute new cell state

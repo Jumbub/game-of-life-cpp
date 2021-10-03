@@ -7,10 +7,10 @@ COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -ggdb
 
 LINKER_FLAGS_GRAPHICS = -lSDL2
 
-OUTPUT = build/interactive
-OUTPUT_BENCHMARK = build/benchmark
-OUTPUT_DEBUG = build/debug
-OUTPUT_TEST = build/test
+OUTPUT = build/out
+OUTPUT_BENCHMARK = build/out
+OUTPUT_DEBUG = build/out
+OUTPUT_TEST = build/out
 
 OBJS = src/util/profile.cpp src/board/next.cpp src/board/generate.cpp
 OBJS_GRAPHICS = $(OBJS) src/board/sdl.cpp
