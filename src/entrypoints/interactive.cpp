@@ -4,10 +4,15 @@
 #include "../util/profile.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
+#include <future>
 #include <iostream>
 #include <thread>
-#include <thread>
-#include <future>
+
+#ifndef ENABLE_THREADING
+#define ENABLE_THREADING 1
+#else
+#undef ENABLE_THREADING
+#endif
 
 void nextBoardThreaded(Board board, std::promise<Board> promise) {
   promise.set_value(nextBoard(board));
@@ -21,7 +26,7 @@ int main() {
   // Create window
   SDL_Renderer *renderer;
   SDL_Window *window;
-  SDL_CreateWindowAndRenderer(500, 500, SDL_WINDOW_RESIZABLE, &window,
+  SDL_CreateWindowAndRenderer(2560, 1440, SDL_WINDOW_RESIZABLE, &window,
                               &renderer);
 
   // Window texture
@@ -38,9 +43,12 @@ int main() {
   while (running) {
     auto loopTimer = startProfiling();
 
+#ifdef ENABLE_THREADING
     std::promise<Board> nextBoardPromise;
     auto nextBoardFuture = nextBoardPromise.get_future();
-    std::thread nextBoardThread(nextBoardThreaded, board, std::move(nextBoardPromise));
+    std::thread nextBoardThread(nextBoardThreaded, board,
+                                std::move(nextBoardPromise));
+#endif
 
     while (SDL_PollEvent(&event)) {
       // Exit when told, or Escape is pressed
@@ -58,8 +66,12 @@ int main() {
 
     renderBoardSdl(board, renderer, texture);
 
+#ifdef ENABLE_THREADING
     nextBoardThread.join();
     board = nextBoardFuture.get();
+#else
+    board = nextBoard(board);
+#endif
 
     // Re-create board when computation is complete
     if (recreateBoard) {

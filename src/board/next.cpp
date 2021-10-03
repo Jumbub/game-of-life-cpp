@@ -8,11 +8,6 @@
 
 Board nextBoard(const Board &board) {
   const auto &[input, width, height] = board;
-  if (height == 0)
-    return board;
-  if (width == 0)
-    return board;
-
   auto output = new Cell[width * height];
 
   int neighbours[3];

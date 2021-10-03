@@ -2,5 +2,6 @@ build
 .ccls-cache
 uftrace.data
 uftrace.data.old
+gmon.out
 chrome.profile
 *.o
