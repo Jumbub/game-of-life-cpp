@@ -79,10 +79,10 @@ void setThreads(int n) { THREAD_COUNT = std::max(n, 1); }
 Board nextBoard(const Board &board) {
   const auto &[input, width, height] = board;
   auto output = new Cell[width * height];
-  const auto threads = getThreads();
 
-  const auto split = height / std::min(height, (int)threads);
-  const auto remainder = height % threads;
+  auto threads = std::min(getThreads(), height);
+  auto split = height / threads;
+  auto remainder = height % threads;
 
   std::thread nextBoardSegments[threads];
   for (int thread = 0; thread < threads; thread++) {

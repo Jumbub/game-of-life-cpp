@@ -23,6 +23,7 @@ std::vector<std::vector<Cell>> ungenerate(Board board) {
     for (int x = 0; x < width; ++x)
       output[y][x] = input[y * width + x] == ALIVE ? 1 : 0;
 
+  free(input);
   return output;
 }
 
