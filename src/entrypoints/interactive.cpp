@@ -5,6 +5,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
 #include <iostream>
+#include <thread>
+#include <thread>
+#include <future>
+
+void nextBoardThreaded(Board board, std::promise<Board> promise) {
+  promise.set_value(nextBoard(board));
+}
 
 int main() {
   // Initialize SDL
@@ -24,12 +31,17 @@ int main() {
                                    SDL_TEXTUREACCESS_STATIC, width, height);
 
   // Generate initial board
-  auto p1 = startProfiling();
   auto board = boardForSdlWindow(window);
-  stopProfiling(p1, "Generated first board");
 
   bool running = true;
+  bool recreateBoard = false;
   while (running) {
+    auto loopTimer = startProfiling();
+
+    std::promise<Board> nextBoardPromise;
+    auto nextBoardFuture = nextBoardPromise.get_future();
+    std::thread nextBoardThread(nextBoardThreaded, board, std::move(nextBoardPromise));
+
     while (SDL_PollEvent(&event)) {
       // Exit when told, or Escape is pressed
       if ((event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ||
@@ -40,24 +52,28 @@ int main() {
       // Re-create board when Enter is pressed
       else if (event.type == SDL_KEYDOWN &&
                event.key.keysym.scancode == SDL_SCANCODE_RETURN) {
-
-        free(get<0>(board));
-        board = boardForSdlWindow(window);
-        int width, height;
-        SDL_GetWindowSize(window, &width, &height);
-        SDL_DestroyTexture(texture);
-        texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-                                    SDL_TEXTUREACCESS_STATIC, width, height);
+        recreateBoard = true;
       }
     }
 
-    auto p2 = startProfiling();
-    board = nextBoard(board);
-    stopProfiling(p2, "Calculated next board");
-
-    auto p3 = startProfiling();
     renderBoardSdl(board, renderer, texture);
-    stopProfiling(p3, "Rendered next board");
+
+    nextBoardThread.join();
+    board = nextBoardFuture.get();
+
+    // Re-create board when computation is complete
+    if (recreateBoard) {
+      free(get<0>(board));
+      board = boardForSdlWindow(window);
+      int width, height;
+      SDL_GetWindowSize(window, &width, &height);
+      SDL_DestroyTexture(texture);
+      texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+                                  SDL_TEXTUREACCESS_STATIC, width, height);
+      recreateBoard = false;
+    }
+
+    stopProfiling(loopTimer, "Done loop");
   }
 
   free(get<0>(board));

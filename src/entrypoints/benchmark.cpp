@@ -17,7 +17,7 @@ static void BM_NextBoard(benchmark::State &state) {
   free(get<0>(board));
 }
 
-static void BM_RenderNextBoard(benchmark::State &state) {
+static void BM_RenderBoard(benchmark::State &state) {
   auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
 
   // Initialize graphics
@@ -29,7 +29,6 @@ static void BM_RenderNextBoard(benchmark::State &state) {
                                     SDL_TEXTUREACCESS_STATIC, TEST_WIDTH, TEST_HEIGHT);
 
   for (auto _ : state) {
-    board = nextBoard(board);
     renderBoardSdl(board, renderer, texture);
   }
 
@@ -43,6 +42,6 @@ static void BM_RenderNextBoard(benchmark::State &state) {
 }
 
 BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MinTime(5);
-BENCHMARK(BM_RenderNextBoard)->Unit(benchmark::kMillisecond)->MinTime(5);
+BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MinTime(5);
 
 BENCHMARK_MAIN();

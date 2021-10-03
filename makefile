@@ -1,7 +1,7 @@
 CC = g++
 
-COMPILER_FLAGS = -Wall -std=c++2a
-COMPILER_FLAGS_BENCHMARK = $(COMPILER_FLAGS) -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread
+COMPILER_FLAGS = -Wall -std=c++2a -lpthread
+COMPILER_FLAGS_BENCHMARK = $(COMPILER_FLAGS) -isystem benchmark/include -Lbenchmark/build/src -lbenchmark
 COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -pg
 COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -ggdb
 
