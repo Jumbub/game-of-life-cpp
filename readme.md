@@ -34,6 +34,12 @@ Requires:
 
 ## Milestones
 
+### THREADS% speed increase in logic
+
+Finally gave in to the lazy performance improvement, throwing more threads at the problem.
+
+[2f68783cc8a3d9bd7590e617b71a5a0df010af56](https://github.com/Jumbub/game-of-speed/commit/2f68783cc8a3d9bd7590e617b71a5a0df010af56)
+
 ### ∞% speed increase in rendering
 
 Segmented the rendering and computation into separate threads. _At this stage_ the rendering takes less time than the computation, so effectively I've reduced render time to 0.
