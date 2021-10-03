@@ -34,6 +34,12 @@ Requires:
 
 ## Milestones
 
+### 125% speed increase in logic
+
+When converting values of `0`/`maxInt` to `0`/`1` we now use a mathematical expression `1 - (state + 1)` instead of a ternary.
+
+[21bd48749570ac9c05663c661f60ce5ede1223ff](https://github.com/Jumbub/game-of-speed/commit/21bd48749570ac9c05663c661f60ce5ede1223ff)
+
 ### THREADS% speed increase in logic
 
 Finally gave in to the lazy performance improvement, throwing more threads at the problem.
