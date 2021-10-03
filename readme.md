@@ -34,6 +34,12 @@ Requires:
 
 ## Milestones
 
+### 188% speed increase in logic
+
+Only compute the y levels for the above and below cells once per row.
+
+[9e80c59830588b05ee29c754530fabf50f51a9e0](https://github.com/Jumbub/game-of-speed/commit/9e80c59830588b05ee29c754530fabf50f51a9e0)
+
 ### 215% speed increase in logic
 
 Reduced the number of neighbour checks from 8 (all) to 3.
