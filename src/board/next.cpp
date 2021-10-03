@@ -102,7 +102,7 @@ Board nextBoard(const Board &board) {
     thread.join();
   }
 
-  free(input);
+  delete input;
 
   return {output, width, height};
 }

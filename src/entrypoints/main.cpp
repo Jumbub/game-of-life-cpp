@@ -91,7 +91,7 @@ int main() {
 
     // Re-create board when computation is complete
     if (recreateBoard) {
-      free(get<0>(board));
+      delete get<0>(board);
       board = boardForSdlWindow(window);
       int width, height;
       SDL_GetWindowSize(window, &width, &height);
@@ -104,7 +104,7 @@ int main() {
     stopProfiling(loopTimer, "main");
   }
 
-  free(get<0>(board));
+  delete get<0>(board);
 
   SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);

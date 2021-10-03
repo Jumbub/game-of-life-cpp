@@ -14,7 +14,7 @@ static void BM_NextBoard(benchmark::State &state) {
     board = nextBoard(board);
   }
 
-  free(get<0>(board));
+  delete get<0>(board);
 }
 BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime();
 
@@ -38,7 +38,7 @@ static void BM_RenderBoard(benchmark::State &state) {
   SDL_DestroyWindow(window);
   SDL_Quit();
 
-  free(get<0>(board));
+  delete get<0>(board);
 }
 BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime();
 
