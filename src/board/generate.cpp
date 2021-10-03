@@ -20,10 +20,6 @@ Board randomBoard(int width, int height) {
  * - bottom:       breeder
  */
 Board benchmarkBoard(int width, int height) {
-  if (height < BREEDER_HEIGHT * 2)
-    throw std::underflow_error(
-        "Did not meet minimum height required for the benchmark board");
-
   srand(0);
   auto board = new Cell[width * height];
   for (int y = 0; y < height; ++y) {

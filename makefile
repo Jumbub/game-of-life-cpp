@@ -1,8 +1,8 @@
 CC = g++
 
-COMPILER_FLAGS = -Wall -std=c++2a -lpthread
-COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -pg
-COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -ggdb
+COMPILER_FLAGS = -Wall -W -pedantic -Werror -std=c++2a -lpthread -Ofast
+COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -O0 -pg
+COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -O0 -ggdb
 
 LINKER_FLAGS_BENCHMARK = -isystem benchmark/include -Lbenchmark/build/src -lbenchmark
 LINKER_FLAGS_GRAPHICS = -lSDL2

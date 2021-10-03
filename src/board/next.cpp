@@ -8,14 +8,20 @@
 #include <tuple>
 #include <vector>
 
+int THREAD_COUNT =
+    std::max(std::thread::hardware_concurrency(), (unsigned int)1);
+
+int getThreads() { return THREAD_COUNT; }
+void setThreads(int n) { THREAD_COUNT = std::max(n, 1); }
+
 void nextBoardSection(const int startY, const int endY, const Board &board,
-                       Cell *output) {
+                      Cell *output) {
   const auto &[input, width, height] = board;
 
-  int neighbours[3];
-  int yAboveBase;
-  int yBelowBase;
-  int yBase;
+  int neighbours[3] = {0,0,0};
+  int yAboveBase = 0;
+  int yBelowBase = 0;
+  int yBase = 0;
 
   const auto endI = endY * width;
   for (int i = startY * width; i < endI; i++) {
@@ -70,36 +76,30 @@ void nextBoardSection(const int startY, const int endY, const Board &board,
   }
 }
 
-int THREAD_COUNT =
-    std::max(std::thread::hardware_concurrency(), (unsigned int)1);
-
-int getThreads() { return THREAD_COUNT; }
-void setThreads(int n) { THREAD_COUNT = std::max(n, 1); }
-
 Board nextBoard(const Board &board) {
   const auto &[input, width, height] = board;
   auto output = new Cell[width * height];
 
-  auto threads = std::min(getThreads(), height);
-  auto split = height / threads;
-  auto remainder = height % threads;
+  auto totalThreads = std::min(getThreads(), height);
+  auto threadLines = height / totalThreads;
+  auto threadLinesRemaining = height % totalThreads;
 
-  std::thread nextBoardSegments[threads];
-  for (int thread = 0; thread < threads; thread++) {
+  std::vector<std::thread> threads;
+  for (int t = 0; t < totalThreads; t++) {
     // Compute start and end indexes for threads
-    const auto startY = thread * split;
-    auto endY = (thread + 1) * split;
+    const auto startY = t * threadLines;
+    auto endY = (t + 1) * threadLines;
 
     // In the case of an uneven divide, the last thread gets the left-overs
-    if (thread == threads - 1)
-      endY += remainder;
+    if (t == totalThreads - 1)
+      endY += threadLinesRemaining;
 
-    nextBoardSegments[thread] =
-        std::thread(&nextBoardSection, startY, endY, board, output);
+    threads.push_back(
+        std::thread(&nextBoardSection, startY, endY, board, output));
   }
 
-  for (int i = 0; i < threads; i++) {
-    nextBoardSegments[i].join();
+  for (auto &thread : threads) {
+    thread.join();
   }
 
   free(input);

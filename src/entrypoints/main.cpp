@@ -24,10 +24,11 @@ int main() {
   SDL_Event event;
 
   // Create window
-  SDL_Renderer *renderer;
-  SDL_Window *window;
-  SDL_CreateWindowAndRenderer(2560, 1440, SDL_WINDOW_RESIZABLE, &window,
-                              &renderer);
+  SDL_Window *window = SDL_CreateWindow(
+      "Game of Speed", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 2560,
+      1440, SDL_WINDOW_RESIZABLE);
+  SDL_Renderer *renderer =
+      SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   // Window texture
   int width, height;
@@ -40,8 +41,10 @@ int main() {
   bool running = true;
   bool recreateBoard = false;
   while (running) {
-    /* auto loopTimer = startProfiling(); */
+    auto loopTimer = startProfiling();
+    auto sdlTimer = startProfiling();
 
+    // Start computing next board
 #ifdef ENABLE_THREADING
     std::promise<Board> nextBoardPromise;
     auto nextBoardFuture = nextBoardPromise.get_future();
@@ -58,28 +61,33 @@ int main() {
         running = false;
       // Re-create board when Enter is pressed, or window is resized
       else if ((event.type == SDL_KEYDOWN &&
-            event.key.keysym.scancode == SDL_SCANCODE_RETURN) || (event.type == SDL_WINDOWEVENT &&
-           event.window.event == SDL_WINDOWEVENT_RESIZED)) {
+                event.key.keysym.scancode == SDL_SCANCODE_RETURN) ||
+               (event.type == SDL_WINDOWEVENT &&
+                event.window.event == SDL_WINDOWEVENT_RESIZED)) {
         recreateBoard = true;
       } else if (event.type == SDL_KEYDOWN &&
-               event.key.keysym.scancode == SDL_SCANCODE_J) {
-        setThreads(getThreads()-1);
+                 event.key.keysym.scancode == SDL_SCANCODE_J) {
+        setThreads(getThreads() - 1);
         std::cout << "Setting thread count: " << getThreads() << std::endl;
       } else if (event.type == SDL_KEYDOWN &&
-               event.key.keysym.scancode == SDL_SCANCODE_K) {
-        setThreads(getThreads()+1);
+                 event.key.keysym.scancode == SDL_SCANCODE_K) {
+        setThreads(getThreads() + 1);
         std::cout << "Setting thread count: " << getThreads() << std::endl;
       }
     }
 
     renderBoardSdl(board, renderer, texture);
+    stopProfiling(sdlTimer, "  sdl");
 
+    // Wait for the board computation thread to complete
+    auto joiningTimer = startProfiling();
 #ifdef ENABLE_THREADING
     nextBoardThread.join();
     board = nextBoardFuture.get();
 #else
     board = nextBoard(board);
 #endif
+    stopProfiling(joiningTimer, "  nextBoard.join");
 
     // Re-create board when computation is complete
     if (recreateBoard) {
@@ -93,7 +101,7 @@ int main() {
       std::cout << "Re-created board: " << width << "x" << height << std::endl;
     }
 
-    /* stopProfiling(loopTimer, "Done loop"); */
+    stopProfiling(loopTimer, "main");
   }
 
   free(get<0>(board));
