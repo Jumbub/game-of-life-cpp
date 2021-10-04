@@ -16,7 +16,7 @@ static void BM_NextBoard(benchmark::State &state) {
 
   delete get<0>(board);
 }
-BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime();
+BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime()->MinTime(2);
 
 static void BM_RenderBoard(benchmark::State &state) {
   auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
