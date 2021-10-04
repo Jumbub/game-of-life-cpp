@@ -1,10 +1,13 @@
 # Game of Speed
 
-Conway's Game of Life as fast as possible.
+Conway's Game of Life, as fast as possible.
 
-![](art/gol.png)
+![tests](https://github.com/jumbub/game-of-speed/actions/workflows/.github/workflows/tests.yaml/badge.svg)
+![speed](art/speed.svg)
 
-(Pictured above is the "benchmark" world)
+![The benchmark world](art/gol.png)
+
+_(pictured above is the benchmark scenario)_
 
 ## Gettings started
 
@@ -32,7 +35,13 @@ Requires:
 
 - https://github.com/google/benchmark
 
-## Milestones
+## The journey
+
+### 101% speed increase in logic
+
+Enabling the compiler flag `-Wsign-conversion` to find and remove any unecessary signed to unsigned int conversions.
+
+[86b3634383c6bd2d2f4104c441b2a2328f2bf6f8](https://github.com/Jumbub/game-of-speed/commit/86b3634383c6bd2d2f4104c441b2a2328f2bf6f8)
 
 ### 170% speed increase in logic
 
@@ -111,16 +120,16 @@ Bear in mind the following results pertain specifically to the context of the co
 Code at the time of this experiment [here.](https://github.com/Jumbub/game-of-speed/commit/bc10bbc88ff9c17a27b0dcff030bf221487ca893#diff-4d7b1c4aec6e6dda9ec986006afcec04363acf48f874a0e1c1caa2fff15481d1)
 
 ```
-inline const auto maxToOne(Cell n) { // 6.2ms
+inline const auto maxToOne(Cell n) { // the best
   return (1 - (n + 1));
 }
-inline const auto maxToOne(Cell n) { // 6.4ms
+inline const auto maxToOne(Cell n) { // 3.3% slower total benchmark time
   return n & 1;
 }
-inline const auto maxToOne(Cell n) { // 6.4ms
+inline const auto maxToOne(Cell n) { // 3.3% slower total benchmark time
   return n >> 31;
 }
-inline const auto maxToOne(Cell n) { // 8.1ms
+inline const auto maxToOne(Cell n) { // 30% slower total benchmark time
   return n == UINT32_MAX;
 }
 ```
