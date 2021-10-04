@@ -102,6 +102,29 @@ Finalised the benchmark board.
 
 [9227c6a55ede200a1b6fe827c93010963e704f3d](https://github.com/Jumbub/game-of-speed/commit/9227c6a55ede200a1b6fe827c93010963e704f3d)
 
+## Findings
+
+Bear in mind the following results pertain specifically to the context of the code at the time.
+
+### What's the fastest way to convert `0`/`MAX_INT` to `0`/`1` respectively?
+
+Code at the time of this experiment [here.](https://github.com/Jumbub/game-of-speed/commit/bc10bbc88ff9c17a27b0dcff030bf221487ca893#diff-4d7b1c4aec6e6dda9ec986006afcec04363acf48f874a0e1c1caa2fff15481d1)
+
+```
+inline const auto maxToOne(Cell n) { // 6.2ms
+  return (1 - (n + 1));
+}
+inline const auto maxToOne(Cell n) { // 6.4ms
+  return n & 1;
+}
+inline const auto maxToOne(Cell n) { // 6.4ms
+  return n >> 31;
+}
+inline const auto maxToOne(Cell n) { // 8.1ms
+  return n == UINT32_MAX;
+}
+```
+
 ## References
 
 Great util for generating binary image files:
