@@ -5,9 +5,9 @@ Conway's Game of Life, as fast as possible.
 ![tests](https://github.com/jumbub/game-of-speed/actions/workflows/.github/workflows/tests.yaml/badge.svg)
 ![speed](art/speed.svg)
 
-![The benchmark world](art/gol.png)
+![The benchmark world](art/gol.gif)
 
-_(pictured above is the benchmark scenario)_
+_(the above gif is the benchmark scenario)_
 
 ## Gettings started
 
