@@ -4,12 +4,12 @@
 #include <catch2/catch.hpp>
 
 Board generate(std::vector<std::vector<Cell>> input) {
-  const auto height = (int)input.size();
-  const auto width = (int)input[0].size();
+  const auto height = (unsigned int)input.size();
+  const auto width = (unsigned int)input[0].size();
 
   auto board = new Cell[width * height];
-  for (int y = 0; y < height; ++y)
-    for (int x = 0; x < width; ++x)
+  for (unsigned int y = 0; y < height; ++y)
+    for (unsigned int x = 0; x < width; ++x)
       board[y * width + x] = input[y][x] ? ALIVE : DEAD;
 
   return {board, width, height};
@@ -19,8 +19,8 @@ std::vector<std::vector<Cell>> ungenerate(Board board) {
   const auto &[input, width, height] = board;
 
   std::vector<std::vector<Cell>> output(height, std::vector<Cell>(width));
-  for (int y = 0; y < height; ++y)
-    for (int x = 0; x < width; ++x)
+  for (unsigned int y = 0; y < height; ++y)
+    for (unsigned int x = 0; x < width; ++x)
       output[y][x] = input[y * width + x] == ALIVE ? 1 : 0;
 
   delete input;

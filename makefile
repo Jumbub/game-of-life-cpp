@@ -1,6 +1,6 @@
 CC = g++
 
-COMPILER_FLAGS = -Wall -W -pedantic -Werror -std=c++2a -lpthread -Ofast
+COMPILER_FLAGS = -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread -Ofast
 COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -O0 -pg
 COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -O0 -ggdb
 

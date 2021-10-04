@@ -5,5 +5,5 @@
 
 Board nextBoard(const Board &input);
 
-int getThreads();
-void setThreads(int n);
+unsigned int getThreads();
+void setThreads(unsigned int n);

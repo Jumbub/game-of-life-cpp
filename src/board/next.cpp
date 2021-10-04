@@ -8,38 +8,36 @@
 #include <tuple>
 #include <vector>
 
-int THREAD_COUNT =
+auto THREAD_COUNT =
     std::max(std::thread::hardware_concurrency(), (unsigned int)1);
 
-int getThreads() { return THREAD_COUNT; }
-void setThreads(int n) { THREAD_COUNT = std::max(n, 1); }
+unsigned int getThreads() { return THREAD_COUNT; }
+void setThreads(unsigned int n) { THREAD_COUNT = std::max(n, (unsigned int)1); }
 
-inline const auto maxToOne(Cell n) {
-  return (1 - (n + 1));
-}
+inline const auto maxToOne(Cell n) { return (1 - (n + 1)); }
 
-void nextBoardSection(const int startY, const int endY, const Board &board,
+void nextBoardSection(const unsigned int startY, const unsigned int endY, const Board &board,
                       Cell *output) {
   const auto &[input, width, height] = board;
 
-  int neighbours[3] = {0,0,0};
-  int yAboveBase = 0;
-  int yBelowBase = 0;
-  int yBase = 0;
+  unsigned int neighbours[3] = {UINT32_MAX, UINT32_MAX, UINT32_MAX};
+  unsigned int yAboveBase = 0;
+  unsigned int yBelowBase = 0;
+  unsigned int yBase = 0;
 
   const auto endI = endY * width;
-  for (int i = startY * width; i < endI; i++) {
-    const int x = i % width;
-    auto currentStateBool = input[i] == ALIVE ? 1 : 0;
+  for (unsigned int i = startY * width; i < endI; i++) {
+    const unsigned int x = i % width;
+    auto currentStateBool = maxToOne(input[i]);
 
     // Slide neighbours
     if (x == 0) {
       // Clear neighbour columns
-      neighbours[0] = -1;
-      neighbours[1] = -1;
+      neighbours[0] = UINT32_MAX;
+      neighbours[1] = UINT32_MAX;
 
       // Compute new Y levels
-      const int y = i / width;
+      const unsigned int y = i / width;
       yBase = y * width;
       yBelowBase = ((y - 1 + height) % height) * width;
       yAboveBase = ((y + 1) % height) * width;
@@ -50,14 +48,14 @@ void nextBoardSection(const int startY, const int endY, const Board &board,
     }
 
     // Compute neighbours
-    if (neighbours[0] == -1) {
+    if (neighbours[0] == UINT32_MAX) {
       const auto previousX = (x - 1 + width) % width;
 
       neighbours[0] = maxToOne(input[yBelowBase + previousX]) +
                       maxToOne(input[yBase + previousX]) +
                       maxToOne(input[yAboveBase + previousX]);
     }
-    if (neighbours[1] == -1) {
+    if (neighbours[1] == UINT32_MAX) {
       neighbours[1] =
           maxToOne(input[yBelowBase + x]) + maxToOne(input[yAboveBase + x]);
     }
@@ -67,7 +65,7 @@ void nextBoardSection(const int startY, const int endY, const Board &board,
                     maxToOne(input[yAboveBase + nextX]);
 
     // Compute new cell state
-    const int totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
+    const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
     if (currentStateBool && (totalNeighbours < 2 || totalNeighbours > 3))
       output[i] = DEAD;
     else if (!currentStateBool && totalNeighbours == 3)
@@ -89,7 +87,7 @@ Board nextBoard(const Board &board) {
   auto threadLinesRemaining = height % totalThreads;
 
   std::vector<std::thread> threads;
-  for (int t = 0; t < totalThreads; t++) {
+  for (unsigned int t = 0; t < totalThreads; t++) {
     // Compute start and end indexes for threads
     const auto startY = t * threadLines;
     auto endY = (t + 1) * threadLines;
