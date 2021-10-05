@@ -115,26 +115,31 @@ Finalised the benchmark board.
 
 Bear in mind the following results pertain specifically to the context of the code at the time.
 
-### What's the fastest way to convert `0`/`MAX_INT` to `0`/`1` respectively?
+### What's the fastest way to convert an unsigned int from `0`/`MAX_INT` to `0`/`1` respectively?
 
 Code at the time of this experiment [here.](https://github.com/Jumbub/game-of-speed/commit/bc10bbc88ff9c17a27b0dcff030bf221487ca893#diff-4d7b1c4aec6e6dda9ec986006afcec04363acf48f874a0e1c1caa2fff15481d1)
 
 ```
-inline const auto maxToOne(Cell n) { // the best
+inline const auto math(unsigned int n) { // the best
   return (1 - (n + 1));
 }
-inline const auto maxToOne(Cell n) { // 3.3% slower total benchmark time
+inline const auto mask(unsigned int n) { // 3.3% slower total benchmark time
   return n & 1;
 }
-inline const auto maxToOne(Cell n) { // 3.3% slower total benchmark time
+inline const auto shift(unsigned int n) { // 3.3% slower total benchmark time
   return n >> 31;
 }
-inline const auto maxToOne(Cell n) { // 30% slower total benchmark time
+inline const auto bool(unsigned int n) { // 30% slower total benchmark time
   return n == UINT32_MAX;
 }
 ```
 
+After taking a look at the assembly, it turns out the first function compiles to the [_neg_](https://www.ibm.com/docs/it/aix/7.2?topic=set-neg-negate-instruction) instruction as opposed to the _and_ or _shift_ instructions. I guess _neg_ is just an easier computation.
+
 ## References
 
+Very good utility for visualising assembly instructions of your program:
+[https://godbolt.org/](https://godbolt.org/)
+
 Great util for generating binary image files:
-https://www.dcode.fr/binary-image
+[https://www.dcode.fr/binary-image](https://www.dcode.fr/binary-image)
