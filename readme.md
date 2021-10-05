@@ -37,19 +37,19 @@ Requires:
 
 ## The journey
 
-### 101% speed increase in logic
+### 1% speed increase in logic
 
 Enabling the compiler flag `-Wsign-conversion` to find and remove any unecessary signed to unsigned int conversions.
 
 [86b3634383c6bd2d2f4104c441b2a2328f2bf6f8](https://github.com/Jumbub/game-of-speed/commit/86b3634383c6bd2d2f4104c441b2a2328f2bf6f8)
 
-### 170% speed increase in logic
+### 70% speed increase in logic
 
 Insane free performance improvement by passing the optimization flag `-Ofast`.
 
 [21761f93075a7aa26c314ae675b92df07c5f5892](https://github.com/Jumbub/game-of-speed/commit/21761f93075a7aa26c314ae675b92df07c5f5892)
 
-### 125% speed increase in logic
+### 25% speed increase in logic
 
 When converting values of `0`/`maxInt` to `0`/`1` we now use a mathematical expression `1 - (state + 1)` instead of a ternary.
 
@@ -67,13 +67,13 @@ Segmented the rendering and computation into separate threads. _At this stage_ t
 
 [2619b4164bd2fca3fd8b30dca22cd83a75fe43b9](https://github.com/Jumbub/game-of-speed/commit/2619b4164bd2fca3fd8b30dca22cd83a75fe43b9)
 
-### 188% speed increase in logic
+### 88% speed increase in logic
 
 Only compute the y levels for the above and below cells once per row.
 
 [9e80c59830588b05ee29c754530fabf50f51a9e0](https://github.com/Jumbub/game-of-speed/commit/9e80c59830588b05ee29c754530fabf50f51a9e0)
 
-### 215% speed increase in logic
+### 115% speed increase in logic
 
 Reduced the number of neighbour checks from 8 (all) to 3.
 
@@ -81,25 +81,25 @@ Achieved by having a "sliding window" of the neighbour counts for the "left", "m
 
 [01cce885bd57f1a5aa4d113a32f4413a61f826a5](https://github.com/Jumbub/game-of-speed/commit/01cce885bd57f1a5aa4d113a32f4413a61f826a5)
 
-### 183% speed increase in logic
+### 83% speed increase in logic
 
 Removing the shared\_ptr wrappers, speed > safety.
 
 [73e6448fe2a021d9063bf50323b4b99cd551ee15](https://github.com/Jumbub/game-of-speed/commit/73e6448fe2a021d9063bf50323b4b99cd551ee15)
 
-### 350% speed increase in rendering
+### 250% speed increase in rendering
 
 Rendering the board logic, rather than creating a list of pixels to render.
 
 [cda613a50c4314d087152fb26cf222c76d5ea92d](https://github.com/Jumbub/game-of-speed/commit/cda613a50c4314d087152fb26cf222c76d5ea92d)
 
-### 200% speed increase in logic
+### 100% speed increase in logic
 
 Merging and inlining the "finding neighbour positions" and "counting neighbours" logic.
 
 [f64f4adbf7c6f956d2edcff397483de44ccaabec](https://github.com/Jumbub/game-of-speed/commit/f64f4adbf7c6f956d2edcff397483de44ccaabec)
 
-### 625% speed increase in logic
+### 525% speed increase in logic
 
 Switching from a 2D vector `std::vector<std::vector<bool>>` to a 1D array `std::unique_pr<new bool[]>`.
 
