@@ -1,5 +1,4 @@
 #include "next.h"
-#include "../util/profile.h"
 #include <algorithm>
 #include <array>
 #include <future>
@@ -7,18 +6,29 @@
 #include <thread>
 #include <tuple>
 #include <vector>
+#include "../util/profile.h"
 
 auto THREAD_COUNT =
     std::max(std::thread::hardware_concurrency(), (unsigned int)1);
 
-unsigned int getThreads() { return THREAD_COUNT; }
-void setThreads(unsigned int n) { THREAD_COUNT = std::max(n, (unsigned int)1); }
+unsigned int getThreads() {
+  return THREAD_COUNT;
+}
 
-inline const auto maxToOne(Cell n) { return (1 - (n + 1)); }
+void setThreads(unsigned int n) {
+  THREAD_COUNT = std::max(n, (unsigned int)1);
+}
 
-void nextBoardSection(const unsigned int startY, const unsigned int endY, const Board &board,
-                      Cell *output) {
-  const auto &[input, width, height] = board;
+inline const auto maxToOne(Cell n) {
+  return (1 - (n + 1));
+}
+
+void nextBoardSection(
+    const unsigned int startY,
+    const unsigned int endY,
+    const Board& board,
+    Cell* output) {
+  const auto& [input, width, height] = board;
 
   unsigned int neighbours[3] = {UINT32_MAX, UINT32_MAX, UINT32_MAX};
   unsigned int yAboveBase = 0;
@@ -78,8 +88,8 @@ void nextBoardSection(const unsigned int startY, const unsigned int endY, const 
   }
 }
 
-Board nextBoard(const Board &board) {
-  const auto &[input, width, height] = board;
+Board nextBoard(const Board& board) {
+  const auto& [input, width, height] = board;
   auto output = new Cell[width * height];
 
   auto totalThreads = std::min(getThreads(), height);
@@ -100,7 +110,7 @@ Board nextBoard(const Board &board) {
         std::thread(&nextBoardSection, startY, endY, board, output));
   }
 
-  for (auto &thread : threads) {
+  for (auto& thread : threads) {
     thread.join();
   }
 

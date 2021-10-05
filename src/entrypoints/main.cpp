@@ -1,12 +1,12 @@
-#include "../board/generate.h"
-#include "../board/next.h"
-#include "../board/sdl.h"
-#include "../util/profile.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
 #include <future>
 #include <iostream>
 #include <thread>
+#include "../board/generate.h"
+#include "../board/next.h"
+#include "../board/sdl.h"
+#include "../util/profile.h"
 
 #ifndef ENABLE_THREADING
 #define ENABLE_THREADING 1
@@ -24,10 +24,10 @@ int main() {
   SDL_Event event;
 
   // Create window
-  SDL_Window *window = SDL_CreateWindow(
+  SDL_Window* window = SDL_CreateWindow(
       "Game of Speed", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 2560,
       1440, SDL_WINDOW_RESIZABLE);
-  SDL_Renderer *renderer =
+  SDL_Renderer* renderer =
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   // Window texture
@@ -48,8 +48,8 @@ int main() {
 #ifdef ENABLE_THREADING
     std::promise<Board> nextBoardPromise;
     auto nextBoardFuture = nextBoardPromise.get_future();
-    std::thread nextBoardThread(nextBoardThreaded, board,
-                                std::move(nextBoardPromise));
+    std::thread nextBoardThread(
+        nextBoardThreaded, board, std::move(nextBoardPromise));
 #endif
 
     while (SDL_PollEvent(&event)) {
@@ -60,17 +60,20 @@ int main() {
            event.window.event == SDL_WINDOWEVENT_CLOSE))
         running = false;
       // Re-create board when Enter is pressed, or window is resized
-      else if ((event.type == SDL_KEYDOWN &&
-                event.key.keysym.scancode == SDL_SCANCODE_RETURN) ||
-               (event.type == SDL_WINDOWEVENT &&
-                event.window.event == SDL_WINDOWEVENT_RESIZED)) {
+      else if (
+          (event.type == SDL_KEYDOWN &&
+           event.key.keysym.scancode == SDL_SCANCODE_RETURN) ||
+          (event.type == SDL_WINDOWEVENT &&
+           event.window.event == SDL_WINDOWEVENT_RESIZED)) {
         recreateBoard = true;
-      } else if (event.type == SDL_KEYDOWN &&
-                 event.key.keysym.scancode == SDL_SCANCODE_J) {
+      } else if (
+          event.type == SDL_KEYDOWN &&
+          event.key.keysym.scancode == SDL_SCANCODE_J) {
         setThreads(getThreads() - 1);
         std::cout << "Setting thread count: " << getThreads() << std::endl;
-      } else if (event.type == SDL_KEYDOWN &&
-                 event.key.keysym.scancode == SDL_SCANCODE_K) {
+      } else if (
+          event.type == SDL_KEYDOWN &&
+          event.key.keysym.scancode == SDL_SCANCODE_K) {
         setThreads(getThreads() + 1);
         std::cout << "Setting thread count: " << getThreads() << std::endl;
       }

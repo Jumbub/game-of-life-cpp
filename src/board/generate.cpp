@@ -1,10 +1,10 @@
 #include "generate.h"
-#include "breeder.h"
 #include <filesystem>
 #include <memory>
 #include <random>
 #include <stdexcept>
 #include <tuple>
+#include "breeder.h"
 
 Board randomBoard(int width, int height) {
   auto board = new Cell[width * height];

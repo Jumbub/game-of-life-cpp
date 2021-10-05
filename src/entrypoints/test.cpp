@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
-#include "../board/next.h"
 #include <catch2/catch.hpp>
+#include "../board/next.h"
 
 Board generate(std::vector<std::vector<Cell>> input) {
   const auto height = (unsigned int)input.size();
@@ -16,7 +16,7 @@ Board generate(std::vector<std::vector<Cell>> input) {
 }
 
 std::vector<std::vector<Cell>> ungenerate(Board board) {
-  const auto &[input, width, height] = board;
+  const auto& [input, width, height] = board;
 
   std::vector<std::vector<Cell>> output(height, std::vector<Cell>(width));
   for (unsigned int y = 0; y < height; ++y)
@@ -27,7 +27,9 @@ std::vector<std::vector<Cell>> ungenerate(Board board) {
   return output;
 }
 
-void compare(Board a, Board b) { REQUIRE(ungenerate(a) == ungenerate(b)); }
+void compare(Board a, Board b) {
+  REQUIRE(ungenerate(a) == ungenerate(b));
+}
 
 TEST_CASE("nothing", "[nextBoard]") {
   auto input = generate({{false}});
@@ -74,221 +76,249 @@ TEST_CASE("block (corner wrap)", "[nextBoard]") {
 }
 
 TEST_CASE("bee-hive", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0, 0},
-                         {0, 0, 1, 1, 0, 0},
-                         {0, 1, 0, 0, 1, 0},
-                         {0, 0, 1, 1, 0, 0},
-                         {0, 0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0, 0},
-                            {0, 0, 1, 1, 0, 0},
-                            {0, 1, 0, 0, 1, 0},
-                            {0, 0, 1, 1, 0, 0},
-                            {0, 0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 1, 1, 0, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 0, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 1, 1, 0, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 0, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("loaf", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0, 0},
-                         {0, 0, 1, 1, 0, 0},
-                         {0, 1, 0, 0, 1, 0},
-                         {0, 0, 1, 0, 1, 0},
-                         {0, 0, 0, 1, 0, 0},
-                         {0, 0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0, 0},
-                            {0, 0, 1, 1, 0, 0},
-                            {0, 1, 0, 0, 1, 0},
-                            {0, 0, 1, 0, 1, 0},
-                            {0, 0, 0, 1, 0, 0},
-                            {0, 0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 1, 1, 0, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 0, 1, 0, 1, 0},
+       {0, 0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 1, 1, 0, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 0, 1, 0, 1, 0},
+       {0, 0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("boat", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0},
-                         {0, 1, 1, 0, 0},
-                         {0, 1, 0, 1, 0},
-                         {0, 0, 1, 0, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0},
-                            {0, 1, 1, 0, 0},
-                            {0, 1, 0, 1, 0},
-                            {0, 0, 1, 0, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 1, 1, 0, 0},
+       {0, 1, 0, 1, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 1, 1, 0, 0},
+       {0, 1, 0, 1, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("tub", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0},
-                         {0, 0, 1, 0, 0},
-                         {0, 1, 0, 1, 0},
-                         {0, 0, 1, 0, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0},
-                            {0, 0, 1, 0, 0},
-                            {0, 1, 0, 1, 0},
-                            {0, 0, 1, 0, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 1, 0, 1, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 1, 0, 1, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("blinker 1", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0},
-                         {0, 0, 1, 0, 0},
-                         {0, 0, 1, 0, 0},
-                         {0, 0, 1, 0, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 0},
-                            {0, 1, 1, 1, 0},
-                            {0, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0},
+       {0, 1, 1, 1, 0},
+       {0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("blinker 2", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0},
-                         {0, 0, 0, 0, 0},
-                         {0, 1, 1, 1, 0},
-                         {0, 0, 0, 0, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0},
-                            {0, 0, 1, 0, 0},
-                            {0, 0, 1, 0, 0},
-                            {0, 0, 1, 0, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0},
+       {0, 1, 1, 1, 0},
+       {0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("toad 1", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0, 0},
-                         {0, 0, 0, 0, 0, 0},
-                         {0, 0, 1, 1, 1, 0},
-                         {0, 1, 1, 1, 0, 0},
-                         {0, 0, 0, 0, 0, 0},
-                         {0, 0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0, 0},
-                            {0, 0, 0, 1, 0, 0},
-                            {0, 1, 0, 0, 1, 0},
-                            {0, 1, 0, 0, 1, 0},
-                            {0, 0, 1, 0, 0, 0},
-                            {0, 0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0},
+       {0, 0, 1, 1, 1, 0},
+       {0, 1, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 1, 0, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 0, 1, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("toad 2", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0, 0},
-                         {0, 0, 0, 1, 0, 0},
-                         {0, 1, 0, 0, 1, 0},
-                         {0, 1, 0, 0, 1, 0},
-                         {0, 0, 1, 0, 0, 0},
-                         {0, 0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 0, 0},
-                            {0, 0, 1, 1, 1, 0},
-                            {0, 1, 1, 1, 0, 0},
-                            {0, 0, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 1, 0, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 1, 0, 0, 1, 0},
+       {0, 0, 1, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0},
+       {0, 0, 1, 1, 1, 0},
+       {0, 1, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("beacon 1", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0, 0},
-                         {0, 1, 1, 0, 0, 0},
-                         {0, 1, 0, 0, 0, 0},
-                         {0, 0, 0, 0, 1, 0},
-                         {0, 0, 0, 1, 1, 0},
-                         {0, 0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0, 0},
-                            {0, 1, 1, 0, 0, 0},
-                            {0, 1, 1, 0, 0, 0},
-                            {0, 0, 0, 1, 1, 0},
-                            {0, 0, 0, 1, 1, 0},
-                            {0, 0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 1, 1, 0, 0, 0},
+       {0, 1, 0, 0, 0, 0},
+       {0, 0, 0, 0, 1, 0},
+       {0, 0, 0, 1, 1, 0},
+       {0, 0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 1, 1, 0, 0, 0},
+       {0, 1, 1, 0, 0, 0},
+       {0, 0, 0, 1, 1, 0},
+       {0, 0, 0, 1, 1, 0},
+       {0, 0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("beacon 2", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0, 0},
-                         {0, 1, 1, 0, 0, 0},
-                         {0, 1, 1, 0, 0, 0},
-                         {0, 0, 0, 1, 1, 0},
-                         {0, 0, 0, 1, 1, 0},
-                         {0, 0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0, 0},
-                            {0, 1, 1, 0, 0, 0},
-                            {0, 1, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 1, 0},
-                            {0, 0, 0, 1, 1, 0},
-                            {0, 0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 1, 1, 0, 0, 0},
+       {0, 1, 1, 0, 0, 0},
+       {0, 0, 0, 1, 1, 0},
+       {0, 0, 0, 1, 1, 0},
+       {0, 0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0, 0},
+       {0, 1, 1, 0, 0, 0},
+       {0, 1, 0, 0, 0, 0},
+       {0, 0, 0, 0, 1, 0},
+       {0, 0, 0, 1, 1, 0},
+       {0, 0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("glider 1", "[nextBoard]") {
-  auto input = generate({{1, 0, 0, 0, 0},
-                         {0, 1, 1, 0, 0},
-                         {1, 1, 0, 0, 0},
-                         {0, 0, 0, 0, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 1, 0, 0, 0},
-                            {0, 0, 1, 0, 0},
-                            {1, 1, 1, 0, 0},
-                            {0, 0, 0, 0, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{1, 0, 0, 0, 0},
+       {0, 1, 1, 0, 0},
+       {1, 1, 0, 0, 0},
+       {0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 1, 0, 0, 0},
+       {0, 0, 1, 0, 0},
+       {1, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("glider 2", "[nextBoard]") {
-  auto input = generate({{0, 1, 0, 0, 0},
-                         {0, 0, 1, 0, 0},
-                         {1, 1, 1, 0, 0},
-                         {0, 0, 0, 0, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0},
-                            {1, 0, 1, 0, 0},
-                            {0, 1, 1, 0, 0},
-                            {0, 1, 0, 0, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 1, 0, 0, 0},
+       {0, 0, 1, 0, 0},
+       {1, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0},
+       {1, 0, 1, 0, 0},
+       {0, 1, 1, 0, 0},
+       {0, 1, 0, 0, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("glider 3", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0},
-                         {0, 1, 0, 1, 0},
-                         {0, 0, 1, 1, 0},
-                         {0, 0, 1, 0, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0},
-                            {0, 0, 0, 1, 0},
-                            {0, 1, 0, 1, 0},
-                            {0, 0, 1, 1, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 1, 0, 1, 0},
+       {0, 0, 1, 1, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 0, 1, 0},
+       {0, 1, 0, 1, 0},
+       {0, 0, 1, 1, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }
 
 TEST_CASE("glider 4", "[nextBoard]") {
-  auto input = generate({{0, 0, 0, 0, 0},
-                         {0, 0, 0, 1, 0},
-                         {0, 1, 0, 1, 0},
-                         {0, 0, 1, 1, 0},
-                         {0, 0, 0, 0, 0}});
-  auto expected = generate({{0, 0, 0, 0, 0},
-                            {0, 0, 1, 0, 0},
-                            {0, 0, 0, 1, 1},
-                            {0, 0, 1, 1, 0},
-                            {0, 0, 0, 0, 0}});
+  auto input = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 0, 1, 0},
+       {0, 1, 0, 1, 0},
+       {0, 0, 1, 1, 0},
+       {0, 0, 0, 0, 0}});
+  auto expected = generate(
+      {{0, 0, 0, 0, 0},
+       {0, 0, 1, 0, 0},
+       {0, 0, 0, 1, 1},
+       {0, 0, 1, 1, 0},
+       {0, 0, 0, 0, 0}});
 
   compare(nextBoard(input), expected);
 }

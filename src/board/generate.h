@@ -1,7 +1,7 @@
 #pragma once
 
-#include "board.h"
 #include <vector>
+#include "board.h"
 
 Board randomBoard(int width, int height);
 
