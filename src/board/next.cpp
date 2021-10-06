@@ -38,31 +38,24 @@ void nextBoardSection(
 
     // Slide neighbours
     if (x == 0) {
-      // Clear neighbour columns
-      neighbours[0] = UINT32_MAX;
-      neighbours[1] = UINT32_MAX;
-
       // Compute new Y levels
       const unsigned int y = i / width;
       yBase = y * width;
       yBelowBase = ((y - 1 + height) % height) * width;
       yAboveBase = ((y + 1) % height) * width;
+
+      // Left neighbours
+      const auto previousX = (x - 1 + width) % width;
+      neighbours[0] = input[yBelowBase + previousX] + input[yBase + previousX] +
+                      input[yAboveBase + previousX];
+
+      // Middle neighbours
+      neighbours[1] = input[yBelowBase + x] + input[yAboveBase + x] + currentStateBool;
     } else {
       neighbours[0] = neighbours[1];
-      // Remove own value
       neighbours[1] = neighbours[2];
     }
 
-    // Compute neighbours
-    if (neighbours[0] == UINT32_MAX) {
-      const auto previousX = (x - 1 + width) % width;
-
-      neighbours[0] = input[yBelowBase + previousX] + input[yBase + previousX] +
-                      input[yAboveBase + previousX];
-    }
-    if (neighbours[1] == UINT32_MAX) {
-      neighbours[1] = input[yBelowBase + x] + input[yAboveBase + x] + currentStateBool;
-    }
     const auto nextX = (x + 1) % width;
     neighbours[2] = input[yBelowBase + nextX] + input[yBase + nextX] +
                     input[yAboveBase + nextX];
