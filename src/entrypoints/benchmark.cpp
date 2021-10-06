@@ -20,7 +20,7 @@ BENCHMARK(BM_NextBoard)
     ->Unit(benchmark::kMillisecond)
     ->MeasureProcessCPUTime()
     ->UseRealTime()
-    ->MinTime(2);
+    ->MinTime(10);
 
 static void BM_RenderBoard(benchmark::State& state) {
   auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);

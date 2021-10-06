@@ -50,7 +50,7 @@ void nextBoardSection(
     } else {
       neighbours[0] = neighbours[1];
       // Remove own value
-      neighbours[1] = neighbours[2] - currentStateBool;
+      neighbours[1] = neighbours[2];
     }
 
     // Compute neighbours
@@ -61,23 +61,20 @@ void nextBoardSection(
                       input[yAboveBase + previousX];
     }
     if (neighbours[1] == UINT32_MAX) {
-      neighbours[1] = input[yBelowBase + x] + input[yAboveBase + x];
+      neighbours[1] = input[yBelowBase + x] + input[yAboveBase + x] + currentStateBool;
     }
     const auto nextX = (x + 1) % width;
     neighbours[2] = input[yBelowBase + nextX] + input[yBase + nextX] +
                     input[yAboveBase + nextX];
 
     // Compute new cell state
-    const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
+    const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2] - currentStateBool;
     if (currentStateBool && (totalNeighbours < 2 || totalNeighbours > 3))
       output[i] = DEAD;
     else if (!currentStateBool && totalNeighbours == 3)
       output[i] = ALIVE;
     else
       output[i] = input[i];
-
-    // Add self to neighbours count
-    neighbours[1] += currentStateBool;
   }
 }
 
