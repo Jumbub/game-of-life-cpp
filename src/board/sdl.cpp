@@ -1,5 +1,6 @@
 #include "sdl.h"
 #include <vector>
+#include <cstring>
 #include "../util/profile.h"
 #include "generate.h"
 
@@ -20,7 +21,18 @@ void renderBoardSdl(
     const Board board,
     SDL_Renderer* renderer,
     SDL_Texture* texture) {
-  const auto& [input, width, height] = board;
+  const auto& [rawInput, width, height] = board;
+  Cell* input = new Cell[width*height];
+
+  // I would LOVE it if someone could figure out how to create a "bool" pixel
+  // format to use with SDL. Then I wouldn't need to do this memcpy trash.
+  std::memcpy(input, rawInput, width*height*sizeof(Cell));
+
+  for (unsigned int i = 0; i < width * height; i ++) {
+    if (input[i] == ALIVE) {
+      input[i] = UINT32_MAX;
+    }
+  }
 
   static_assert(sizeof(input[0]) == sizeof(Uint32));
   SDL_UpdateTexture(
@@ -28,4 +40,6 @@ void renderBoardSdl(
 
   SDL_RenderCopy(renderer, texture, nullptr, nullptr);
   SDL_RenderPresent(renderer);
+
+  delete[] input;
 }

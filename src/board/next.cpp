@@ -19,10 +19,6 @@ void setThreads(unsigned int n) {
   THREAD_COUNT = std::max(n, (unsigned int)1);
 }
 
-inline const auto maxToOne(Cell n) {
-  return (1 - (n + 1));
-}
-
 void nextBoardSection(
     const unsigned int startY,
     const unsigned int endY,
@@ -38,7 +34,7 @@ void nextBoardSection(
   const auto endI = endY * width;
   for (unsigned int i = startY * width; i < endI; i++) {
     const unsigned int x = i % width;
-    auto currentStateBool = maxToOne(input[i]);
+    auto currentStateBool = input[i];
 
     // Slide neighbours
     if (x == 0) {
@@ -61,18 +57,15 @@ void nextBoardSection(
     if (neighbours[0] == UINT32_MAX) {
       const auto previousX = (x - 1 + width) % width;
 
-      neighbours[0] = maxToOne(input[yBelowBase + previousX]) +
-                      maxToOne(input[yBase + previousX]) +
-                      maxToOne(input[yAboveBase + previousX]);
+      neighbours[0] = input[yBelowBase + previousX] + input[yBase + previousX] +
+                      input[yAboveBase + previousX];
     }
     if (neighbours[1] == UINT32_MAX) {
-      neighbours[1] =
-          maxToOne(input[yBelowBase + x]) + maxToOne(input[yAboveBase + x]);
+      neighbours[1] = input[yBelowBase + x] + input[yAboveBase + x];
     }
     const auto nextX = (x + 1) % width;
-    neighbours[2] = maxToOne(input[yBelowBase + nextX]) +
-                    maxToOne(input[yBase + nextX]) +
-                    maxToOne(input[yAboveBase + nextX]);
+    neighbours[2] = input[yBelowBase + nextX] + input[yBase + nextX] +
+                    input[yAboveBase + nextX];
 
     // Compute new cell state
     const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
