@@ -37,6 +37,14 @@ Requires:
 
 ## The journey
 
+### 15% speed increase in logic, for 100% speed decrease in rendering
+
+For now I am going to focus on the logic performance instead of the main loop performance. The first step towards that is removing the "render" centric logic which was storing cells as "pixel friendly" values.
+
+If at some point I can figure out how to tell SDL to render 0/1 byte values, I will gladly do so, and the render performance will be restored.
+
+[b075a2f68ded65e3828d18e972e9a0fd0a24d596](https://github.com/Jumbub/game-of-speed/commit/b075a2f68ded65e3828d18e972e9a0fd0a24d596)
+
 ### 1% speed increase in logic
 
 Enabling the compiler flag `-Wsign-conversion` to find and remove any unecessary signed to unsigned int conversions.

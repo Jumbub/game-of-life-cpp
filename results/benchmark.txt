@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------
 Benchmark                                                   Time             CPU   Iterations
 ---------------------------------------------------------------------------------------------
-BM_NextBoard/min_time:2.000/process_time/real_time       5.38 ms         20.6 ms          516
-BM_RenderBoard/process_time/real_time                    11.9 ms         11.9 ms           53
+BM_NextBoard/min_time:2.000/process_time/real_time       5.29 ms         20.5 ms          519
+BM_RenderBoard/process_time/real_time                    12.1 ms         11.9 ms           54
