@@ -1,0 +1,107 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-Wsign-conversion",
+      "-std=c++2a",
+      "-Ofast",
+      "-isystem",
+      "benchmark/include",
+      "-o",
+      "build/out",
+      "src/entrypoints/benchmark.cpp"
+    ],
+    "directory": "/home/jamie/repos/game-of-speed",
+    "file": "/home/jamie/repos/game-of-speed/src/entrypoints/benchmark.cpp",
+    "output": "/home/jamie/repos/game-of-speed/build/out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-Wsign-conversion",
+      "-std=c++2a",
+      "-Ofast",
+      "-isystem",
+      "benchmark/include",
+      "-o",
+      "build/out",
+      "src/util/profile.cpp"
+    ],
+    "directory": "/home/jamie/repos/game-of-speed",
+    "file": "/home/jamie/repos/game-of-speed/src/util/profile.cpp",
+    "output": "/home/jamie/repos/game-of-speed/build/out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-Wsign-conversion",
+      "-std=c++2a",
+      "-Ofast",
+      "-isystem",
+      "benchmark/include",
+      "-o",
+      "build/out",
+      "src/board/next.cpp"
+    ],
+    "directory": "/home/jamie/repos/game-of-speed",
+    "file": "/home/jamie/repos/game-of-speed/src/board/next.cpp",
+    "output": "/home/jamie/repos/game-of-speed/build/out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-Wsign-conversion",
+      "-std=c++2a",
+      "-Ofast",
+      "-isystem",
+      "benchmark/include",
+      "-o",
+      "build/out",
+      "src/board/generate.cpp"
+    ],
+    "directory": "/home/jamie/repos/game-of-speed",
+    "file": "/home/jamie/repos/game-of-speed/src/board/generate.cpp",
+    "output": "/home/jamie/repos/game-of-speed/build/out"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wpedantic",
+      "-Wsign-conversion",
+      "-std=c++2a",
+      "-Ofast",
+      "-isystem",
+      "benchmark/include",
+      "-o",
+      "build/out",
+      "src/board/sdl.cpp"
+    ],
+    "directory": "/home/jamie/repos/game-of-speed",
+    "file": "/home/jamie/repos/game-of-speed/src/board/sdl.cpp",
+    "output": "/home/jamie/repos/game-of-speed/build/out"
+  }
+]
