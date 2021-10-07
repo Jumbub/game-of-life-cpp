@@ -27,9 +27,13 @@ void nextBoardSection(
   const auto& [input, width, height] = board;
 
   unsigned int neighbours[3] = {UINT32_MAX, UINT32_MAX, UINT32_MAX};
-  unsigned int yAboveBase = 0;
-  unsigned int yBelowBase = 0;
-  unsigned int yBase = 0;
+  unsigned int nextYBase = UINT32_MAX;
+  unsigned int middleYBase = UINT32_MAX;
+  unsigned int lastYBase = UINT32_MAX;
+
+  unsigned int *neighboursBelow = nullptr;
+  unsigned int *neighboursMiddle = nullptr;
+  unsigned int *neighboursAbove = nullptr;
 
   const auto endI = endY * width;
   for (unsigned int i = startY * width; i < endI; i++) {
@@ -40,25 +44,30 @@ void nextBoardSection(
     if (x == 0) {
       // Compute new Y levels
       const unsigned int y = i / width;
-      yBase = y * width;
-      yBelowBase = ((y - 1 + height) % height) * width;
-      yAboveBase = ((y + 1) % height) * width;
+      lastYBase = ((y - 1 + height) % height) * width;
+      middleYBase = y * width;
+      nextYBase = ((y + 1) % height) * width;
+
+      neighboursBelow = &input[lastYBase];
+      neighboursMiddle = &input[middleYBase];
+      neighboursAbove = &input[nextYBase];
 
       // Left neighbours
       const auto previousX = (x - 1 + width) % width;
-      neighbours[0] = input[yBelowBase + previousX] + input[yBase + previousX] +
-                      input[yAboveBase + previousX];
+      neighbours[0] = neighboursBelow[previousX] + neighboursMiddle[previousX] +
+                      neighboursAbove[previousX];
 
       // Middle neighbours
-      neighbours[1] = input[yBelowBase + x] + input[yAboveBase + x] + currentStateBool;
+      neighbours[1] = neighboursBelow[x] + neighboursAbove[x] + currentStateBool;
     } else {
+      // Shift neighbour counts down
       neighbours[0] = neighbours[1];
       neighbours[1] = neighbours[2];
     }
 
     const auto nextX = (x + 1) % width;
-    neighbours[2] = input[yBelowBase + nextX] + input[yBase + nextX] +
-                    input[yAboveBase + nextX];
+    neighbours[2] = neighboursBelow[nextX] + neighboursMiddle[nextX] +
+                    neighboursAbove[nextX];
 
     // Compute new cell state
     const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2] - currentStateBool;
