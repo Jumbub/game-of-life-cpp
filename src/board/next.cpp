@@ -70,8 +70,8 @@ void nextBoardSection(
                     neighboursAbove[nextX];
 
     // Compute new cell state
-    const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2] - currentStateBool;
-    if (currentStateBool && (totalNeighbours < 2 || totalNeighbours > 3))
+    const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
+    if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4))
       output[i] = DEAD;
     else if (!currentStateBool && totalNeighbours == 3)
       output[i] = ALIVE;
