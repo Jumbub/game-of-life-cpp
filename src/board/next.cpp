@@ -26,14 +26,14 @@ void nextBoardSection(
     Cell* output) {
   const auto& [input, width, height] = board;
 
-  unsigned int neighbours[3] = {UINT32_MAX, UINT32_MAX, UINT32_MAX};
-  unsigned int nextYBase = UINT32_MAX;
-  unsigned int middleYBase = UINT32_MAX;
-  unsigned int lastYBase = UINT32_MAX;
+  unsigned int neighbours[3] = {0, 0, 0};
+  unsigned int nextYBase = 0;
+  unsigned int middleYBase = 0;
+  unsigned int lastYBase = 0;
 
-  unsigned int *neighboursBelow = nullptr;
-  unsigned int *neighboursMiddle = nullptr;
-  unsigned int *neighboursAbove = nullptr;
+  Cell* neighboursBelow = nullptr;
+  Cell* neighboursMiddle = nullptr;
+  Cell* neighboursAbove = nullptr;
 
   const auto endI = endY * width;
   for (unsigned int i = startY * width; i < endI; i++) {
@@ -84,7 +84,7 @@ Board nextBoard(const Board& board) {
   const auto& [input, width, height] = board;
   auto output = new Cell[width * height];
 
-  auto totalThreads = std::min(getThreads(), height);
+  auto totalThreads = std::min(getThreads(), (unsigned int)height);
   auto threadLines = height / totalThreads;
   auto threadLinesRemaining = height % totalThreads;
 
