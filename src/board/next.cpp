@@ -76,7 +76,7 @@ void nextBoardSection(
     else if (!currentStateBool && totalNeighbours == 3)
       output[i] = ALIVE;
     else
-      output[i] = input[i];
+      output[i] = currentStateBool;
   }
 }
 
