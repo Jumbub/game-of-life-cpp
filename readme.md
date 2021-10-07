@@ -144,6 +144,48 @@ inline const auto bool(unsigned int n) { // 30% slower total benchmark time
 
 After taking a look at the assembly, it turns out the first function compiles to the [_neg_](https://www.ibm.com/docs/it/aix/7.2?topic=set-neg-negate-instruction) instruction as opposed to the _and_ or _shift_ instructions. I guess _neg_ is just an easier computation.
 
+### What's the fastest way to compute the alive state?
+
+Code at the time of this experiment [here.](https://github.com/Jumbub/game-of-speed/commit/44a384ece1a2376c991735c3ab4802b44ba15b8c)
+
+This was the base code:
+
+```
+    if (currentStateBool && (totalNeighbours < 2 || totalNeighbours > 3))
+      output[i] = DEAD;
+    else if (!currentStateBool && totalNeighbours == 3)
+      output[i] = ALIVE;
+    else
+      output[i] = currentStateBool;
+```
+`4.51ms total`
+
+So I decided to try minimising the number of boolean comparisson.
+
+```
+    if (totalNeighbours == 3)
+      output[i] = ALIVE;
+    else if (totalNeighbours < 2 || totalNeighbours > 3)
+      output[i] = DEAD;
+    else
+      output[i] = currentStateBool;
+```
+`4.89ms total` (slower)
+
+That didn't work, so I tried prioritising the dead cell state.
+
+```
+    if (totalNeighbours < 2 || totalNeighbours > 3)
+      output[i] = DEAD;
+    else if (totalNeighbours == 3)
+      output[i] = ALIVE;
+    else
+      output[i] = currentStateBool;
+```
+`5.07ms total` (even slower)
+
+Okay, so obviously I don't understand what the CPU is doing behind the scenes here.
+
 ## References
 
 Very good utility for visualising assembly instructions of your program:
