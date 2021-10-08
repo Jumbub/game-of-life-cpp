@@ -3,76 +3,89 @@
 #include <catch2/catch.hpp>
 #include "../board/next.h"
 
-Board generate(std::vector<std::vector<Cell>> input) {
-  const auto height = (unsigned int)input.size();
-  const auto width = (unsigned int)input[0].size();
+BoardMeta generate(std::vector<std::vector<Cell>> vector, bool a = true) {
+  const auto height = (unsigned int)vector.size();
+  const auto width = (unsigned int)vector[0].size();
 
-  auto board = new Cell[width * height];
+  auto input = new Cell[width * height];
   for (unsigned int y = 0; y < height; ++y)
     for (unsigned int x = 0; x < width; ++x)
-      board[y * width + x] = input[y][x] ? ALIVE : DEAD;
+      input[y * width + x] = vector[y][x] ? ALIVE : DEAD;
 
-  return {board, width, height};
+  auto output = new Cell[width * height];
+  if (a)
+    return {input, output, width, height};
+  else
+    return {output, input, width, height};
 }
 
-std::vector<std::vector<Cell>> ungenerate(Board board) {
-  const auto& [input, width, height] = board;
+std::vector<std::vector<Cell>> ungenerate(BoardMeta board) {
+  const auto& output = board.output;
+  const auto& width = board.width;
+  const auto& height = board.height;
 
-  std::vector<std::vector<Cell>> output(height, std::vector<Cell>(width));
+  std::vector<std::vector<Cell>> vector(height, std::vector<Cell>(width));
   for (unsigned int y = 0; y < height; ++y)
     for (unsigned int x = 0; x < width; ++x)
-      output[y][x] = input[y * width + x] == ALIVE ? 1 : 0;
+      vector[y][x] = output[y * width + x] == ALIVE ? 1 : 0;
 
-  delete input;
-  return output;
+  delete board.input;
+  delete output;
+  return vector;
 }
 
-void compare(Board a, Board b) {
+void compare(BoardMeta a, BoardMeta b) {
   REQUIRE(ungenerate(a) == ungenerate(b));
 }
 
 TEST_CASE("nothing", "[nextBoard]") {
   auto input = generate({{false}});
-  auto expected = generate({{false}});
+  auto expected = generate({{false}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("death", "[nextBoard]") {
   auto input = generate({{true}});
-  auto expected = generate({{false}});
+  auto expected = generate({{false}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("block", "[nextBoard]") {
   auto input =
       generate({{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}});
   auto expected =
-      generate({{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}});
+      generate({{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("block (vertical wrap)", "[nextBoard]") {
   auto input = generate({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}});
-  auto expected = generate({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}});
+  auto expected = generate({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("block (horizontal wrap)", "[nextBoard]") {
   auto input = generate({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}});
-  auto expected = generate({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}});
+  auto expected = generate({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("block (corner wrap)", "[nextBoard]") {
   auto input = generate({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}});
-  auto expected = generate({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}});
+  auto expected = generate({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("bee-hive", "[nextBoard]") {
@@ -87,9 +100,10 @@ TEST_CASE("bee-hive", "[nextBoard]") {
        {0, 0, 1, 1, 0, 0},
        {0, 1, 0, 0, 1, 0},
        {0, 0, 1, 1, 0, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("loaf", "[nextBoard]") {
@@ -106,9 +120,10 @@ TEST_CASE("loaf", "[nextBoard]") {
        {0, 1, 0, 0, 1, 0},
        {0, 0, 1, 0, 1, 0},
        {0, 0, 0, 1, 0, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("boat", "[nextBoard]") {
@@ -123,9 +138,10 @@ TEST_CASE("boat", "[nextBoard]") {
        {0, 1, 1, 0, 0},
        {0, 1, 0, 1, 0},
        {0, 0, 1, 0, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("tub", "[nextBoard]") {
@@ -140,9 +156,10 @@ TEST_CASE("tub", "[nextBoard]") {
        {0, 0, 1, 0, 0},
        {0, 1, 0, 1, 0},
        {0, 0, 1, 0, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("blinker 1", "[nextBoard]") {
@@ -157,9 +174,10 @@ TEST_CASE("blinker 1", "[nextBoard]") {
        {0, 0, 0, 0, 0},
        {0, 1, 1, 1, 0},
        {0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("blinker 2", "[nextBoard]") {
@@ -174,9 +192,10 @@ TEST_CASE("blinker 2", "[nextBoard]") {
        {0, 0, 1, 0, 0},
        {0, 0, 1, 0, 0},
        {0, 0, 1, 0, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("toad 1", "[nextBoard]") {
@@ -193,9 +212,10 @@ TEST_CASE("toad 1", "[nextBoard]") {
        {0, 1, 0, 0, 1, 0},
        {0, 1, 0, 0, 1, 0},
        {0, 0, 1, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("toad 2", "[nextBoard]") {
@@ -212,9 +232,10 @@ TEST_CASE("toad 2", "[nextBoard]") {
        {0, 0, 1, 1, 1, 0},
        {0, 1, 1, 1, 0, 0},
        {0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("beacon 1", "[nextBoard]") {
@@ -231,9 +252,10 @@ TEST_CASE("beacon 1", "[nextBoard]") {
        {0, 1, 1, 0, 0, 0},
        {0, 0, 0, 1, 1, 0},
        {0, 0, 0, 1, 1, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("beacon 2", "[nextBoard]") {
@@ -250,9 +272,10 @@ TEST_CASE("beacon 2", "[nextBoard]") {
        {0, 1, 0, 0, 0, 0},
        {0, 0, 0, 0, 1, 0},
        {0, 0, 0, 1, 1, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("glider 1", "[nextBoard]") {
@@ -267,9 +290,10 @@ TEST_CASE("glider 1", "[nextBoard]") {
        {0, 0, 1, 0, 0},
        {1, 1, 1, 0, 0},
        {0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("glider 2", "[nextBoard]") {
@@ -284,9 +308,10 @@ TEST_CASE("glider 2", "[nextBoard]") {
        {1, 0, 1, 0, 0},
        {0, 1, 1, 0, 0},
        {0, 1, 0, 0, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("glider 3", "[nextBoard]") {
@@ -301,9 +326,10 @@ TEST_CASE("glider 3", "[nextBoard]") {
        {0, 0, 0, 1, 0},
        {0, 1, 0, 1, 0},
        {0, 0, 1, 1, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }
 
 TEST_CASE("glider 4", "[nextBoard]") {
@@ -318,7 +344,8 @@ TEST_CASE("glider 4", "[nextBoard]") {
        {0, 0, 1, 0, 0},
        {0, 0, 0, 1, 1},
        {0, 0, 1, 1, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0}}, false);
 
-  compare(nextBoard(input), expected);
+  nextBoard(input);
+  compare(input, expected);
 }

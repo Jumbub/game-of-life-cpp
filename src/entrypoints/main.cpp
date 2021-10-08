@@ -14,10 +14,6 @@
 #undef ENABLE_THREADING
 #endif
 
-void nextBoardThreaded(Board board, std::promise<Board> promise) {
-  promise.set_value(nextBoard(board));
-}
-
 int main() {
   // Initialize SDL
   SDL_Init(SDL_INIT_VIDEO);
@@ -45,12 +41,9 @@ int main() {
     auto sdlTimer = startProfiling();
 
     // Start computing next board
-#ifdef ENABLE_THREADING
-    std::promise<Board> nextBoardPromise;
-    auto nextBoardFuture = nextBoardPromise.get_future();
-    std::thread nextBoardThread(
-        nextBoardThreaded, board, std::move(nextBoardPromise));
-#endif
+    std::thread nextBoardThread([&board]() {
+      nextBoard(board);
+    });
 
     while (SDL_PollEvent(&event)) {
       // Exit when told, or Escape is pressed
@@ -84,17 +77,13 @@ int main() {
 
     // Wait for the board computation thread to complete
     auto joiningTimer = startProfiling();
-#ifdef ENABLE_THREADING
     nextBoardThread.join();
-    board = nextBoardFuture.get();
-#else
-    board = nextBoard(board);
-#endif
     stopProfiling(joiningTimer, "  nextBoard.join");
 
     // Re-create board when computation is complete
     if (recreateBoard) {
-      delete get<0>(board);
+      delete[] board.input;
+      delete[] board.output;
       board = boardForSdlWindow(window);
       int width, height;
       SDL_GetWindowSize(window, &width, &height);
@@ -102,12 +91,15 @@ int main() {
       texture = createTexture(renderer, width, height);
       recreateBoard = false;
       std::cout << "Re-created board: " << width << "x" << height << std::endl;
+    } else {
+      std::swap(board.input, board.output);
     }
 
     stopProfiling(loopTimer, "main");
   }
 
-  delete get<0>(board);
+  delete[] board.input;
+  delete[] board.output;
 
   SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);

@@ -4,6 +4,7 @@
 
 const int BREEDER_WIDTH = 379;
 const int BREEDER_HEIGHT = 192;
+[[ maybe_unused ]]
 const bool BREEDER[BREEDER_HEIGHT][BREEDER_WIDTH] = {
     {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

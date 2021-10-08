@@ -11,10 +11,12 @@ static void BM_NextBoard(benchmark::State& state) {
   auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
 
   for (auto _ : state) {
-    board = nextBoard(board);
+    nextBoard(board);
+    std::swap(board.input, board.output);
   }
 
-  delete get<0>(board);
+  delete board.input;
+  delete board.output;
 }
 BENCHMARK(BM_NextBoard)
     ->Unit(benchmark::kMillisecond)
@@ -42,7 +44,8 @@ static void BM_RenderBoard(benchmark::State& state) {
   SDL_DestroyWindow(window);
   SDL_Quit();
 
-  delete get<0>(board);
+  delete board.input;
+  delete board.output;
 }
 BENCHMARK(BM_RenderBoard)
     ->Unit(benchmark::kMillisecond)
