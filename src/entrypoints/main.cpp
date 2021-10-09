@@ -8,12 +8,6 @@
 #include "../board/sdl.h"
 #include "../util/profile.h"
 
-#ifndef ENABLE_THREADING
-#define ENABLE_THREADING 1
-#else
-#undef ENABLE_THREADING
-#endif
-
 int main() {
   // Initialize SDL
   SDL_Init(SDL_INIT_VIDEO);
@@ -32,71 +26,59 @@ int main() {
   auto texture = createTexture(renderer, width, height);
 
   // Generate initial board
-  BoardMeta board((unsigned int)width, (unsigned int)height);
-  boardForSdlWindow(board, window);
+  BoardMeta board((uint)width, (uint)height);
+  benchmarkBoard(board, (uint)width, (uint)height);
 
+  // Global variables
   bool running = true;
-  bool recreateBoard = false;
-  while (running) {
-    auto loopTimer = startProfiling();
-    auto sdlTimer = startProfiling();
+  std::mutex boardMutex;
 
-    // Start computing next board
-    std::thread nextBoardThread([&board](){
+  // Computation loop
+  std::thread nextBoardThread([&board, &running, &boardMutex]() {
+    while (running) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      std::scoped_lock gaurd(boardMutex);
       nextBoard(board);
-    });
+      board.flip();
+    }
+  });
+
+  // Render loop
+  while (running) {
+    renderBoardSdl(board, renderer, texture);
 
     while (SDL_PollEvent(&event)) {
       // Exit when told, or Escape is pressed
       if ((event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ||
           (event.type == SDL_QUIT) ||
           (event.type == SDL_WINDOWEVENT &&
-           event.window.event == SDL_WINDOWEVENT_CLOSE))
+           event.window.event == SDL_WINDOWEVENT_CLOSE)) {
         running = false;
-      // Re-create board when Enter is pressed, or window is resized
-      else if (
+      } else if (
           (event.type == SDL_KEYDOWN &&
            event.key.keysym.scancode == SDL_SCANCODE_RETURN) ||
           (event.type == SDL_WINDOWEVENT &&
            event.window.event == SDL_WINDOWEVENT_RESIZED)) {
-        recreateBoard = true;
+        std::scoped_lock gaurd(boardMutex);
+        SDL_GetWindowSize(window, &width, &height);
+        benchmarkBoard(board, (uint)width, (uint)height);
+        SDL_DestroyTexture(texture);
+        texture = createTexture(renderer, width, height);
       } else if (
           event.type == SDL_KEYDOWN &&
           event.key.keysym.scancode == SDL_SCANCODE_J) {
-        setThreads(getThreads() - 1);
-        std::cout << "Setting thread count: " << getThreads() << std::endl;
+        std::scoped_lock gaurd(boardMutex);
+        board.threads++;
       } else if (
           event.type == SDL_KEYDOWN &&
           event.key.keysym.scancode == SDL_SCANCODE_K) {
-        setThreads(getThreads() + 1);
-        std::cout << "Setting thread count: " << getThreads() << std::endl;
+        std::scoped_lock gaurd(boardMutex);
+        board.threads++;
       }
     }
-
-    renderBoardSdl(board, renderer, texture);
-    stopProfiling(sdlTimer, "  sdl");
-
-    // Wait for the board computation thread to complete
-    auto joiningTimer = startProfiling();
-    nextBoardThread.join();
-    stopProfiling(joiningTimer, "  nextBoard.join");
-
-    // Re-create board when computation is complete
-    if (recreateBoard) {
-      delete[] board.input;
-      boardForSdlWindow(board, window);
-      int width, height;
-      SDL_GetWindowSize(window, &width, &height);
-      SDL_DestroyTexture(texture);
-      texture = createTexture(renderer, width, height);
-      recreateBoard = false;
-      std::cout << "Re-created board: " << width << "x" << height << std::endl;
-    } else {
-      std::swap(board.input, board.output);
-    }
-
-    stopProfiling(loopTimer, "main");
   }
+
+  nextBoardThread.join();
 
   SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);

@@ -304,7 +304,6 @@ TEST_CASE("glider 4 [long board]", "[nextBoard]") {
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}});
 }
 
-
 TEST_CASE("glider 4 [tall board]", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0},

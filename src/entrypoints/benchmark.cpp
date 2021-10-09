@@ -16,6 +16,7 @@ static void BM_NextBoard(benchmark::State& state) {
     board.flip();
   }
 }
+
 BENCHMARK(BM_NextBoard)
     ->Unit(benchmark::kMillisecond)
     ->MeasureProcessCPUTime()

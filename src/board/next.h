@@ -17,7 +17,9 @@ void nextBoardSection(
     const uint width,
     const uint height,
     const Cell* input,
-    Cell* output) {
+    Cell* output,
+    [[maybe_unused]]
+    Cell* render) {
   unsigned int neighbours[3] = {0, 0, 0};
   unsigned int nextYBase = 0;
   unsigned int middleYBase = 0;
@@ -64,24 +66,32 @@ void nextBoardSection(
 
     // Compute new cell state
     const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
-    if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4))
+    if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4)) {
       output[i] = DEAD;
-    else if (!currentStateBool && totalNeighbours == 3)
+      render[i] = DEAD_RENDER;
+    } else if (!currentStateBool && totalNeighbours == 3) {
       output[i] = ALIVE;
-    else
-      output[i] = currentStateBool;
+      render[i] = ALIVE_RENDER;
+    } else if (currentStateBool) {
+      output[i] = ALIVE;
+      render[i] = ALIVE_RENDER;
+    } else {
+      output[i] = DEAD;
+      render[i] = DEAD_RENDER;
+    }
   }
 }
 
-void nextBoard(BoardMeta& board) {
+void nextBoard(const BoardMeta& board) {
   const auto& width = board.width;
   const auto& height = board.height;
   const auto& input = board.input;
   const auto& output = board.output;
+  const auto& render = board.render;
 
-  const auto totalThreads = board.threads;
-  auto threadLines = height / totalThreads;
-  auto threadLinesRemaining = height % totalThreads;
+  const auto totalThreads = std::min(board.threads, (unsigned int)height);
+  const auto threadLines = height / totalThreads;
+  const auto threadLinesRemaining = height % totalThreads;
 
   std::vector<std::thread> threads;
   for (unsigned int t = 0; t < totalThreads; t++) {
@@ -93,10 +103,10 @@ void nextBoard(BoardMeta& board) {
     if (t == totalThreads - 1)
       endY += threadLinesRemaining;
 
-    threads.push_back(std::thread([startY, endY, width, height, input, output]() {
-      nextBoardSection(
-          startY, endY, width, height, input,output);
-    }));
+    threads.push_back(
+        std::thread([startY, endY, width, height, input, output, render]() {
+          nextBoardSection(startY, endY, width, height, input, output, render);
+        }));
   }
 
   for (auto& thread : threads) {

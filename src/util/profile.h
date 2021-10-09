@@ -20,10 +20,10 @@ void stopProfiling(ProfileData startTime, std::string label) {
                       .count();
 
   if (mcs < 5) {
-    std::cout << std::setw(8) << ns << " nanos  | " << label << std::endl;
+    std::cout << std::setw(8) << ns << " ns | " << label << std::endl;
   } else if (ms < 5) {
-    std::cout << std::setw(8) << mcs << " micros | " << label << std::endl;
+    std::cout << std::setw(8) << mcs << " us | " << label << std::endl;
   } else {
-    std::cout << std::setw(8) << ms << " millis | " << label << std::endl;
+    std::cout << std::setw(8) << ms << " ms | " << label << std::endl;
   }
 }

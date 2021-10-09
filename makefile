@@ -27,6 +27,10 @@ test: build
 benchmark_out: build
 	$(CC) src/entrypoints/benchmark.cpp $(COMPILER_FLAGS_OPTIMIZED) $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 
+benchmark_raw: build
+	$(CC) src/entrypoints/benchmark.cpp $(COMPILER_FLAGS_OPTIMIZED) $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+	./$(OUTPUT)
+
 benchmark: build
 	make benchmark_out
 	./$(OUTPUT) > results/benchmark.txt
