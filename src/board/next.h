@@ -25,20 +25,18 @@ void setThreads(unsigned int n) {
 void nextBoardSection(
     const unsigned int startY,
     const unsigned int endY,
-    BoardMeta& board) {
-  const auto& input = board.input;
-  const auto& output = board.output;
-  const auto& width = board.width;
-  const auto& height = board.height;
-
+    const uint width,
+    const uint height,
+    const Cell* input,
+    Cell* output) {
   unsigned int neighbours[3] = {0, 0, 0};
   unsigned int nextYBase = 0;
   unsigned int middleYBase = 0;
   unsigned int lastYBase = 0;
 
-  Cell* neighboursBelow = nullptr;
-  Cell* neighboursMiddle = nullptr;
-  Cell* neighboursAbove = nullptr;
+  const Cell* neighboursBelow = nullptr;
+  const Cell* neighboursMiddle = nullptr;
+  const Cell* neighboursAbove = nullptr;
 
   const auto endI = endY * width;
   for (unsigned int i = startY * width; i < endI; i++) {
@@ -86,8 +84,11 @@ void nextBoardSection(
   }
 }
 
-void nextBoard(BoardMeta &board) {
+void nextBoard(const BoardMeta& board) {
+  const auto& width = board.height;
   const auto& height = board.height;
+  const auto& input = board.input;
+  const auto& output = board.output;
 
   auto totalThreads = std::min(getThreads(), (unsigned int)height);
   auto threadLines = height / totalThreads;
@@ -103,8 +104,10 @@ void nextBoard(BoardMeta &board) {
     if (t == totalThreads - 1)
       endY += threadLinesRemaining;
 
-    threads.push_back(std::thread(
-        [startY, endY, &board]() { nextBoardSection(startY, endY, board); }));
+    threads.push_back(std::thread([startY, endY, width, height, input, output]() {
+      nextBoardSection(
+          startY, endY, width, height, input,output);
+    }));
   }
 
   for (auto& thread : threads) {
