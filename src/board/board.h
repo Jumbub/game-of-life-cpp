@@ -5,6 +5,7 @@
 #include <thread>
 #include <memory>
 #include <tuple>
+#include "threads.h"
 
 using uint = unsigned int;
 using Cell = uint;
@@ -46,7 +47,7 @@ struct BoardMeta {
   BoardMeta(const uint& width, const uint& height) {
     this->width = width;
     this->height = height;
-    this->threads = std::max(std::thread::hardware_concurrency()-1, (unsigned int)1);
+    this->threads = PROBABLY_OPTIMAL_THREAD_COUNT;
     alloc(width, height);
   }
 

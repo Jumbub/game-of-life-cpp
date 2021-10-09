@@ -9,9 +9,7 @@
 #include <vector>
 #include "../util/profile.h"
 #include "board.h"
-#include "next.h"
-
-auto PROBABLY_OPTIMAL_THREAD_COUNT = std::max(std::thread::hardware_concurrency(), (unsigned int)1);
+#include "threads.h"
 
 void nextBoardSection(
     const unsigned int startY,
@@ -81,7 +79,7 @@ void nextBoard(const BoardMeta& board) {
   const auto& input = board.input;
   const auto& output = board.output;
 
-  auto totalThreads = board.threads;
+  const auto totalThreads = board.threads;
   auto threadLines = height / totalThreads;
   auto threadLinesRemaining = height % totalThreads;
 
