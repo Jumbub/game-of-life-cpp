@@ -1,0 +1,72 @@
+O0
+-------------------------------------------------------------------------------------
+Benchmark                                           Time             CPU   Iterations
+-------------------------------------------------------------------------------------
+BM_NextBoard/1/min_time:3.000/process_time       18.0 ms         17.9 ms          233
+BM_NextBoard/2/min_time:3.000/process_time       9.16 ms         18.0 ms          232
+BM_NextBoard/3/min_time:3.000/process_time       6.29 ms         18.1 ms          231
+BM_NextBoard/4/min_time:3.000/process_time       4.85 ms         18.1 ms          230
+BM_NextBoard/5/min_time:3.000/process_time       7.16 ms         18.2 ms          230
+BM_NextBoard/6/min_time:3.000/process_time       6.08 ms         18.2 ms          230
+BM_NextBoard/7/min_time:3.000/process_time       5.59 ms         18.2 ms          229
+BM_NextBoard/8/min_time:3.000/process_time       5.06 ms         18.3 ms          229
+O1
+-------------------------------------------------------------------------------------
+Benchmark                                           Time             CPU   Iterations
+-------------------------------------------------------------------------------------
+BM_NextBoard/1/min_time:3.000/process_time       8.55 ms         8.53 ms          483
+BM_NextBoard/2/min_time:3.000/process_time       4.44 ms         8.60 ms          479
+BM_NextBoard/3/min_time:3.000/process_time       3.09 ms         8.68 ms          474
+BM_NextBoard/4/min_time:3.000/process_time       2.47 ms         8.75 ms          470
+BM_NextBoard/5/min_time:3.000/process_time       3.43 ms         8.79 ms          469
+BM_NextBoard/6/min_time:3.000/process_time       3.16 ms         8.82 ms          467
+BM_NextBoard/7/min_time:3.000/process_time       3.04 ms         8.85 ms          466
+BM_NextBoard/8/min_time:3.000/process_time       2.66 ms         8.89 ms          464
+O2
+-------------------------------------------------------------------------------------
+Benchmark                                           Time             CPU   Iterations
+-------------------------------------------------------------------------------------
+BM_NextBoard/1/min_time:3.000/process_time       9.51 ms         9.48 ms          442
+BM_NextBoard/2/min_time:3.000/process_time       4.82 ms         9.53 ms          439
+BM_NextBoard/3/min_time:3.000/process_time       3.24 ms         9.53 ms          438
+BM_NextBoard/4/min_time:3.000/process_time       2.56 ms         9.57 ms          437
+BM_NextBoard/5/min_time:3.000/process_time       3.89 ms         9.73 ms          431
+BM_NextBoard/6/min_time:3.000/process_time       3.36 ms         9.73 ms          430
+BM_NextBoard/7/min_time:3.000/process_time       3.14 ms         9.75 ms          429
+BM_NextBoard/8/min_time:3.000/process_time       2.81 ms         9.73 ms          430
+O3
+-------------------------------------------------------------------------------------
+Benchmark                                           Time             CPU   Iterations
+-------------------------------------------------------------------------------------
+BM_NextBoard/1/min_time:3.000/process_time       9.50 ms         9.47 ms          442
+BM_NextBoard/2/min_time:3.000/process_time       4.80 ms         9.52 ms          440
+BM_NextBoard/3/min_time:3.000/process_time       3.23 ms         9.52 ms          439
+BM_NextBoard/4/min_time:3.000/process_time       2.58 ms         9.56 ms          437
+BM_NextBoard/5/min_time:3.000/process_time       3.88 ms         9.71 ms          431
+BM_NextBoard/6/min_time:3.000/process_time       3.32 ms         9.73 ms          431
+BM_NextBoard/7/min_time:3.000/process_time       3.16 ms         9.74 ms          429
+BM_NextBoard/8/min_time:3.000/process_time       2.83 ms         9.72 ms          431
+Ofast
+-------------------------------------------------------------------------------------
+Benchmark                                           Time             CPU   Iterations
+-------------------------------------------------------------------------------------
+BM_NextBoard/1/min_time:3.000/process_time       9.50 ms         9.47 ms          442
+BM_NextBoard/2/min_time:3.000/process_time       4.81 ms         9.52 ms          439
+BM_NextBoard/3/min_time:3.000/process_time       3.24 ms         9.52 ms          438
+BM_NextBoard/4/min_time:3.000/process_time       2.55 ms         9.56 ms          438
+BM_NextBoard/5/min_time:3.000/process_time       3.88 ms         9.71 ms          431
+BM_NextBoard/6/min_time:3.000/process_time       3.32 ms         9.72 ms          431
+BM_NextBoard/7/min_time:3.000/process_time       3.17 ms         9.74 ms          429
+BM_NextBoard/8/min_time:3.000/process_time       2.80 ms         9.73 ms          430
+Os
+-------------------------------------------------------------------------------------
+Benchmark                                           Time             CPU   Iterations
+-------------------------------------------------------------------------------------
+BM_NextBoard/1/min_time:3.000/process_time       9.87 ms         9.84 ms          425
+BM_NextBoard/2/min_time:3.000/process_time       5.01 ms         9.90 ms          422
+BM_NextBoard/3/min_time:3.000/process_time       3.39 ms         9.92 ms          421
+BM_NextBoard/4/min_time:3.000/process_time       2.74 ms         9.96 ms          419
+BM_NextBoard/5/min_time:3.000/process_time       4.02 ms         10.1 ms          415
+BM_NextBoard/6/min_time:3.000/process_time       3.46 ms         10.1 ms          414
+BM_NextBoard/7/min_time:3.000/process_time       3.27 ms         10.1 ms          413
+BM_NextBoard/8/min_time:3.000/process_time       3.11 ms         10.1 ms          413

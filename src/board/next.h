@@ -11,16 +11,7 @@
 #include "board.h"
 #include "next.h"
 
-auto THREAD_COUNT =
-    std::max(std::thread::hardware_concurrency(), (unsigned int)1);
-
-unsigned int getThreads() {
-  return THREAD_COUNT;
-}
-
-void setThreads(unsigned int n) {
-  THREAD_COUNT = std::max(n, (unsigned int)1);
-}
+auto PROBABLY_OPTIMAL_THREAD_COUNT = std::max(std::thread::hardware_concurrency(), (unsigned int)1);
 
 void nextBoardSection(
     const unsigned int startY,
@@ -90,7 +81,7 @@ void nextBoard(const BoardMeta& board) {
   const auto& input = board.input;
   const auto& output = board.output;
 
-  auto totalThreads = std::min(getThreads(), (unsigned int)height);
+  auto totalThreads = board.threads;
   auto threadLines = height / totalThreads;
   auto threadLinesRemaining = height % totalThreads;
 

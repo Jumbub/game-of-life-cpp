@@ -2,6 +2,7 @@
 
 #include <array>
 #include <iostream>
+#include <thread>
 #include <memory>
 #include <tuple>
 
@@ -17,6 +18,7 @@ struct BoardMeta {
   uint height;
 
   Cell* raw;
+  uint threads;
 
   void flip() { std::swap(input, output); }
 
@@ -44,6 +46,7 @@ struct BoardMeta {
   BoardMeta(const uint& width, const uint& height) {
     this->width = width;
     this->height = height;
+    this->threads = std::max(std::thread::hardware_concurrency()-1, (unsigned int)1);
     alloc(width, height);
   }
 

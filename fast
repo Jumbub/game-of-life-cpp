@@ -1,0 +1,13 @@
+  Total time   Self time       Calls  Function
+  ==========  ==========  ==========  ====================
+  928.778 ms  181.593 us         400  std::thread::_State_impl::_M_run
+  928.594 ms  916.726 ms         400  nextBoardSection
+  370.117 ms  370.117 ms         536  linux:schedule
+  350.545 ms  223.700 us         100  nextBoard
+  345.400 ms  957.022 us         400  std::thread::join
+    4.732 ms    4.687 ms         400  std::thread::_M_start_thread
+  385.495 us  186.060 us         400  std::thread::_State_impl::~_State_impl
+  157.042 us  157.042 us         700  operator delete
+  107.767 us   63.232 us         300  std::vector::_M_realloc_insert
+   80.200 us   80.200 us         701  operator new
+   45.347 us   45.347 us         400  std::thread::_State::~_State
