@@ -1,16 +1,16 @@
 CC = g++
 
 COMPILER_FLAGS = -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread -O1
-COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -O0 -pg
-COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -O0 -ggdb
+COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -Og -pg
+COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -Og -ggdb
 
 LINKER_FLAGS_BENCHMARK = -isystem benchmark/include -Lbenchmark/build/src -lbenchmark
 LINKER_FLAGS_GRAPHICS = -lSDL2
 
 OUTPUT = build/out
 
-OBJS = src/util/profile.cpp src/board/next.cpp src/board/generate.cpp
-OBJS_GRAPHICS = $(OBJS) src/board/sdl.cpp
+# OBJS = src/util/profile.cpp src/board/next.cpp src/board/generate.cpp
+# OBJS_GRAPHICS = $(OBJS) src/board/sdl.cpp
 
 main: build
 	$(CC) src/entrypoints/main.cpp $(COMPILER_FLAGS) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)

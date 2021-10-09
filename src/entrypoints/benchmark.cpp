@@ -4,19 +4,17 @@
 #include "../board/next.h"
 #include "../board/sdl.h"
 
-const int TEST_WIDTH = 2560;
-const int TEST_HEIGHT = 1440;
+const unsigned int TEST_WIDTH = 2560;
+const unsigned int TEST_HEIGHT = 1440;
 
 static void BM_NextBoard(benchmark::State& state) {
-  auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
+  BoardMeta board(TEST_WIDTH, TEST_HEIGHT);
+  benchmarkBoard(board, TEST_WIDTH, TEST_HEIGHT);
 
   for (auto _ : state) {
     nextBoard(board);
-    std::swap(board.input, board.output);
+    board.flip();
   }
-
-  delete board.input;
-  delete board.output;
 }
 BENCHMARK(BM_NextBoard)
     ->Unit(benchmark::kMillisecond)
@@ -25,7 +23,8 @@ BENCHMARK(BM_NextBoard)
     ->MinTime(10);
 
 static void BM_RenderBoard(benchmark::State& state) {
-  auto board = benchmarkBoard(TEST_WIDTH, TEST_HEIGHT);
+  BoardMeta board(TEST_WIDTH, TEST_HEIGHT);
+  benchmarkBoard(board, TEST_WIDTH, TEST_HEIGHT);
 
   // Initialize graphics
   SDL_Init(SDL_INIT_VIDEO);
@@ -43,9 +42,6 @@ static void BM_RenderBoard(benchmark::State& state) {
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
-
-  delete board.input;
-  delete board.output;
 }
 BENCHMARK(BM_RenderBoard)
     ->Unit(benchmark::kMillisecond)

@@ -32,7 +32,8 @@ int main() {
   auto texture = createTexture(renderer, width, height);
 
   // Generate initial board
-  auto board = boardForSdlWindow(window);
+  BoardMeta board((unsigned int)width, (unsigned int)height);
+  boardForSdlWindow(board, window);
 
   bool running = true;
   bool recreateBoard = false;
@@ -41,7 +42,7 @@ int main() {
     auto sdlTimer = startProfiling();
 
     // Start computing next board
-    std::thread nextBoardThread([&board]() {
+    std::thread nextBoardThread([&board](){
       nextBoard(board);
     });
 
@@ -83,8 +84,7 @@ int main() {
     // Re-create board when computation is complete
     if (recreateBoard) {
       delete[] board.input;
-      delete[] board.output;
-      board = boardForSdlWindow(window);
+      boardForSdlWindow(board, window);
       int width, height;
       SDL_GetWindowSize(window, &width, &height);
       SDL_DestroyTexture(texture);
@@ -97,9 +97,6 @@ int main() {
 
     stopProfiling(loopTimer, "main");
   }
-
-  delete[] board.input;
-  delete[] board.output;
 
   SDL_DestroyTexture(texture);
   SDL_DestroyRenderer(renderer);
