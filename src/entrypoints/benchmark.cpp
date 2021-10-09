@@ -21,11 +21,12 @@ BENCHMARK(BM_NextBoard)
     ->Unit(benchmark::kMillisecond)
     ->MeasureProcessCPUTime()
     ->UseRealTime()
-    ->MinTime(10);
+    ->Iterations(3000);
 
 static void BM_RenderBoard(benchmark::State& state) {
   BoardMeta board(TEST_WIDTH, TEST_HEIGHT);
   benchmarkBoard(board, TEST_WIDTH, TEST_HEIGHT);
+  nextBoard(board);
 
   // Initialize graphics
   SDL_Init(SDL_INIT_VIDEO);
