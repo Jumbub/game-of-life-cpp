@@ -18,7 +18,6 @@ void nextBoardSection(
     const uint height,
     const Cell* input,
     Cell* output,
-    [[maybe_unused]]
     Cell* render) {
   unsigned int neighbours[3] = {0, 0, 0};
   unsigned int nextYBase = 0;
@@ -72,12 +71,9 @@ void nextBoardSection(
     } else if (!currentStateBool && totalNeighbours == 3) {
       output[i] = ALIVE;
       render[i] = ALIVE_RENDER;
-    } else if (currentStateBool) {
-      output[i] = ALIVE;
-      render[i] = ALIVE_RENDER;
     } else {
-      output[i] = DEAD;
-      render[i] = DEAD_RENDER;
+      output[i] = currentStateBool;
+      render[i] = currentStateBool ? ALIVE_RENDER : DEAD_RENDER;
     }
   }
 }
