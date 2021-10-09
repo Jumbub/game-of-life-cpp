@@ -140,6 +140,8 @@ Commit with "improvement" [2a807cb95703824189e2ede051b4c1621179a4c1](https://git
 
 Changing from `height * height` back to `width * height` puts me back to the previous speed.
 
+[4f0bf37b1394a90307e148033f0602050e668b4e](https://github.com/Jumbub/game-of-speed/commit/4f0bf37b1394a90307e148033f0602050e668b4e)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
