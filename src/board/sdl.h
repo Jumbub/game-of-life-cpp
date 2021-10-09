@@ -3,7 +3,6 @@
 #include <SDL2/SDL.h>
 #include <cstring>
 #include <vector>
-#include "../util/profile.h"
 #include "board.h"
 #include "generate.h"
 
@@ -23,7 +22,6 @@ void renderBoardSdl(
 
   static_assert(sizeof(render[0]) == sizeof(Uint32));
   SDL_UpdateTexture(texture, NULL, &render[0], (int)(width * sizeof(Uint32)));
-
   SDL_RenderCopy(renderer, texture, nullptr, nullptr);
   SDL_RenderPresent(renderer);
 }

@@ -7,7 +7,6 @@
 #include <thread>
 #include <tuple>
 #include <vector>
-#include "../util/profile.h"
 #include "board.h"
 #include "threads.h"
 

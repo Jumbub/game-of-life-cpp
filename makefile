@@ -1,8 +1,8 @@
 CC = g++
 
 COMPILER_FLAGS = -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread
-COMPILER_FLAGS_OPTIMIZED = $(COMPILER_FLAGS) -lpthread -O1
-COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS) -Og -pg
+COMPILER_FLAGS_OPTIMIZED = $(COMPILER_FLAGS) -O1
+COMPILER_FLAGS_PROFILE = $(COMPILER_FLAGS_OPTIMIZED) -pg
 COMPILER_FLAGS_DEBUG = $(COMPILER_FLAGS) -Og -ggdb
 
 LINKER_FLAGS_BENCHMARK = -isystem benchmark/include -Lbenchmark/build/src -lbenchmark
@@ -18,7 +18,10 @@ main: build
 	./$(OUTPUT)
 
 debug: build
-	$(CC) src/entrypoints/main.cpp -DENABLE_THREADING=0 $(COMPILER_FLAGS_DEBUG) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+	$(CC) src/entrypoints/main.cpp $(COMPILER_FLAGS_DEBUG) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
+
+profile: build
+	$(CC) src/entrypoints/main.cpp $(COMPILER_FLAGS_PROFILE) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 
 test: build
 	$(CC) src/entrypoints/test.cpp $(COMPILER_FLAGS_OPTIMIZED) -ggdb -o $(OUTPUT) $(OBJS)

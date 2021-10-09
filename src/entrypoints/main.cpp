@@ -6,7 +6,11 @@
 #include "../board/generate.h"
 #include "../board/next.h"
 #include "../board/sdl.h"
-#include "../util/profile.h"
+#include "../util/time.h"
+
+using namespace std::chrono;
+
+constexpr long MICROS_PER_RENDER = 7000; // ~144fps
 
 int main() {
   // Initialize SDL
@@ -36,15 +40,19 @@ int main() {
   // Computation loop
   std::thread nextBoardThread([&board, &running, &boardMutex]() {
     while (running) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      auto timer = start();
+      std::this_thread::sleep_for(std::chrono::nanoseconds(1));
       std::scoped_lock gaurd(boardMutex);
       nextBoard(board);
       board.flip();
+      stop("Logic loop", timer);
     }
   });
 
   // Render loop
   while (running) {
+    auto timer = start();
+
     renderBoardSdl(board, renderer, texture);
 
     while (SDL_PollEvent(&event)) {
@@ -68,7 +76,7 @@ int main() {
           event.type == SDL_KEYDOWN &&
           event.key.keysym.scancode == SDL_SCANCODE_J) {
         std::scoped_lock gaurd(boardMutex);
-        board.threads++;
+        board.threads = std::max(board.threads - 1, (uint)1);
       } else if (
           event.type == SDL_KEYDOWN &&
           event.key.keysym.scancode == SDL_SCANCODE_K) {
@@ -76,6 +84,8 @@ int main() {
         board.threads++;
       }
     }
+
+    stopAndDelay("Render loop", MICROS_PER_RENDER, timer);
   }
 
   nextBoardThread.join();
