@@ -132,47 +132,13 @@ If at some point I can figure out how to tell SDL to render 0/1 byte values, I w
 
 [b075a2f68ded65e3828d18e972e9a0fd0a24d596](https://github.com/Jumbub/game-of-speed/commit/b075a2f68ded65e3828d18e972e9a0fd0a24d596)
 
-### 100% speed increase in logic
+### ~~100% speed increase in logic~~
 
-I am not _exactly_ sure what triggered this improvement.
+_if you only do half the work, you're twice as quick_
 
-I _think_ it may be something to do with the move from `std::tuple` to `struct`. This same commit, but with the pre-struct code does not yield any performance improvements.
+Commit with "improvement" [2a807cb95703824189e2ede051b4c1621179a4c1](https://github.com/Jumbub/game-of-speed/commit/2a807cb95703824189e2ede051b4c1621179a4c1)
 
-According to `perf stat`, then number of branch misses dropped from 0.6% to 0.24%.
-
-Results of uftrace:
-
-```
-Slow  Total time   Self time       Calls  Function
-====  ==========  ==========  ==========  ====================
-        1.784  s  239.645 us         400  std::thread::_State_impl::_M_run
-        1.784  s    1.761  s         400  nextBoardSection
-      629.341 ms  629.341 ms         749  linux:schedule
-      597.114 ms  241.967 us         100  nextBoard
-      591.717 ms    1.050 ms         400  std::thread::join
-        4.972 ms    4.890 ms         400  std::thread::_M_start_thread
-      415.635 us  212.432 us         400  std::thread::_State_impl::~_State_impl
-      187.211 us  187.211 us         700  operator delete
-      109.778 us   68.670 us         300  std::vector::_M_realloc_insert
-       73.989 us   73.989 us         701  operator new
-       56.249 us   56.249 us         400  std::thread::_State::~_State
-
-Fast  Total time   Self time       Calls  Function
-====  ==========  ==========  ==========  ====================
-      928.778 ms  181.593 us         400  std::thread::_State_impl::_M_run
-      928.594 ms  916.726 ms         400  nextBoardSection
-      370.117 ms  370.117 ms         536  linux:schedule
-      350.545 ms  223.700 us         100  nextBoard
-      345.400 ms  957.022 us         400  std::thread::join
-        4.732 ms    4.687 ms         400  std::thread::_M_start_thread
-      385.495 us  186.060 us         400  std::thread::_State_impl::~_State_impl
-      157.042 us  157.042 us         700  operator delete
-      107.767 us   63.232 us         300  std::vector::_M_realloc_insert
-       80.200 us   80.200 us         701  operator new
-       45.347 us   45.347 us         400  std::thread::_State::~_State
-```
-
-[2a807cb95703824189e2ede051b4c1621179a4c1](https://github.com/Jumbub/game-of-speed/commit/2a807cb95703824189e2ede051b4c1621179a4c1)
+Changing from `height * height` back to `width * height` puts me back to the previous speed.
 
 ## Results of interesting findings
 

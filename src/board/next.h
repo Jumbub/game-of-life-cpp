@@ -73,8 +73,8 @@ void nextBoardSection(
   }
 }
 
-void nextBoard(const BoardMeta& board) {
-  const auto& width = board.height;
+void nextBoard(BoardMeta& board) {
+  const auto& width = board.width;
   const auto& height = board.height;
   const auto& input = board.input;
   const auto& output = board.output;
