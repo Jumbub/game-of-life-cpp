@@ -16,8 +16,7 @@ void nextBoardSection(
     const uint width,
     const uint height,
     const Cell* input,
-    Cell* output,
-    Cell* render) {
+    Cell* output) {
   unsigned int neighbours[3] = {0, 0, 0};
   unsigned int nextYBase = 0;
   unsigned int middleYBase = 0;
@@ -66,13 +65,10 @@ void nextBoardSection(
     const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
     if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4)) {
       output[i] = DEAD;
-      render[i] = DEAD_RENDER;
     } else if (!currentStateBool && totalNeighbours == 3) {
       output[i] = ALIVE;
-      render[i] = ALIVE_RENDER;
     } else {
       output[i] = currentStateBool;
-      render[i] = currentStateBool ? ALIVE_RENDER : DEAD_RENDER;
     }
   }
 }
@@ -82,7 +78,6 @@ void nextBoard(const BoardMeta& board) {
   const auto& height = board.height;
   const auto& input = board.input;
   const auto& output = board.output;
-  const auto& render = board.render;
 
   const auto totalThreads = std::min(board.threads, (unsigned int)height);
   const auto threadLines = height / totalThreads;
@@ -99,8 +94,8 @@ void nextBoard(const BoardMeta& board) {
       endY += threadLinesRemaining;
 
     threads.push_back(
-        std::thread([startY, endY, width, height, input, output, render]() {
-          nextBoardSection(startY, endY, width, height, input, output, render);
+        std::thread([startY, endY, width, height, input, output]() {
+          nextBoardSection(startY, endY, width, height, input, output);
         }));
   }
 
