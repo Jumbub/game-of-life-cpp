@@ -3,23 +3,18 @@
 #include "../board/generate.h"
 #include "../board/next.h"
 #include "../board/sdl.h"
+#include "../board/loop.h"
 
-const unsigned int TEST_WIDTH = 2560;
-const unsigned int TEST_HEIGHT = 1440;
-
-static void BM_NextBoard(benchmark::State& state) {
-  BoardMeta board(TEST_WIDTH, TEST_HEIGHT);
-  benchmarkBoard(board, TEST_WIDTH, TEST_HEIGHT);
-  board.threads = state.range(0);
-
+static void BM_Real(benchmark::State& state) {
+  auto meta = setup();
   for (auto _ : state) {
-    nextBoard(board);
-    board.flip();
+    loop(meta, 1000);
   }
+  shutdown(meta);
 }
 
-BENCHMARK(BM_NextBoard)
-    ->Unit(benchmark::kMillisecond)
+BENCHMARK(BM_Real)
+    ->Unit(benchmark::kSecond)
     ->MeasureProcessCPUTime()
     ->MinTime(3)
     ->DenseRange(1, PROBABLY_OPTIMAL_THREAD_COUNT*2, 1);

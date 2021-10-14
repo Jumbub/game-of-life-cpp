@@ -1,72 +1,104 @@
 O0
--------------------------------------------------------------------------------------
-Benchmark                                           Time             CPU   Iterations
--------------------------------------------------------------------------------------
-BM_NextBoard/1/min_time:3.000/process_time       34.1 ms         34.0 ms          115
-BM_NextBoard/2/min_time:3.000/process_time       18.0 ms         34.0 ms          116
-BM_NextBoard/3/min_time:3.000/process_time       12.1 ms         34.1 ms          116
-BM_NextBoard/4/min_time:3.000/process_time       9.12 ms         34.2 ms          116
-BM_NextBoard/5/min_time:3.000/process_time       13.3 ms         34.3 ms          115
-BM_NextBoard/6/min_time:3.000/process_time       11.6 ms         34.3 ms          116
-BM_NextBoard/7/min_time:3.000/process_time       10.1 ms         34.3 ms          115
-BM_NextBoard/8/min_time:3.000/process_time       9.24 ms         34.4 ms          115
-O1
--------------------------------------------------------------------------------------
-Benchmark                                           Time             CPU   Iterations
--------------------------------------------------------------------------------------
-BM_NextBoard/1/min_time:3.000/process_time       17.0 ms         17.0 ms          240
-BM_NextBoard/2/min_time:3.000/process_time       9.28 ms         17.1 ms          238
-BM_NextBoard/3/min_time:3.000/process_time       6.25 ms         17.2 ms          236
-BM_NextBoard/4/min_time:3.000/process_time       4.80 ms         17.4 ms          235
-BM_NextBoard/5/min_time:3.000/process_time       6.95 ms         17.4 ms          235
-BM_NextBoard/6/min_time:3.000/process_time       5.96 ms         17.4 ms          235
-BM_NextBoard/7/min_time:3.000/process_time       5.34 ms         17.5 ms          234
-BM_NextBoard/8/min_time:3.000/process_time       4.95 ms         17.5 ms          233
-O2
--------------------------------------------------------------------------------------
-Benchmark                                           Time             CPU   Iterations
--------------------------------------------------------------------------------------
-BM_NextBoard/1/min_time:3.000/process_time       18.0 ms         17.9 ms          227
-BM_NextBoard/2/min_time:3.000/process_time       9.87 ms         18.0 ms          226
-BM_NextBoard/3/min_time:3.000/process_time       6.65 ms         18.2 ms          224
-BM_NextBoard/4/min_time:3.000/process_time       5.07 ms         18.3 ms          223
-BM_NextBoard/5/min_time:3.000/process_time       7.31 ms         18.3 ms          223
-BM_NextBoard/6/min_time:3.000/process_time       6.29 ms         18.3 ms          223
-BM_NextBoard/7/min_time:3.000/process_time       5.63 ms         18.4 ms          222
-BM_NextBoard/8/min_time:3.000/process_time       5.26 ms         18.4 ms          222
-O3
--------------------------------------------------------------------------------------
-Benchmark                                           Time             CPU   Iterations
--------------------------------------------------------------------------------------
-BM_NextBoard/1/min_time:3.000/process_time       17.9 ms         17.8 ms          228
-BM_NextBoard/2/min_time:3.000/process_time       9.81 ms         18.0 ms          227
-BM_NextBoard/3/min_time:3.000/process_time       6.61 ms         18.1 ms          225
-BM_NextBoard/4/min_time:3.000/process_time       5.05 ms         18.2 ms          224
-BM_NextBoard/5/min_time:3.000/process_time       7.30 ms         18.3 ms          223
-BM_NextBoard/6/min_time:3.000/process_time       6.27 ms         18.3 ms          223
-BM_NextBoard/7/min_time:3.000/process_time       5.58 ms         18.3 ms          223
-BM_NextBoard/8/min_time:3.000/process_time       5.16 ms         18.4 ms          222
-Ofast
--------------------------------------------------------------------------------------
-Benchmark                                           Time             CPU   Iterations
--------------------------------------------------------------------------------------
-BM_NextBoard/1/min_time:3.000/process_time       17.9 ms         17.9 ms          227
-BM_NextBoard/2/min_time:3.000/process_time       9.87 ms         18.0 ms          226
-BM_NextBoard/3/min_time:3.000/process_time       6.63 ms         18.2 ms          225
-BM_NextBoard/4/min_time:3.000/process_time       5.12 ms         18.3 ms          223
-BM_NextBoard/5/min_time:3.000/process_time       7.31 ms         18.3 ms          223
-BM_NextBoard/6/min_time:3.000/process_time       6.26 ms         18.3 ms          223
-BM_NextBoard/7/min_time:3.000/process_time       5.57 ms         18.4 ms          222
-BM_NextBoard/8/min_time:3.000/process_time       5.20 ms         18.4 ms          222
+Renders per second: 79.0414
+Boards per second: 126.466
+---------------------------------------------------------------------------------
+Benchmark                                       Time             CPU   Iterations
+---------------------------------------------------------------------------------
+BM_Real/1/min_time:3.000/process_time        12.7 s          44.2 s             1
+Renders per second: 78.7353
+Boards per second: 128.024
+BM_Real/2/min_time:3.000/process_time        12.7 s          43.9 s             1
+Renders per second: 78.6561
+Boards per second: 128.524
+BM_Real/3/min_time:3.000/process_time        12.7 s          44.0 s             1
+Renders per second: 78.7793
+Boards per second: 127.78
+BM_Real/4/min_time:3.000/process_time        12.7 s          43.9 s             1
+Renders per second: 78.671
+Boards per second: 128.234
+BM_Real/5/min_time:3.000/process_time        12.7 s          44.0 s             1
+Renders per second: 78.8293
+Boards per second: 128.255
+BM_Real/6/min_time:3.000/process_time        12.7 s          44.0 s             1
+Renders per second: 78.8358
+Boards per second: 127.951
+BM_Real/7/min_time:3.000/process_time        12.7 s          43.9 s             1
+Renders per second: 78.7532
+Boards per second: 128.604
+BM_Real/8/min_time:3.000/process_time        12.7 s          44.0 s             1
+Renders per second: 78.6892
+Boards per second: 128.263
+BM_Real/9/min_time:3.000/process_time        12.7 s          44.0 s             1
+Renders per second: 78.7184
+Boards per second: 127.839
+BM_Real/10/min_time:3.000/process_time       12.7 s          43.9 s             1
+Renders per second: 78.7632
+Boards per second: 127.203
+BM_Real/11/min_time:3.000/process_time       12.7 s          43.9 s             1
+Renders per second: 78.6685
+Boards per second: 128.466
+BM_Real/12/min_time:3.000/process_time       12.7 s          44.0 s             1
+Renders per second: 78.7924
+Boards per second: 127.329
+BM_Real/13/min_time:3.000/process_time       12.7 s          43.9 s             1
+Renders per second: 78.7168
+Boards per second: 127.757
+BM_Real/14/min_time:3.000/process_time       12.7 s          43.9 s             1
+Renders per second: 78.7338
+Boards per second: 128.1
+BM_Real/15/min_time:3.000/process_time       12.7 s          44.0 s             1
+Renders per second: 78.6849
+Boards per second: 128.807
+BM_Real/16/min_time:3.000/process_time       12.7 s          44.0 s             1
 Os
--------------------------------------------------------------------------------------
-Benchmark                                           Time             CPU   Iterations
--------------------------------------------------------------------------------------
-BM_NextBoard/1/min_time:3.000/process_time       19.0 ms         19.0 ms          215
-BM_NextBoard/2/min_time:3.000/process_time       10.5 ms         19.1 ms          214
-BM_NextBoard/3/min_time:3.000/process_time       7.06 ms         19.3 ms          212
-BM_NextBoard/4/min_time:3.000/process_time       5.37 ms         19.4 ms          211
-BM_NextBoard/5/min_time:3.000/process_time       7.74 ms         19.4 ms          211
-BM_NextBoard/6/min_time:3.000/process_time       6.61 ms         19.4 ms          211
-BM_NextBoard/7/min_time:3.000/process_time       5.93 ms         19.5 ms          210
-BM_NextBoard/8/min_time:3.000/process_time       5.48 ms         19.5 ms          210
+Renders per second: 134.735
+Boards per second: 129.75
+---------------------------------------------------------------------------------
+Benchmark                                       Time             CPU   Iterations
+---------------------------------------------------------------------------------
+BM_Real/1/min_time:3.000/process_time        7.42 s          26.4 s             1
+Renders per second: 131.011
+Boards per second: 135.597
+BM_Real/2/min_time:3.000/process_time        7.63 s          27.4 s             1
+Renders per second: 131.979
+Boards per second: 134.75
+BM_Real/3/min_time:3.000/process_time        7.58 s          27.2 s             1
+Renders per second: 131.36
+Boards per second: 135.038
+BM_Real/4/min_time:3.000/process_time        7.61 s          27.3 s             1
+Renders per second: 130.985
+Boards per second: 135.7
+BM_Real/5/min_time:3.000/process_time        7.63 s          27.4 s             1
+Renders per second: 131.472
+Boards per second: 135.284
+BM_Real/6/min_time:3.000/process_time        7.61 s          27.3 s             1
+Renders per second: 130.967
+Boards per second: 135.813
+BM_Real/7/min_time:3.000/process_time        7.64 s          27.4 s             1
+Renders per second: 130.497
+Boards per second: 135.195
+BM_Real/8/min_time:3.000/process_time        7.66 s          27.4 s             1
+Renders per second: 131.577
+Boards per second: 134.209
+BM_Real/9/min_time:3.000/process_time        7.60 s          27.2 s             1
+Renders per second: 131.591
+Boards per second: 135.013
+BM_Real/10/min_time:3.000/process_time       7.60 s          27.2 s             1
+Renders per second: 131.357
+Boards per second: 135.035
+BM_Real/11/min_time:3.000/process_time       7.61 s          27.3 s             1
+Renders per second: 131.537
+Boards per second: 135.484
+BM_Real/12/min_time:3.000/process_time       7.60 s          27.3 s             1
+Renders per second: 131.445
+Boards per second: 135.125
+BM_Real/13/min_time:3.000/process_time       7.61 s          27.3 s             1
+Renders per second: 131.633
+Boards per second: 135.318
+BM_Real/14/min_time:3.000/process_time       7.60 s          27.2 s             1
+Renders per second: 131.267
+Boards per second: 134.943
+BM_Real/15/min_time:3.000/process_time       7.62 s          27.3 s             1
+Renders per second: 131.02
+Boards per second: 135.474
+BM_Real/16/min_time:3.000/process_time       7.63 s          27.4 s             1
