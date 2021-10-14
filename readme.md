@@ -132,13 +132,19 @@ If at some point I can figure out how to tell SDL to render 0/1 byte values, I w
 
 [b075a2f68ded65e3828d18e972e9a0fd0a24d596](https://github.com/Jumbub/game-of-speed/commit/b075a2f68ded65e3828d18e972e9a0fd0a24d596)
 
-### 50% speed increase in logic
+### 50% speed increase overall
 
-For some reason, blasting the CPU with more threads increases the total number of frames processed.
+This speed increase is likely due to the fact that it consumes more CPU which would otherwise be used by the render thread.
 
-I suspect this commit is very CPU core count specific.
+[46f00cb633e6186ad78cf3f679dd82dd0414f3c3](https://github.com/Jumbub/game-of-speed/commit/46f00cb633e6186ad78cf3f679dd82dd0414f3c3)
 
-[4f0bf37b1394a90307e148033f0602050e668b4e](https://github.com/Jumbub/game-of-speed/commit/4f0bf37b1394a90307e148033f0602050e668b4e)
+### 50% speed increase overall
+
+This speed increase is primarily from changing the render limit to 30fps, but also changing the thread count to 12.
+
+I'm not entirely sure why this thread count is more performant, but it's pretty evident in the results: [benchmark\_full.txt](https://github.com/Jumbub/game-of-speed/blob/ff5d78d8e77fc307229be5448c1370b9ab70bb19/results/benchmark_full.txt)
+
+[ff5d78d8e77fc307229be5448c1370b9ab70bb19](https://github.com/Jumbub/game-of-speed/commit/ff5d78d8e77fc307229be5448c1370b9ab70bb19)
 
 ## Results of interesting findings
 
