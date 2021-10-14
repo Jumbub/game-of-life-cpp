@@ -39,6 +39,7 @@ benchmark: build
 	./$(OUTPUT) > results/benchmark.txt
 
 benchmark_full: build
+	echo benchmark_full > results/benchmark_full.txt
 	echo Ofast >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -Ofast $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
@@ -55,7 +56,7 @@ benchmark_full: build
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -O1 $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
 	cat results/benchmark_full.txt
-	echo O0 > results/benchmark_full.txt
+	echo O0 >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -O0 $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
 	cat results/benchmark_full.txt
