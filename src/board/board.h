@@ -26,7 +26,7 @@ struct BoardMeta {
   Cell* rawRender = nullptr;
 
   uint threads = PROBABLY_OPTIMAL_THREAD_COUNT;
-  uint microsPerRender = 16000; // 60fps
+  uint microsPerRender = 32000; // 30fps
 
   void flip() { std::swap(input, output); }
 
