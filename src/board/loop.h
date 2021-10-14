@@ -12,8 +12,7 @@ using namespace std::chrono;
 
 struct LoopMeta {
   SDL_Window* window = nullptr;
-  SDL_Renderer* renderer = nullptr;
-  SDL_Texture* texture = nullptr;
+  SDL_Surface* surface = nullptr;
   BoardMeta* board = nullptr;
 };
 
@@ -31,10 +30,8 @@ LoopMeta setup() {
   loop.window = SDL_CreateWindow(
       "Game of Speed", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
       (int)loop.board->width, (int)loop.board->height, SDL_WINDOW_MAXIMIZED);
-  loop.renderer = SDL_CreateRenderer(loop.window, -1, SDL_RENDERER_ACCELERATED);
 
-  loop.texture = createTexture(
-      loop.renderer, (int)loop.board->width, (int)loop.board->height);
+  loop.surface = SDL_GetWindowSurface(loop.window);
 
   return loop;
 }
@@ -43,8 +40,6 @@ void loop(LoopMeta loop, long maxComputations) {
   auto totalTimer = start();
 
   auto& window = loop.window;
-  auto& renderer = loop.renderer;
-  auto& texture = loop.texture;
   auto& board = *loop.board;
 
   std::mutex boardMutex;
@@ -69,7 +64,7 @@ void loop(LoopMeta loop, long maxComputations) {
   // Render loop
   while (running && computations < maxComputations) {
     auto renderTimer = start();
-    renderBoardSdl(board, renderer, texture);
+    renderBoardSdl(board, window, (int*)loop.surface->pixels);
     renders++;
 
     SDL_Event event;
@@ -89,8 +84,7 @@ void loop(LoopMeta loop, long maxComputations) {
         int width, height;
         SDL_GetWindowSize(window, &width, &height);
         benchmarkBoard(board, (uint)width, (uint)height);
-        SDL_DestroyTexture(texture);
-        texture = createTexture(renderer, width, height);
+        loop.surface = SDL_GetWindowSurface(window);
       } else if (
           event.type == SDL_KEYDOWN &&
           event.key.keysym.scancode == SDL_SCANCODE_J) {
@@ -120,8 +114,6 @@ void loop(LoopMeta loop, long maxComputations) {
 }
 
 void shutdown(LoopMeta loop) {
-  SDL_DestroyTexture(loop.texture);
-  SDL_DestroyRenderer(loop.renderer);
   SDL_DestroyWindow(loop.window);
   SDL_Quit();
 

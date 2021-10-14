@@ -25,26 +25,11 @@ BENCHMARK(BM_NextBoard)
     ->Iterations(3000);
 
 static void BM_RenderBoard(benchmark::State& state) {
-  BoardMeta board(TEST_WIDTH, TEST_HEIGHT);
-  benchmarkBoard(board, TEST_WIDTH, TEST_HEIGHT);
-  nextBoard(board);
-
-  // Initialize graphics
-  SDL_Init(SDL_INIT_VIDEO);
-  SDL_Renderer* renderer;
-  SDL_Window* window;
-  SDL_CreateWindowAndRenderer(TEST_WIDTH, TEST_HEIGHT, 0, &window, &renderer);
-  auto texture = createTexture(renderer, TEST_WIDTH, TEST_HEIGHT);
-
+  auto meta = setup();
   for (auto _ : state) {
-    renderBoardSdl(board, renderer, texture);
+    renderBoardSdl(*meta.board, meta.window, (int*)meta.surface->pixels);
   }
-
-  // Destroy graphics
-  SDL_DestroyTexture(texture);
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
+  shutdown(meta);
 }
 BENCHMARK(BM_RenderBoard)
     ->Unit(benchmark::kMillisecond)
