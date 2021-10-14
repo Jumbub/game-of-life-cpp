@@ -17,6 +17,6 @@ static void BM_Real(benchmark::State& state) {
 BENCHMARK(BM_Real)
     ->Unit(benchmark::kSecond)
     ->MeasureProcessCPUTime()
-    ->DenseRange(1, PROBABLY_OPTIMAL_THREAD_COUNT*3, 2);
+    ->DenseRange(1, PROBABLY_OPTIMAL_THREAD_COUNT*2, 2);
 
 BENCHMARK_MAIN();
