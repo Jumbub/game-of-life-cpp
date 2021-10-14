@@ -110,7 +110,7 @@ void loop(LoopMeta loop, long maxComputations) {
 
   nextBoardThread.join();
 
-  stopAndFps(totalTimer, computations, renders);
+  stopAndFps(totalTimer, renders, computations);
 }
 
 void shutdown(LoopMeta loop) {
