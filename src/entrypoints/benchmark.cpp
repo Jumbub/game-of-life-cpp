@@ -3,6 +3,7 @@
 #include "../board/generate.h"
 #include "../board/next.h"
 #include "../board/sdl.h"
+#include "../board/loop.h"
 
 const unsigned int TEST_WIDTH = 2560;
 const unsigned int TEST_HEIGHT = 1440;
@@ -49,5 +50,20 @@ BENCHMARK(BM_RenderBoard)
     ->Unit(benchmark::kMillisecond)
     ->MeasureProcessCPUTime()
     ->UseRealTime();
+
+static void BM_Main(benchmark::State& state) {
+  auto meta = setup();
+  for (auto _ : state) {
+    loop(meta, 2000);
+  }
+  shutdown(meta);
+}
+
+BENCHMARK(BM_Main)
+    ->Unit(benchmark::kSecond)
+    ->MeasureProcessCPUTime()
+    ->UseRealTime()
+    ->Repetitions(1)
+    ->Iterations(1);
 
 BENCHMARK_MAIN();

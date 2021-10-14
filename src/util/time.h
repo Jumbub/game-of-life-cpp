@@ -13,17 +13,19 @@ TimeMeta start() {
   return std::chrono::steady_clock::now();
 }
 
-void stop(std::string label, TimeMeta startTime) {
-  auto micros =
-      duration_cast<microseconds>(steady_clock::now() - startTime).count();
-  std::cout << "total us: " << micros << " [" << label << "]" << std::endl;
-}
-
-void stopAndDelay(std::string label, long minMacros, TimeMeta startTime) {
+void stopAndDelay(TimeMeta startTime, long minMacros) {
   auto micros =
       duration_cast<microseconds>(steady_clock::now() - startTime).count();
   auto sleepTime = std::max(minMacros - micros, (long)0);
-  std::cout << "total us: " << micros << " sleep us: " << sleepTime << " ["
-            << label << "]" << std::endl;
   std::this_thread::sleep_for(microseconds(sleepTime));
+}
+
+void stopAndFps(TimeMeta startTime, long renders, long logics) {
+  auto micros =
+      duration_cast<microseconds>(steady_clock::now() - startTime).count();
+  double seconds = (double)micros / (double)1000000;
+  double rps = (double)renders / seconds;
+  double lps = (double)logics / seconds;
+  std::cout << "Renders per second: " << rps << std::endl
+            << "Boards per second: " << lps << std::endl;
 }

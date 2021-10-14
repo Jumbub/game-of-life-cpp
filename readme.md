@@ -132,13 +132,11 @@ If at some point I can figure out how to tell SDL to render 0/1 byte values, I w
 
 [b075a2f68ded65e3828d18e972e9a0fd0a24d596](https://github.com/Jumbub/game-of-speed/commit/b075a2f68ded65e3828d18e972e9a0fd0a24d596)
 
-### ~~100% speed increase in logic~~
+### 50% speed increase in logic
 
-_if you only do half the work, you're twice as quick_
+For some reason, blasting the CPU with more threads increases the total number of frames processed.
 
-Commit with "improvement" [2a807cb95703824189e2ede051b4c1621179a4c1](https://github.com/Jumbub/game-of-speed/commit/2a807cb95703824189e2ede051b4c1621179a4c1)
-
-Changing from `height * height` back to `width * height` puts me back to the previous speed.
+I suspect this commit is very CPU core count specific.
 
 [4f0bf37b1394a90307e148033f0602050e668b4e](https://github.com/Jumbub/game-of-speed/commit/4f0bf37b1394a90307e148033f0602050e668b4e)
 
