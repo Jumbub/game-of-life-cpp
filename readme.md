@@ -146,6 +146,12 @@ I'm not entirely sure why this thread count is more performant, but it's pretty 
 
 [ff5d78d8e77fc307229be5448c1370b9ab70bb19](https://github.com/Jumbub/game-of-speed/commit/ff5d78d8e77fc307229be5448c1370b9ab70bb19)
 
+### 7% speed increase overall
+
+Moved to SDLs Surface based rendering, instead of texture rendering.
+
+Inpiration for change: [https://github.com/eabrash/game-of-life](https://github.com/eabrash/game-of-life)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
@@ -272,3 +278,6 @@ Very good utility for visualising assembly instructions of your program:
 
 Great util for generating binary image files:
 [https://www.dcode.fr/binary-image](https://www.dcode.fr/binary-image)
+
+Reference for alternative computation/render strategies:
+[https://github.com/eabrash/game-of-life](https://github.com/eabrash/game-of-life)
