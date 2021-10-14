@@ -25,7 +25,8 @@ struct BoardMeta {
   Cell* raw = nullptr;
   Cell* rawRender = nullptr;
 
-  uint threads;
+  uint threads = PROBABLY_OPTIMAL_THREAD_COUNT;
+  uint microsPerRender = 16000; // 60fps
 
   void flip() { std::swap(input, output); }
 
@@ -60,7 +61,6 @@ struct BoardMeta {
   BoardMeta(const uint& width, const uint& height) {
     this->width = width;
     this->height = height;
-    this->threads = PROBABLY_OPTIMAL_THREAD_COUNT;
     alloc(width, height);
   }
 

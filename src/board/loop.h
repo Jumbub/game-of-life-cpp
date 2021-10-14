@@ -10,8 +10,6 @@
 
 using namespace std::chrono;
 
-constexpr long MICROS_PER_RENDER = 7000;  // ~144fps
-
 struct LoopMeta {
   SDL_Window* window = nullptr;
   SDL_Renderer* renderer = nullptr;
@@ -103,9 +101,17 @@ void loop(LoopMeta loop, long maxComputations) {
           event.key.keysym.scancode == SDL_SCANCODE_K) {
         std::scoped_lock gaurd(boardMutex);
         board.threads++;
+      } else if (
+          event.type == SDL_KEYDOWN &&
+          event.key.keysym.scancode == SDL_SCANCODE_H) {
+        board.microsPerRender *= 2;
+      } else if (
+          event.type == SDL_KEYDOWN &&
+          event.key.keysym.scancode == SDL_SCANCODE_L) {
+        board.microsPerRender = std::max(board.microsPerRender/2, (uint)1);
       }
     }
-    stopAndDelay(renderTimer, MICROS_PER_RENDER);
+    stopAndDelay(renderTimer, board.microsPerRender);
   }
 
   nextBoardThread.join();
