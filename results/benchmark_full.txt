@@ -1,241 +1,313 @@
 benchmark_full
 Ofast
-Renders per second: 140.838
-Boards per second: 57.2977
+Renders per second: 31.1682
+Boards per second: 57.7188
 ------------------------------------------------------------------
 Benchmark                        Time             CPU   Iterations
 ------------------------------------------------------------------
-BM_Real/1/process_time        8.73 s          16.7 s             1
-Renders per second: 134.119
-Boards per second: 135.2
-BM_Real/3/process_time        3.70 s          12.9 s             1
-Renders per second: 136.858
-Boards per second: 123.518
-BM_Real/5/process_time        4.05 s          13.2 s             1
-Renders per second: 136.735
-Boards per second: 126.139
-BM_Real/7/process_time        3.96 s          13.3 s             1
-Renders per second: 129.735
-Boards per second: 148.099
-BM_Real/9/process_time        3.38 s          12.8 s             1
-Renders per second: 105.295
-Boards per second: 152.16
-BM_Real/11/process_time       3.29 s          11.8 s             1
-Renders per second: 99.1109
-Boards per second: 151.084
-BM_Real/13/process_time       3.31 s          11.6 s             1
-Renders per second: 93.8254
-Boards per second: 151.331
-BM_Real/15/process_time       3.30 s          11.5 s             1
-Renders per second: 93.7885
-Boards per second: 148.871
-BM_Real/17/process_time       3.36 s          11.5 s             1
-Renders per second: 89.3962
-Boards per second: 152.034
-BM_Real/19/process_time       3.29 s          11.4 s             1
-Renders per second: 90.1131
-Boards per second: 150.188
-BM_Real/21/process_time       3.33 s          11.5 s             1
-Renders per second: 88.322
-Boards per second: 149.698
-BM_Real/23/process_time       3.34 s          11.5 s             1
+BM_Real/1/process_time        8.66 s          10.4 s             1
+Renders per second: 31.1686
+Boards per second: 106.742
+BM_Real/2/process_time        4.68 s          9.70 s             1
+Renders per second: 31.1698
+Boards per second: 155.849
+BM_Real/3/process_time        3.21 s          9.64 s             1
+Renders per second: 31.1915
+Boards per second: 177.225
+BM_Real/4/process_time        2.82 s          9.50 s             1
+Renders per second: 31.1812
+Boards per second: 137.97
+BM_Real/5/process_time        3.62 s          9.72 s             1
+Renders per second: 31.1826
+Boards per second: 159.095
+BM_Real/6/process_time        3.14 s          9.66 s             1
+Renders per second: 31.1854
+Boards per second: 173.252
+BM_Real/7/process_time        2.89 s          9.61 s             1
+Renders per second: 31.1894
+Boards per second: 177.213
+BM_Real/8/process_time        2.82 s          9.59 s             1
+Renders per second: 31.1809
+Boards per second: 165.856
+BM_Real/9/process_time        3.01 s          9.69 s             1
+Renders per second: 31.1841
+Boards per second: 171.341
+BM_Real/10/process_time       2.92 s          9.66 s             1
+Renders per second: 31.1895
+Boards per second: 181.334
+BM_Real/11/process_time       2.76 s          9.63 s             1
+Renders per second: 31.1935
+Boards per second: 190.204
+BM_Real/12/process_time       2.63 s          9.58 s             1
+Renders per second: 31.1848
+Boards per second: 167.66
+BM_Real/13/process_time       2.98 s          9.70 s             1
+Renders per second: 31.1873
+Boards per second: 175.21
+BM_Real/14/process_time       2.85 s          9.69 s             1
+Renders per second: 31.1873
+Boards per second: 183.455
+BM_Real/15/process_time       2.73 s          9.65 s             1
+Renders per second: 31.1867
+Boards per second: 173.259
+BM_Real/16/process_time       2.89 s          9.71 s             1
 O3
-Renders per second: 140.911
-Boards per second: 55.6962
+Renders per second: 31.1691
+Boards per second: 55.8585
 ------------------------------------------------------------------
 Benchmark                        Time             CPU   Iterations
 ------------------------------------------------------------------
-BM_Real/1/process_time        8.98 s          17.3 s             1
-Renders per second: 133.152
-Boards per second: 138.7
-BM_Real/3/process_time        3.60 s          13.0 s             1
-Renders per second: 139.323
-Boards per second: 121.151
-BM_Real/5/process_time        4.13 s          13.5 s             1
-Renders per second: 135.57
-Boards per second: 124.834
-BM_Real/7/process_time        4.01 s          13.4 s             1
-Renders per second: 129.312
-Boards per second: 145.621
-BM_Real/9/process_time        3.43 s          12.9 s             1
-Renders per second: 111.36
-Boards per second: 146.141
-BM_Real/11/process_time       3.42 s          12.2 s             1
-Renders per second: 100.037
-Boards per second: 148.423
-BM_Real/13/process_time       3.37 s          11.8 s             1
-Renders per second: 92.4652
-Boards per second: 150.106
-BM_Real/15/process_time       3.33 s          11.6 s             1
-Renders per second: 94.5992
-Boards per second: 148.741
-BM_Real/17/process_time       3.36 s          11.7 s             1
-Renders per second: 88.844
-Boards per second: 149.067
-BM_Real/19/process_time       3.35 s          11.6 s             1
-Renders per second: 87.6802
-Boards per second: 147.61
-BM_Real/21/process_time       3.39 s          11.5 s             1
-Renders per second: 86.6961
-Boards per second: 147.946
-BM_Real/23/process_time       3.38 s          11.6 s             1
+BM_Real/1/process_time        8.95 s          10.7 s             1
+Renders per second: 31.1691
+Boards per second: 103.209
+BM_Real/2/process_time        4.84 s          10.0 s             1
+Renders per second: 31.1687
+Boards per second: 151.304
+BM_Real/3/process_time        3.30 s          9.93 s             1
+Renders per second: 31.1898
+Boards per second: 171.372
+BM_Real/4/process_time        2.92 s          9.79 s             1
+Renders per second: 31.1805
+Boards per second: 133.25
+BM_Real/5/process_time        3.75 s          10.0 s             1
+Renders per second: 31.1804
+Boards per second: 154.358
+BM_Real/6/process_time        3.24 s          9.96 s             1
+Renders per second: 31.1823
+Boards per second: 167.647
+BM_Real/7/process_time        2.98 s          9.90 s             1
+Renders per second: 31.1883
+Boards per second: 173.268
+BM_Real/8/process_time        2.89 s          9.88 s             1
+Renders per second: 31.1874
+Boards per second: 160.76
+BM_Real/9/process_time        3.11 s          9.98 s             1
+Renders per second: 31.188
+Boards per second: 165.894
+BM_Real/10/process_time       3.01 s          9.95 s             1
+Renders per second: 31.1864
+Boards per second: 175.205
+BM_Real/11/process_time       2.85 s          9.93 s             1
+Renders per second: 31.1929
+Boards per second: 185.672
+BM_Real/12/process_time       2.69 s          9.87 s             1
+Renders per second: 31.1858
+Boards per second: 162.426
+BM_Real/13/process_time       3.08 s          9.99 s             1
+Renders per second: 31.1872
+Boards per second: 171.358
+BM_Real/14/process_time       2.92 s          9.98 s             1
+Renders per second: 31.1856
+Boards per second: 179.227
+BM_Real/15/process_time       2.79 s          9.94 s             1
+Renders per second: 31.1865
+Boards per second: 169.492
+BM_Real/16/process_time       2.95 s          9.99 s             1
 O2
-Renders per second: 140.974
-Boards per second: 56.9821
+Renders per second: 31.1679
+Boards per second: 57.294
 ------------------------------------------------------------------
 Benchmark                        Time             CPU   Iterations
 ------------------------------------------------------------------
-BM_Real/1/process_time        8.77 s          16.8 s             1
-Renders per second: 134.055
-Boards per second: 136.513
-BM_Real/3/process_time        3.66 s          13.2 s             1
-Renders per second: 139.355
-Boards per second: 122.672
-BM_Real/5/process_time        4.08 s          13.5 s             1
-Renders per second: 136.781
-Boards per second: 124.573
-BM_Real/7/process_time        4.01 s          13.5 s             1
-Renders per second: 129.012
-Boards per second: 146.272
-BM_Real/9/process_time        3.42 s          13.0 s             1
-Renders per second: 106.711
-Boards per second: 148.622
-BM_Real/11/process_time       3.36 s          12.0 s             1
-Renders per second: 99.2319
-Boards per second: 148.107
-BM_Real/13/process_time       3.38 s          11.8 s             1
-Renders per second: 93.3386
-Boards per second: 149.581
-BM_Real/15/process_time       3.34 s          11.7 s             1
-Renders per second: 94.4336
-Boards per second: 147.553
-BM_Real/17/process_time       3.39 s          11.8 s             1
-Renders per second: 90.5293
-Boards per second: 148.409
-BM_Real/19/process_time       3.37 s          11.7 s             1
-Renders per second: 87.291
-Boards per second: 148.961
-BM_Real/21/process_time       3.36 s          11.6 s             1
-Renders per second: 87.8475
-Boards per second: 147.891
-BM_Real/23/process_time       3.38 s          11.7 s             1
+BM_Real/1/process_time        8.73 s          10.4 s             1
+Renders per second: 31.1681
+Boards per second: 104.591
+BM_Real/2/process_time        4.78 s          9.82 s             1
+Renders per second: 31.1578
+Boards per second: 154.247
+BM_Real/3/process_time        3.24 s          9.71 s             1
+Renders per second: 31.19
+Boards per second: 175.225
+BM_Real/4/process_time        2.85 s          9.58 s             1
+Renders per second: 31.1807
+Boards per second: 136.757
+BM_Real/5/process_time        3.66 s          9.80 s             1
+Renders per second: 31.1794
+Boards per second: 157.472
+BM_Real/6/process_time        3.18 s          9.74 s             1
+Renders per second: 31.1818
+Boards per second: 171.328
+BM_Real/7/process_time        2.92 s          9.69 s             1
+Renders per second: 31.1876
+Boards per second: 175.211
+BM_Real/8/process_time        2.85 s          9.68 s             1
+Renders per second: 31.1863
+Boards per second: 164.139
+BM_Real/9/process_time        3.05 s          9.77 s             1
+Renders per second: 31.1853
+Boards per second: 169.485
+BM_Real/10/process_time       2.95 s          9.75 s             1
+Renders per second: 31.1879
+Boards per second: 179.241
+BM_Real/11/process_time       2.79 s          9.73 s             1
+Renders per second: 31.1907
+Boards per second: 185.659
+BM_Real/12/process_time       2.69 s          9.71 s             1
+Renders per second: 31.1868
+Boards per second: 165.887
+BM_Real/13/process_time       3.01 s          9.82 s             1
+Renders per second: 31.1879
+Boards per second: 173.266
+BM_Real/14/process_time       2.89 s          9.81 s             1
+Renders per second: 31.1865
+Boards per second: 181.317
+BM_Real/15/process_time       2.76 s          9.78 s             1
+Renders per second: 31.1882
+Boards per second: 173.268
+BM_Real/16/process_time       2.89 s          9.83 s             1
 O1
-Renders per second: 140.804
-Boards per second: 60.2241
+Renders per second: 31.1679
+Boards per second: 60.403
 ------------------------------------------------------------------
 Benchmark                        Time             CPU   Iterations
 ------------------------------------------------------------------
-BM_Real/1/process_time        8.30 s          16.0 s             1
-Renders per second: 130.871
-Boards per second: 140.419
-BM_Real/3/process_time        3.56 s          12.7 s             1
-Renders per second: 139.182
-Boards per second: 126.3
-BM_Real/5/process_time        3.96 s          13.1 s             1
-Renders per second: 134.84
-Boards per second: 129.405
-BM_Real/7/process_time        3.86 s          13.0 s             1
-Renders per second: 129.521
-Boards per second: 148.875
-BM_Real/9/process_time        3.36 s          12.7 s             1
-Renders per second: 105.824
-Boards per second: 155.624
-BM_Real/11/process_time       3.21 s          11.6 s             1
-Renders per second: 100.552
-Boards per second: 152.352
-BM_Real/13/process_time       3.28 s          11.5 s             1
-Renders per second: 92.258
-Boards per second: 154.795
-BM_Real/15/process_time       3.23 s          11.2 s             1
-Renders per second: 91.8011
-Boards per second: 151.989
-BM_Real/17/process_time       3.29 s          11.3 s             1
-Renders per second: 89.4668
-Boards per second: 153.197
-BM_Real/19/process_time       3.26 s          11.2 s             1
-Renders per second: 86.9136
-Boards per second: 153.017
-BM_Real/21/process_time       3.27 s          11.2 s             1
-Renders per second: 87.3143
-Boards per second: 152.116
-BM_Real/23/process_time       3.29 s          11.3 s             1
+BM_Real/1/process_time        8.28 s          9.90 s             1
+Renders per second: 31.169
+Boards per second: 109.75
+BM_Real/2/process_time        4.56 s          9.37 s             1
+Renders per second: 31.1703
+Boards per second: 160.672
+BM_Real/3/process_time        3.11 s          9.30 s             1
+Renders per second: 31.1891
+Boards per second: 179.247
+BM_Real/4/process_time        2.79 s          9.19 s             1
+Renders per second: 31.1798
+Boards per second: 143.026
+BM_Real/5/process_time        3.50 s          9.38 s             1
+Renders per second: 31.1822
+Boards per second: 164.117
+BM_Real/6/process_time        3.05 s          9.33 s             1
+Renders per second: 31.1838
+Boards per second: 177.181
+BM_Real/7/process_time        2.82 s          9.29 s             1
+Renders per second: 31.1864
+Boards per second: 179.232
+BM_Real/8/process_time        2.79 s          9.29 s             1
+Renders per second: 31.1861
+Boards per second: 171.352
+BM_Real/9/process_time        2.92 s          9.37 s             1
+Renders per second: 31.1871
+Boards per second: 177.199
+BM_Real/10/process_time       2.82 s          9.34 s             1
+Renders per second: 31.1852
+Boards per second: 185.626
+BM_Real/11/process_time       2.69 s          9.34 s             1
+Renders per second: 31.1934
+Boards per second: 194.958
+BM_Real/12/process_time       2.56 s          9.31 s             1
+Renders per second: 31.1871
+Boards per second: 173.262
+BM_Real/13/process_time       2.89 s          9.41 s             1
+Renders per second: 31.1875
+Boards per second: 181.322
+BM_Real/14/process_time       2.76 s          9.39 s             1
+Renders per second: 31.1901
+Boards per second: 187.892
+BM_Real/15/process_time       2.66 s          9.38 s             1
+Renders per second: 31.1875
+Boards per second: 179.239
+BM_Real/16/process_time       2.79 s          9.44 s             1
 O0
-Renders per second: 141.074
-Boards per second: 30.0157
+Renders per second: 31.1678
+Boards per second: 30.0847
 ------------------------------------------------------------------
 Benchmark                        Time             CPU   Iterations
 ------------------------------------------------------------------
-BM_Real/1/process_time        16.7 s          31.5 s             1
-Renders per second: 140.746
-Boards per second: 81.45
-BM_Real/3/process_time        6.14 s          22.4 s             1
-Renders per second: 137.961
-Boards per second: 72.0046
-BM_Real/5/process_time        6.94 s          22.9 s             1
-Renders per second: 120.209
-Boards per second: 83.2474
-BM_Real/7/process_time        6.01 s          21.4 s             1
-Renders per second: 124.74
-Boards per second: 85.5556
-BM_Real/9/process_time        5.84 s          21.7 s             1
-Renders per second: 89.5947
-Boards per second: 91.2369
-BM_Real/11/process_time       5.48 s          20.1 s             1
-Renders per second: 90.7306
-Boards per second: 91.095
-BM_Real/13/process_time       5.49 s          20.2 s             1
-Renders per second: 87.6197
-Boards per second: 89.7743
-BM_Real/15/process_time       5.57 s          20.2 s             1
-Renders per second: 90.3319
-Boards per second: 91.0604
-BM_Real/17/process_time       5.49 s          20.3 s             1
-Renders per second: 89.2414
-Boards per second: 90.5085
-BM_Real/19/process_time       5.52 s          20.2 s             1
-Renders per second: 81.1841
-Boards per second: 93.3151
-BM_Real/21/process_time       5.36 s          19.9 s             1
-Renders per second: 84.31
-Boards per second: 92.0415
-BM_Real/23/process_time       5.43 s          20.0 s             1
+BM_Real/1/process_time        16.6 s          19.8 s             1
+Renders per second: 31.1712
+Boards per second: 57.7244
+BM_Real/2/process_time        8.66 s          18.3 s             1
+Renders per second: 31.1682
+Boards per second: 85.627
+BM_Real/3/process_time        5.84 s          17.9 s             1
+Renders per second: 31.1925
+Boards per second: 95.0991
+BM_Real/4/process_time        5.26 s          17.8 s             1
+Renders per second: 31.1826
+Boards per second: 76.055
+BM_Real/5/process_time        6.57 s          18.0 s             1
+Renders per second: 31.181
+Boards per second: 87.5871
+BM_Real/6/process_time        5.71 s          17.9 s             1
+Renders per second: 31.1844
+Boards per second: 98.0643
+BM_Real/7/process_time        5.10 s          17.8 s             1
+Renders per second: 31.1908
+Boards per second: 97.4711
+BM_Real/8/process_time        5.13 s          17.8 s             1
+Renders per second: 31.1877
+Boards per second: 88.6014
+BM_Real/9/process_time        5.64 s          17.9 s             1
+Renders per second: 31.178
+Boards per second: 94.4786
+BM_Real/10/process_time       5.29 s          17.9 s             1
+Renders per second: 31.1891
+Boards per second: 98.0789
+BM_Real/11/process_time       5.10 s          17.9 s             1
+Renders per second: 31.1916
+Boards per second: 103.283
+BM_Real/12/process_time       4.84 s          17.8 s             1
+Renders per second: 31.1829
+Boards per second: 94.4936
+BM_Real/13/process_time       5.29 s          17.9 s             1
+Renders per second: 31.188
+Boards per second: 97.4624
+BM_Real/14/process_time       5.13 s          17.9 s             1
+Renders per second: 31.1877
+Boards per second: 100.606
+BM_Real/15/process_time       4.97 s          17.9 s             1
+Renders per second: 31.1907
+Boards per second: 100.615
+BM_Real/16/process_time       4.97 s          17.9 s             1
 Os
-Renders per second: 140.999
-Boards per second: 53.7755
+Renders per second: 31.1681
+Boards per second: 54.2998
 ------------------------------------------------------------------
 Benchmark                        Time             CPU   Iterations
 ------------------------------------------------------------------
-BM_Real/1/process_time        9.30 s          17.8 s             1
-Renders per second: 136.051
-Boards per second: 137.148
-BM_Real/3/process_time        3.65 s          13.5 s             1
-Renders per second: 140.408
-Boards per second: 119.394
-BM_Real/5/process_time        4.19 s          13.9 s             1
-Renders per second: 138.9
-Boards per second: 120.782
-BM_Real/7/process_time        4.14 s          13.9 s             1
-Renders per second: 133.392
-Boards per second: 140.413
-BM_Real/9/process_time        3.56 s          13.5 s             1
-Renders per second: 114.256
-Boards per second: 138.997
-BM_Real/11/process_time       3.60 s          12.7 s             1
-Renders per second: 99.3319
-Boards per second: 144.799
-BM_Real/13/process_time       3.45 s          12.2 s             1
-Renders per second: 94.8623
-Boards per second: 145.049
-BM_Real/15/process_time       3.45 s          12.1 s             1
-Renders per second: 95.9736
-Boards per second: 143.673
-BM_Real/17/process_time       3.48 s          12.2 s             1
-Renders per second: 92.2618
-Boards per second: 144.611
-BM_Real/19/process_time       3.46 s          12.1 s             1
-Renders per second: 87.847
-Boards per second: 144.962
-BM_Real/21/process_time       3.45 s          12.0 s             1
-Renders per second: 87.6119
-Boards per second: 144.099
-BM_Real/23/process_time       3.47 s          12.0 s             1
+BM_Real/1/process_time        9.21 s          11.0 s             1
+Renders per second: 31.1685
+Boards per second: 99.899
+BM_Real/2/process_time        5.01 s          10.4 s             1
+Renders per second: 31.1705
+Boards per second: 147.031
+BM_Real/3/process_time        3.40 s          10.2 s             1
+Renders per second: 31.1905
+Boards per second: 167.691
+BM_Real/4/process_time        2.98 s          10.1 s             1
+Renders per second: 31.1814
+Boards per second: 129.922
+BM_Real/5/process_time        3.85 s          10.3 s             1
+Renders per second: 31.1802
+Boards per second: 149.905
+BM_Real/6/process_time        3.34 s          10.3 s             1
+Renders per second: 31.1814
+Boards per second: 162.403
+BM_Real/7/process_time        3.08 s          10.2 s             1
+Renders per second: 31.1898
+Boards per second: 165.903
+BM_Real/8/process_time        3.01 s          10.2 s             1
+Renders per second: 31.186
+Boards per second: 154.386
+BM_Real/9/process_time        3.24 s          10.3 s             1
+Renders per second: 31.1849
+Boards per second: 160.747
+BM_Real/10/process_time       3.11 s          10.3 s             1
+Renders per second: 31.1847
+Boards per second: 169.482
+BM_Real/11/process_time       2.95 s          10.3 s             1
+Renders per second: 31.189
+Boards per second: 179.247
+BM_Real/12/process_time       2.79 s          10.2 s             1
+Renders per second: 31.1838
+Boards per second: 157.494
+BM_Real/13/process_time       3.17 s          10.3 s             1
+Renders per second: 31.1877
+Boards per second: 165.892
+BM_Real/14/process_time       3.01 s          10.3 s             1
+Renders per second: 31.1879
+Boards per second: 171.362
+BM_Real/15/process_time       2.92 s          10.3 s             1
+Renders per second: 31.1861
+Boards per second: 164.137
+BM_Real/16/process_time       3.05 s          10.4 s             1

@@ -43,27 +43,21 @@ benchmark_full: build
 	echo Ofast >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -Ofast $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
-	cat results/benchmark_full.txt
 	echo O3 >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -O3 $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
-	cat results/benchmark_full.txt
 	echo O2 >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -O2 $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
-	cat results/benchmark_full.txt
 	echo O1 >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -O1 $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
-	cat results/benchmark_full.txt
 	echo O0 >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -O0 $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
-	cat results/benchmark_full.txt
 	echo Os >> results/benchmark_full.txt
 	$(CC) src/entrypoints/benchmark_full.cpp $(COMPILER_FLAGS) -Os $(LINKER_FLAGS_BENCHMARK) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 	./$(OUTPUT) >> results/benchmark_full.txt
-	cat results/benchmark_full.txt
 
 build:
 	mkdir build
