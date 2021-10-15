@@ -46,7 +46,7 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
 
       // Skip if we see sequential 0 neighbour counts
       constexpr uint MAXIMUM_SKIP = 6;
-      if (x < (width + 2 - MAXIMUM_SKIP) &&
+      if (x < width &&
           val64(&neighboursAbove[x - 1]) + val64(&neighboursMiddle[x - 1]) + val64(&neighboursBelow[x - 1]) == 0) {
         neighbours[0] = EMPTY;
         neighbours[1] = EMPTY;
