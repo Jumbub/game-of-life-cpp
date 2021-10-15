@@ -154,13 +154,21 @@ Inpiration for change: [https://github.com/eabrash/game-of-life](https://github.
 
 [a81d839cc3d99b3d7293040a3e36cba7a46a33fe](https://github.com/Jumbub/game-of-speed/commit/a81d839cc3d99b3d7293040a3e36cba7a46a33fe)
 
-### 100% speed increase in logic
+### 100% speed increase in logic, 75% speed increase overall
 
 Added a padding to the game board, removing the need to do any modulus operations while computing x and y positions.
 
 Inpiration for change: [https://www.youtube.com/watch?v=ndAfWKmKF34](https://www.youtube.com/watch?v=ndAfWKmKF34)
 
 [90e4b104e9ea92222a562a63d9183fc3df6919f8](https://github.com/Jumbub/game-of-speed/commit/90e4b104e9ea92222a562a63d9183fc3df6919f8)
+
+### 37% speed increase overall
+
+Move to a smaller data type to allow better CPU caching.
+
+I did not realise how much of a difference it would make.
+
+[644b7a9f91951d203f999374105ce20069a32c4b](https://github.com/Jumbub/game-of-speed/commit/644b7a9f91951d203f999374105ce20069a32c4b)
 
 ## Results of interesting findings
 
