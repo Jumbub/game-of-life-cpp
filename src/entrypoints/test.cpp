@@ -1,7 +1,9 @@
 #define CATCH_CONFIG_MAIN
 
 #include <catch2/catch.hpp>
+#include <array>
 #include "../board/next.h"
+#include "../board/padding.h"
 
 using BoardVector = std::vector<std::vector<Cell>>;
 
@@ -10,9 +12,11 @@ void generate(BoardMeta& board, BoardVector vector, bool a = true) {
   const auto width = (unsigned int)vector[0].size();
 
   board.resize(width, height);
-  for (unsigned int y = 0; y < height; ++y)
-    for (unsigned int x = 0; x < width; ++x)
-      board.input[y * width + x] = vector[y][x] ? ALIVE : DEAD;
+  for (unsigned int y = 1; y < height+1; ++y)
+    for (unsigned int x = 1; x < width+1; ++x)
+      board.input[y*(width+2) + x] = vector[y-1][x-1] ? ALIVE : DEAD;
+
+  padding(board.input, width, height);
 
   if (!a)
     board.flip();
@@ -24,9 +28,9 @@ BoardVector ungenerate(BoardMeta& board) {
   const auto& height = board.height;
 
   std::vector<std::vector<Cell>> vector(height, std::vector<Cell>(width));
-  for (unsigned int y = 0; y < height; ++y)
-    for (unsigned int x = 0; x < width; ++x)
-      vector[y][x] = output[y * width + x] == ALIVE ? 1 : 0;
+  for (unsigned int y = 1; y < height-1; ++y)
+    for (unsigned int x = 1; x < width-1; ++x)
+      vector[y-1][x-1] = output[y * width + x] == ALIVE ? 1 : 0;
 
   return vector;
 }
@@ -341,4 +345,21 @@ TEST_CASE("glider 4 [tall board]", "[nextBoard]") {
        {0, 0, 0, 1, 1},
        {0, 0, 1, 1, 0},
        {0, 0, 0, 0, 0}});
+}
+
+TEST_CASE("basic", "[padding]") {
+  Cell input[16]{
+    0, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 0,
+  };
+  Cell expected[16]{
+    1, 0, 1, 0,
+    0, 1, 0, 1,
+    1, 0, 1, 0,
+    0, 1, 0, 1,
+  };
+  padding((Cell*)&input, 2, 2);
+  REQUIRE(std::equal(std::begin(input), std::end(input), std::begin(expected)));
 }

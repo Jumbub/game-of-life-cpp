@@ -15,15 +15,15 @@ using Cell = uint;
 [[maybe_unused]] const Cell DEAD_RENDER = 0;
 
 struct BoardMeta {
-  Cell* input = nullptr;
-  Cell* output = nullptr;
-  Cell* render = nullptr;
-
   uint width;
   uint height;
 
+  uint rawWidth;
+  uint rawHeight;
+
+  Cell* input = nullptr;
+  Cell* output = nullptr;
   Cell* raw = nullptr;
-  Cell* rawRender = nullptr;
 
   uint threads = PROBABLY_OPTIMAL_THREAD_COUNT;
   uint microsPerRender = 32000; // 30fps
@@ -34,9 +34,6 @@ struct BoardMeta {
     if (this->width * this->height != width * height) {
       delete[] raw;
       raw = nullptr;
-
-      delete[] rawRender;
-      rawRender = nullptr;
     }
 
     this->width = width;
@@ -46,15 +43,11 @@ struct BoardMeta {
   }
 
   void alloc(const uint& width, const uint& height) {
-    const uint size = width * height;
+    const uint size = (width+2)*(height+2);
     if (raw == nullptr) {
-      raw = new Cell[size * 2];
+      raw = new Cell[size*2];
       input = &raw[0];
       output = &raw[size];
-    }
-    if (rawRender == nullptr) {
-      rawRender = new Cell[size];
-      render = &rawRender[0];
     }
   }
 
@@ -66,7 +59,6 @@ struct BoardMeta {
 
   ~BoardMeta() {
     delete[] raw;
-    delete[] rawRender;
   }
 
  private:

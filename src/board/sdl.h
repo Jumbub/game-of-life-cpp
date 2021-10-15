@@ -21,13 +21,15 @@ void renderBoardSdl(
 
   // I would LOVE it if someone could figure out how to create a "bool" pixel
   // format to use with SDL. Then I wouldn't need to do this memcpy trash.
-  for (unsigned int i = 0; i < board.width * board.height; i++) {
-    if (output[i] == ALIVE) {
-      *pixels = INT32_MAX;
-    } else {
-      *pixels = 0;
+  for (unsigned int y = 1; y < board.height+1; y++) {
+    for (unsigned int x = 1; x < board.width+1; x++) {
+      if (output[y*(board.width+2) + x] == ALIVE) {
+        *pixels = INT32_MAX;
+      } else {
+        *pixels = 0;
+      }
+      pixels++;
     }
-    pixels++;
   }
 
   SDL_UpdateWindowSurface(window);

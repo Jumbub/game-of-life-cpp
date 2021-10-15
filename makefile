@@ -24,7 +24,7 @@ profile: build
 	$(CC) src/entrypoints/main.cpp $(COMPILER_FLAGS_PROFILE) $(LINKER_FLAGS_GRAPHICS) -o $(OUTPUT) $(OBJS_GRAPHICS)
 
 test: build
-	$(CC) src/entrypoints/test.cpp $(COMPILER_FLAGS_OPTIMIZED) -ggdb -o $(OUTPUT) $(OBJS)
+	$(CC) src/entrypoints/test.cpp $(COMPILER_FLAGS) -ggdb -o $(OUTPUT) $(OBJS)
 	./$(OUTPUT)
 
 benchmark_out: build
