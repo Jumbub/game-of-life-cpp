@@ -28,7 +28,7 @@ void nextBoardSection(
 
   const auto realWidth = width + 2;
   for (uint y = startY + 1; y < endY + 1; y++) {
-    const auto currentStateBool = input[y + 1];
+    const auto currentStateBool = input[y * realWidth + 1];
 
     // Compute new Y levels
     lastYBase = ((y - 1) * realWidth);

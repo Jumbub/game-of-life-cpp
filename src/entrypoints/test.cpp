@@ -5,7 +5,7 @@
 #include "../board/next.h"
 #include "../board/padding.h"
 
-using BoardVector = std::vector<std::vector<Cell>>;
+using BoardVector = std::vector<std::vector<bool>>;
 
 void generate(BoardMeta& board, BoardVector vector, bool a = true) {
   const auto height = (unsigned int)vector.size();
@@ -27,19 +27,20 @@ BoardVector ungenerate(BoardMeta& board) {
   const auto& width = board.width;
   const auto& height = board.height;
 
-  std::vector<std::vector<Cell>> vector(height, std::vector<Cell>(width));
-  for (unsigned int y = 1; y < height-1; ++y)
-    for (unsigned int x = 1; x < width-1; ++x)
-      vector[y-1][x-1] = output[y * width + x] == ALIVE ? 1 : 0;
+  std::vector<std::vector<bool>> vector(height, std::vector<bool>(width));
+  for (unsigned int y = 1; y < height+1; ++y)
+    for (unsigned int x = 1; x < width+1; ++x)
+      vector[y-1][x-1] = output[y * (width+2) + x] == ALIVE ? 1 : 0;
 
   return vector;
 }
 
 void compare(BoardVector a, BoardVector b) {
-  auto boardA = BoardMeta(a.size(), a[0].size());
-  auto boardB = BoardMeta(b.size(), b[0].size());
+  auto boardA = BoardMeta(1,1);
+  auto boardB = BoardMeta(1,1);
   generate(boardA, a, true);
-  generate(boardB, b, true);
+  generate(boardB, b, false);
+  nextBoard(boardA);
   REQUIRE(ungenerate(boardA) == ungenerate(boardB));
 }
 
@@ -293,7 +294,7 @@ TEST_CASE("glider 4", "[nextBoard]") {
        {0, 0, 0, 0, 0}});
 }
 
-TEST_CASE("glider 4 [long board]", "[nextBoard]") {
+TEST_CASE("gliders wide horizontal wrap collision [long board]", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
@@ -302,16 +303,15 @@ TEST_CASE("glider 4 [long board]", "[nextBoard]") {
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
 
       {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-       {0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-       {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+       {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+       {0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+       {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}});
 }
 
-TEST_CASE("glider 4 [tall board]", "[nextBoard]") {
+TEST_CASE("glider tall vertical wrap collision [tall board]", "[nextBoard]") {
   compare(
-      {{0, 0, 0, 0, 0},
-       {0, 0, 0, 1, 0},
+      {{0, 0, 0, 1, 0},
        {0, 1, 0, 1, 0},
        {0, 0, 1, 1, 0},
        {0, 0, 0, 0, 0},
@@ -328,8 +328,7 @@ TEST_CASE("glider 4 [tall board]", "[nextBoard]") {
        {0, 0, 1, 1, 0},
        {0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0},
-       {0, 0, 1, 0, 0},
+      {{0, 0, 1, 0, 0},
        {0, 0, 0, 1, 1},
        {0, 0, 1, 1, 0},
        {0, 0, 0, 0, 0},
@@ -344,22 +343,41 @@ TEST_CASE("glider 4 [tall board]", "[nextBoard]") {
        {0, 0, 1, 0, 0},
        {0, 0, 0, 1, 1},
        {0, 0, 1, 1, 0},
-       {0, 0, 0, 0, 0}});
+       {0, 0, 1, 1, 0}});
 }
 
-TEST_CASE("basic", "[padding]") {
-  Cell input[16]{
+TEST_CASE("2x2", "[padding]") {
+  std::vector<Cell>input{
     0, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
     0, 0, 0, 0,
   };
-  Cell expected[16]{
+  std::vector<Cell>expected{
     1, 0, 1, 0,
     0, 1, 0, 1,
     1, 0, 1, 0,
     0, 1, 0, 1,
   };
-  padding((Cell*)&input, 2, 2);
-  REQUIRE(std::equal(std::begin(input), std::end(input), std::begin(expected)));
+  padding(&input[0], 2, 2);
+  REQUIRE(input == expected);
+}
+
+TEST_CASE("4x3", "[padding]") {
+  std::vector<Cell>input{
+    0, 0, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0,
+    0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0,
+  };
+  std::vector<Cell>expected{
+    0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1,
+  };
+  padding(&input[0], 4, 3);
+  REQUIRE(input == expected);
 }
