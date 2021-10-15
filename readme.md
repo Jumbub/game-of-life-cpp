@@ -270,6 +270,9 @@ I had assumed that the 3rd case would actually be the fastest, because _most_ ce
 
 My only vague idea about how this first solution could be faster is that it is able to do better branch prediction.
 
+### Struct memory layouts are slightly important
+
+So, I had this extra pointer `renderRaw` in my `BoardMeta` struct which was legacy from previous render strategies. I deleted the pointer and it's associated `malloc` in [this commit](https://github.com/Jumbub/game-of-speed/commit/e79b2f7a01bda0cf28925a4be90fb84cdabe3515), only to find out, it causes a 5% decrease in the overall performance of the app.
 
 ## References
 
