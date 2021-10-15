@@ -170,6 +170,14 @@ I did not realise how much of a difference it would make.
 
 [644b7a9f91951d203f999374105ce20069a32c4b](https://github.com/Jumbub/game-of-speed/commit/644b7a9f91951d203f999374105ce20069a32c4b)
 
+### 20% speed increase overall
+
+By leveraging the ability to read 8 cell states in one read cycle using `*reinterpret_cast<uint64_t*>(cells)`, we can perform some smarter skip logic.
+
+If we read the 8 cells above, adjacent and below and find that we have 0 total alive cells, we can skip ahead 6 positions.
+
+[67762ed7fbb419eea90d763bd8cbe0fe4596f5c1](https://github.com/Jumbub/game-of-speed/commit/67762ed7fbb419eea90d763bd8cbe0fe4596f5c1)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
