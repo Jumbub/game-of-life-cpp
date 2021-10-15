@@ -12,7 +12,7 @@ Conway's Game of Life, as fast as possible.
 
 ![The benchmark world](art/gol.gif)
 
-_(the above gif is the benchmark scenario)_
+_(the above gif is the benchmark scenario; slowed down to a fraction of the real speed)_
 
 ## Gettings started
 
