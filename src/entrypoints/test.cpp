@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
-#include <catch2/catch.hpp>
 #include <array>
+#include <catch2/catch.hpp>
 #include "../board/next.h"
 #include "../board/padding.h"
 
@@ -12,9 +12,9 @@ void generate(BoardMeta& board, BoardVector vector, bool a = true) {
   const auto width = (unsigned int)vector[0].size();
 
   board.resize(width, height);
-  for (unsigned int y = 1; y < height+1; ++y)
-    for (unsigned int x = 1; x < width+1; ++x)
-      board.input[y*(width+2) + x] = vector[y-1][x-1] ? ALIVE : DEAD;
+  for (unsigned int y = 1; y < height + 1; ++y)
+    for (unsigned int x = 1; x < width + 1; ++x)
+      board.input[y * (width + 2) + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
 
   padding(board.input, width, height);
 
@@ -28,16 +28,16 @@ BoardVector ungenerate(BoardMeta& board) {
   const auto& height = board.height;
 
   std::vector<std::vector<bool>> vector(height, std::vector<bool>(width));
-  for (unsigned int y = 1; y < height+1; ++y)
-    for (unsigned int x = 1; x < width+1; ++x)
-      vector[y-1][x-1] = output[y * (width+2) + x] == ALIVE ? 1 : 0;
+  for (unsigned int y = 1; y < height + 1; ++y)
+    for (unsigned int x = 1; x < width + 1; ++x)
+      vector[y - 1][x - 1] = output[y * (width + 2) + x] == ALIVE ? 1 : 0;
 
   return vector;
 }
 
 void compare(BoardVector a, BoardVector b) {
-  auto boardA = BoardMeta(1,1);
-  auto boardB = BoardMeta(1,1);
+  auto boardA = BoardMeta(1, 1);
+  auto boardB = BoardMeta(1, 1);
   generate(boardA, a, true);
   generate(boardB, b, false);
   nextBoard(boardA);
@@ -294,7 +294,9 @@ TEST_CASE("glider 4", "[nextBoard]") {
        {0, 0, 0, 0, 0}});
 }
 
-TEST_CASE("gliders wide horizontal wrap collision [long board]", "[nextBoard]") {
+TEST_CASE(
+    "gliders wide horizontal wrap collision [long board]",
+    "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
@@ -346,37 +348,56 @@ TEST_CASE("glider tall vertical wrap collision [tall board]", "[nextBoard]") {
        {0, 0, 1, 1, 0}});
 }
 
+TEST_CASE("glider 1 large", "[nextBoard]") {
+  compare(
+      {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+
+      {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}});
+}
+
 TEST_CASE("2x2", "[padding]") {
-  std::vector<Cell>input{
-    0, 0, 0, 0,
-    0, 1, 0, 0,
-    0, 0, 1, 0,
-    0, 0, 0, 0,
+  std::vector<Cell> input{
+      0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
   };
-  std::vector<Cell>expected{
-    1, 0, 1, 0,
-    0, 1, 0, 1,
-    1, 0, 1, 0,
-    0, 1, 0, 1,
+  std::vector<Cell> expected{
+      1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1,
   };
   padding(&input[0], 2, 2);
   REQUIRE(input == expected);
 }
 
 TEST_CASE("4x3", "[padding]") {
-  std::vector<Cell>input{
-    0, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 0,
-    0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0,
+  std::vector<Cell> input{
+      0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   };
-  std::vector<Cell>expected{
-    0, 0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1, 1,
-    0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1, 1,
+  std::vector<Cell> expected{
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
   };
   padding(&input[0], 4, 3);
   REQUIRE(input == expected);
