@@ -29,7 +29,7 @@ struct BoardMeta {
   Cell* raw = nullptr;
 
   uint threads = PROBABLY_OPTIMAL_THREAD_COUNT;
-  uint microsPerRender = 32000; // 30fps
+  uint microsPerRender = 32000;  // 30fps
 
   void flip() { std::swap(input, output); }
 
@@ -46,9 +46,9 @@ struct BoardMeta {
   }
 
   void alloc(const uint& width, const uint& height) {
-    const uint size = (width+2)*(height+2);
+    const uint size = (width + 2) * (height + 2);
     if (raw == nullptr) {
-      raw = new Cell[size*2];
+      raw = new Cell[size * 2];
       input = &raw[0];
       output = &raw[size];
     }
@@ -60,9 +60,7 @@ struct BoardMeta {
     alloc(width, height);
   }
 
-  ~BoardMeta() {
-    delete[] raw;
-  }
+  ~BoardMeta() { delete[] raw; }
 
  private:
   BoardMeta([[maybe_unused]] const BoardMeta& _){};

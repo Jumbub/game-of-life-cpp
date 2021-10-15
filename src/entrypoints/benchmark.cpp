@@ -1,9 +1,9 @@
 #include <SDL2/SDL.h>
 #include <benchmark/benchmark.h>
 #include "../board/generate.h"
+#include "../board/loop.h"
 #include "../board/next.h"
 #include "../board/sdl.h"
-#include "../board/loop.h"
 
 const unsigned int TEST_WIDTH = 2560;
 const unsigned int TEST_HEIGHT = 1440;
@@ -18,11 +18,7 @@ static void BM_NextBoard(benchmark::State& state) {
   }
 }
 
-BENCHMARK(BM_NextBoard)
-    ->Unit(benchmark::kMillisecond)
-    ->MeasureProcessCPUTime()
-    ->UseRealTime()
-    ->Iterations(3000);
+BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime()->Iterations(3000);
 
 static void BM_RenderBoard(benchmark::State& state) {
   auto meta = setup();
@@ -31,10 +27,7 @@ static void BM_RenderBoard(benchmark::State& state) {
   }
   shutdown(meta);
 }
-BENCHMARK(BM_RenderBoard)
-    ->Unit(benchmark::kMillisecond)
-    ->MeasureProcessCPUTime()
-    ->UseRealTime();
+BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime();
 
 static void BM_Main(benchmark::State& state) {
   auto meta = setup();
@@ -44,11 +37,6 @@ static void BM_Main(benchmark::State& state) {
   shutdown(meta);
 }
 
-BENCHMARK(BM_Main)
-    ->Unit(benchmark::kSecond)
-    ->MeasureProcessCPUTime()
-    ->UseRealTime()
-    ->Repetitions(1)
-    ->Iterations(1);
+BENCHMARK(BM_Main)->Unit(benchmark::kSecond)->MeasureProcessCPUTime()->UseRealTime()->Repetitions(1)->Iterations(1);
 
 BENCHMARK_MAIN();

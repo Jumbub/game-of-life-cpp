@@ -1,9 +1,9 @@
 #include <SDL2/SDL.h>
 #include <benchmark/benchmark.h>
 #include "../board/generate.h"
+#include "../board/loop.h"
 #include "../board/next.h"
 #include "../board/sdl.h"
-#include "../board/loop.h"
 
 static void BM_Real(benchmark::State& state) {
   auto meta = setup();
@@ -17,6 +17,6 @@ static void BM_Real(benchmark::State& state) {
 BENCHMARK(BM_Real)
     ->Unit(benchmark::kSecond)
     ->MeasureProcessCPUTime()
-    ->DenseRange(1, PROBABLY_OPTIMAL_THREAD_COUNT*2, 1);
+    ->DenseRange(1, PROBABLY_OPTIMAL_THREAD_COUNT * 2, 1);
 
 BENCHMARK_MAIN();

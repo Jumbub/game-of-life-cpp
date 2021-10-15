@@ -14,11 +14,11 @@
 void benchmarkBoard(BoardMeta& board, uint width, uint height) {
   srand(0);
   board.resize(width, height);
-  for (uint ry = 1; ry < height+1; ++ry) {
-    for (uint rx = 1; rx < width+1; ++rx) {
-      const uint i = ry * (width+2) + rx;
-      const uint x = rx-1;
-      const uint y = ry-1;
+  for (uint ry = 1; ry < height + 1; ++ry) {
+    for (uint rx = 1; rx < width + 1; ++rx) {
+      const uint i = ry * (width + 2) + rx;
+      const uint x = rx - 1;
+      const uint y = ry - 1;
       if (y > height / 2) {
         if (x < width / 2)
           board.input[i] = rand() % 2 ? ALIVE : DEAD;

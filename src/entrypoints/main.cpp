@@ -2,10 +2,10 @@
 #include <future>
 #include <iostream>
 #include <thread>
-#include "../board/sdl.h"
 #include "../board/loop.h"
+#include "../board/sdl.h"
 
-int main(int argc, char **args) {
+int main(int argc, char** args) {
   const long maxFrames = argc == 2 ? std::stoi(args[1]) : LONG_MAX;
 
   auto meta = setup();

@@ -17,12 +17,7 @@ uint64_t val64(Cell* ns) {
   return *reinterpret_cast<uint64_t*>(ns);
 }
 
-void nextBoardSection(
-    const uint startY,
-    const uint endY,
-    const uint width,
-    Cell* input,
-    Cell* output) {
+void nextBoardSection(const uint startY, const uint endY, const uint width, Cell* input, Cell* output) {
   Cell neighbours[3] = {0, 0, 0};
   uint nextYBase = 0;
   uint middleYBase = 0;
@@ -51,13 +46,14 @@ void nextBoardSection(
 
       // Skip if we see sequential 0 neighbour counts
       constexpr uint MAXIMUM_SKIP = 6;
-      if (x < (width+2-MAXIMUM_SKIP) && val64(&neighboursAbove[x-1]) + val64(&neighboursMiddle[x-1])+ val64(&neighboursBelow[x-1]) == 0) {
+      if (x < (width + 2 - MAXIMUM_SKIP) &&
+          val64(&neighboursAbove[x - 1]) + val64(&neighboursMiddle[x - 1]) + val64(&neighboursBelow[x - 1]) == 0) {
         neighbours[0] = EMPTY;
         neighbours[1] = EMPTY;
         neighbours[2] = EMPTY;
         for (uint ii = 0; ii < MAXIMUM_SKIP; ii++)
           output[i + ii] = DEAD;
-        x+=MAXIMUM_SKIP-1;
+        x += MAXIMUM_SKIP - 1;
         continue;
       }
 
@@ -72,23 +68,19 @@ void nextBoardSection(
       // Left neighbours
       if (neighbours[0] == EMPTY) {
         const auto prevX = x - 1;
-        neighbours[0] = neighboursBelow[prevX] + neighboursMiddle[prevX] +
-                        neighboursAbove[prevX];
+        neighbours[0] = neighboursBelow[prevX] + neighboursMiddle[prevX] + neighboursAbove[prevX];
       }
 
       // Middle neighbours
       if (neighbours[1] == EMPTY) {
-        neighbours[1] =
-            neighboursBelow[x] + neighboursAbove[x] + currentStateBool;
+        neighbours[1] = neighboursBelow[x] + neighboursAbove[x] + currentStateBool;
       }
 
       const auto nextX = x + 1;
-      neighbours[2] = neighboursBelow[nextX] + neighboursMiddle[nextX] +
-                      neighboursAbove[nextX];
+      neighbours[2] = neighboursBelow[nextX] + neighboursMiddle[nextX] + neighboursAbove[nextX];
 
       // Compute new cell state
-      const auto totalNeighbours =
-          neighbours[0] + neighbours[1] + neighbours[2];
+      const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
 
       if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4)) {
         output[i] = DEAD;
@@ -121,9 +113,8 @@ void nextBoard(const BoardMeta& board) {
     if (t == totalThreads - 1)
       endY += threadLinesRemaining;
 
-    threads.push_back(std::thread([startY, endY, width, input, output]() {
-      nextBoardSection(startY, endY, width, input, output);
-    }));
+    threads.push_back(
+        std::thread([startY, endY, width, input, output]() { nextBoardSection(startY, endY, width, input, output); }));
   }
 
   for (auto& thread : threads) {
