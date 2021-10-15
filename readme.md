@@ -152,6 +152,16 @@ Moved to SDLs Surface based rendering, instead of texture rendering.
 
 Inpiration for change: [https://github.com/eabrash/game-of-life](https://github.com/eabrash/game-of-life)
 
+[a81d839cc3d99b3d7293040a3e36cba7a46a33fe](https://github.com/Jumbub/game-of-speed/commit/a81d839cc3d99b3d7293040a3e36cba7a46a33fe)
+
+### 100% speed increase in logic
+
+Added a padding to the game board, removing the need to do any modulus operations while computing x and y positions.
+
+Inpiration for change: [https://www.youtube.com/watch?v=ndAfWKmKF34](https://www.youtube.com/watch?v=ndAfWKmKF34)
+
+[90e4b104e9ea92222a562a63d9183fc3df6919f8](https://github.com/Jumbub/game-of-speed/commit/90e4b104e9ea92222a562a63d9183fc3df6919f8)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
