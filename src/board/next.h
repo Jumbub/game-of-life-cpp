@@ -17,7 +17,7 @@ void nextBoardSection(
     const uint width,
     const Cell* input,
     Cell* output) {
-  uint neighbours[3] = {0, 0, 0};
+  Cell neighbours[3] = {0, 0, 0};
   uint nextYBase = 0;
   uint middleYBase = 0;
   uint lastYBase = 0;

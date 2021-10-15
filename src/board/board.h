@@ -8,11 +8,14 @@
 #include "threads.h"
 
 using uint = unsigned int;
-using Cell = uint;
+
+using Cell = uint8_t;
 [[maybe_unused]] const Cell ALIVE = 1;
-[[maybe_unused]] const Cell ALIVE_RENDER = UINT32_MAX;
 [[maybe_unused]] const Cell DEAD = 0;
-[[maybe_unused]] const Cell DEAD_RENDER = 0;
+
+using RenderCell = uint;
+[[maybe_unused]] const RenderCell ALIVE_RENDER = UINT32_MAX;
+[[maybe_unused]] const RenderCell DEAD_RENDER = 0;
 
 struct BoardMeta {
   uint width;
