@@ -1,9 +1,7 @@
-#include <SDL2/SDL.h>
 #include <benchmark/benchmark.h>
 #include "../board/generate.h"
 #include "../board/loop.h"
 #include "../board/next.h"
-#include "../board/sdl.h"
 
 static void BM_Real(benchmark::State& state) {
   auto meta = setup();

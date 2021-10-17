@@ -5,3 +5,4 @@ uftrace.data.old
 gmon.out
 chrome.profile
 *.o
+imgui.ini

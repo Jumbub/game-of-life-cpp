@@ -42,4 +42,4 @@ benchmark_full: build
 	./build/bench-Os >> results/benchmark_full.txt
 
 build:
-	mkdir -p build && cd build && cmake -GNinja ../
+	mkdir -p build && cd build && cmake -GNinja ../ || rm -rf build

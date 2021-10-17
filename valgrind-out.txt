@@ -1,0 +1,578 @@
+==3186513== Memcheck, a memory error detector
+==3186513== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==3186513== Using Valgrind-3.17.0 and LibVEX; rerun with -h for copyright info
+==3186513== Command: ./build/bench
+==3186513== Parent PID: 3170380
+==3186513== 
+==3186513== Thread 13:
+==3186513== Invalid read of size 8
+==3186513==    at 0x10BC18: nextBoardSection(unsigned int, unsigned int, unsigned int, unsigned char*, unsigned char*) (next.h:50)
+==3186513==    by 0xC29A63F: ???
+==3186513==    by 0x10BD87: operator() (next.h:119)
+==3186513==    by 0x10BD87: __invoke_impl<void, nextBoard(BoardMeta&)::<lambda()> > (invoke.h:61)
+==3186513==    by 0x10BD87: __invoke<nextBoard(BoardMeta&)::<lambda()> > (invoke.h:96)
+==3186513==    by 0x10BD87: _M_invoke<0> (std_thread.h:253)
+==3186513==    by 0x10BD87: operator() (std_thread.h:260)
+==3186513==    by 0x10BD87: std::thread::_State_impl<std::thread::_Invoker<std::tuple<nextBoard(BoardMeta&)::{lambda()#1}> > >::_M_run() (std_thread.h:211)
+==3186513==    by 0x4C083C3: execute_native_thread_routine (thread.cc:82)
+==3186513==    by 0x487A258: start_thread (in /usr/lib/libpthread-2.33.so)
+==3186513==    by 0x4FAA5E2: clone (in /usr/lib/libc-2.33.so)
+==3186513==  Address 0x628eec1 is 7,388,801 bytes inside a block of size 7,388,808 alloc'd
+==3186513==    at 0x484021F: operator new[](unsigned long) (vg_replace_malloc.c:579)
+==3186513==    by 0x10CEE0: alloc (board.h:51)
+==3186513==    by 0x10CEE0: BoardMeta (board.h:60)
+==3186513==    by 0x10CEE0: BM_NextBoard(benchmark::State&) (benchmark.cpp:11)
+==3186513==    by 0x495EC37: benchmark::internal::BenchmarkInstance::Run(unsigned long, int, benchmark::internal::ThreadTimer*, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) const (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4979D2A: benchmark::internal::(anonymous namespace)::RunInThread(benchmark::internal::BenchmarkInstance const*, unsigned long, int, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497B8F8: benchmark::internal::BenchmarkRunner::DoNIterations() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497BF0F: benchmark::internal::BenchmarkRunner::DoOneRepetition() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495799C: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 
+==3186513== Process terminating with default action of signal 2 (SIGINT)
+==3186513==    at 0x487AAB7: pthread_create@@GLIBC_2.2.5 (in /usr/lib/libpthread-2.33.so)
+==3186513==    by 0x4C086AA: __gthread_create (gthr-default.h:663)
+==3186513==    by 0x4C086AA: std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State> >, void (*)()) (thread.cc:147)
+==3186513==    by 0x10CC1C: thread<nextBoard(BoardMeta&)::<lambda()> > (std_thread.h:143)
+==3186513==    by 0x10CC1C: nextBoard(BoardMeta&) (next.h:119)
+==3186513==    by 0x10CF39: BM_NextBoard(benchmark::State&) (benchmark.cpp:15)
+==3186513==    by 0x495EC37: benchmark::internal::BenchmarkInstance::Run(unsigned long, int, benchmark::internal::ThreadTimer*, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) const (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4979D2A: benchmark::internal::(anonymous namespace)::RunInThread(benchmark::internal::BenchmarkInstance const*, unsigned long, int, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497B8F8: benchmark::internal::BenchmarkRunner::DoNIterations() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497BF0F: benchmark::internal::BenchmarkRunner::DoOneRepetition() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495799C: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== HEAP SUMMARY:
+==3186513==     in use at exit: 7,418,125 bytes in 113 blocks
+==3186513==   total heap usage: 3,643 allocs, 3,530 frees, 8,149,738 bytes allocated
+==3186513== 
+==3186513== Thread 1:
+==3186513== 4 bytes in 1 blocks are still reachable in loss record 1 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x564BA84: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x564BB19: g_private_get (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x561E020: g_slice_alloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBC6E: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x560705B: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70D4: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 4 bytes in 1 blocks are still reachable in loss record 2 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A476F4: sf::ThreadLocal::ThreadLocal(void*) (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CD71: _GLOBAL__sub_I_Context.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 4 bytes in 1 blocks are still reachable in loss record 3 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A476F4: sf::ThreadLocal::ThreadLocal(void*) (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CDCF: _GLOBAL__sub_I_GlContext.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 4 bytes in 1 blocks are still reachable in loss record 4 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A476F4: sf::ThreadLocal::ThreadLocal(void*) (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CE3A: _GLOBAL__sub_I_GlContext.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 12 bytes in 1 blocks are still reachable in loss record 5 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4957858: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 19 bytes in 1 blocks are still reachable in loss record 6 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4993E3E: benchmark::SystemInfo::SystemInfo() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4993F54: benchmark::SystemInfo::Get() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x498E230: benchmark::BenchmarkReporter::Context::Context() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495745B: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 24 bytes in 1 blocks are still reachable in loss record 7 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4997F7D: benchmark::CPUInfo::CPUInfo() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4998094: benchmark::CPUInfo::Get() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x498E228: benchmark::BenchmarkReporter::Context::Context() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495745B: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 28 bytes in 1 blocks are still reachable in loss record 8 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A47194: std::__cxx11::basic_string<unsigned int, std::char_traits<unsigned int>, std::allocator<unsigned int> >::reserve(unsigned long) (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A46723: sf::String::String(char const*, std::locale const&) (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CFD3: _GLOBAL__sub_I_WindowImplX11.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 32 bytes in 1 blocks are still reachable in loss record 9 of 56
+==3186513==    at 0x48435FF: calloc (vg_replace_malloc.c:1117)
+==3186513==    by 0x5607151: g_malloc0 (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55E8840: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBCAE: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x560705B: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70D4: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 32 bytes in 1 blocks are still reachable in loss record 10 of 56
+==3186513==    at 0x48435FF: calloc (vg_replace_malloc.c:1117)
+==3186513==    by 0x5607151: g_malloc0 (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55E8840: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBCAE: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70DE: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 32 bytes in 1 blocks are still reachable in loss record 11 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x49663AA: void std::vector<std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> >, std::allocator<std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> > > >::_M_realloc_insert<std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> > >(__gnu_cxx::__normal_iterator<std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> >*, std::vector<std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> >, std::allocator<std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> > > > >, std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> >&&) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x496159A: benchmark::internal::BenchmarkFamilies::AddBenchmark(std::unique_ptr<benchmark::internal::Benchmark, std::default_delete<benchmark::internal::Benchmark> >) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x49615DD: benchmark::internal::RegisterBenchmarkInternal(benchmark::internal::Benchmark*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10B7F3: __static_initialization_and_destruction_0(int, int) (benchmark.cpp:39)
+==3186513==    by 0x10CF9D: _GLOBAL__sub_I_PROBABLY_OPTIMAL_THREAD_COUNT (benchmark.cpp:41)
+==3186513==    by 0x10D3DC: __libc_csu_init (in /home/jamie/repos/game-of-speed/build/bench)
+==3186513==    by 0x4ED3AB0: (below main) (in /usr/lib/libc-2.33.so)
+==3186513== 
+==3186513== 32 bytes in 1 blocks are still reachable in loss record 12 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4993F49: benchmark::SystemInfo::Get() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x498E230: benchmark::BenchmarkReporter::Context::Context() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495745B: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 34 bytes in 2 blocks are still reachable in loss record 13 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4989B9D: std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::vector(std::initializer_list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > const&) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495397A: __static_initialization_and_destruction_0(int, int) [clone .constprop.0] (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 14 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CDAC: _GLOBAL__sub_I_GlContext.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 15 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CE9C: _GLOBAL__sub_I_Display.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 16 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CF60: _GLOBAL__sub_I_WindowImplX11.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 17 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1D05F: _GLOBAL__sub_I_GlxContext.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 18 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x49BC52D: _GLOBAL__sub_I_RenderTarget.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 19 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x49BC5B1: _GLOBAL__sub_I_Shader.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 20 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x49BC5CE: _GLOBAL__sub_I_Shader.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 21 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x49BC611: _GLOBAL__sub_I_Texture.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 22 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x49BC62E: _GLOBAL__sub_I_Texture.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 23 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x49BC66F: _GLOBAL__sub_I_VertexBuffer.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 40 bytes in 1 blocks are still reachable in loss record 24 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A44D70: sf::Mutex::Mutex() (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x49BC73C: _GLOBAL__sub_I_RenderTextureImplFBO.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 60 bytes in 1 blocks are still reachable in loss record 25 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4A47194: std::__cxx11::basic_string<unsigned int, std::char_traits<unsigned int>, std::allocator<unsigned int> >::reserve(unsigned long) (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A46723: sf::String::String(char const*, std::locale const&) (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-system.so.2.5.1)
+==3186513==    by 0x4A1CFB0: _GLOBAL__sub_I_WindowImplX11.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-window.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 64 bytes in 1 blocks are still reachable in loss record 26 of 56
+==3186513==    at 0x483E6D5: malloc (vg_replace_malloc.c:379)
+==3186513==    by 0x5607278: g_realloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55E882A: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBCAE: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x560705B: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70D4: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 64 bytes in 1 blocks are still reachable in loss record 27 of 56
+==3186513==    at 0x483E6D5: malloc (vg_replace_malloc.c:379)
+==3186513==    by 0x5607278: g_realloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55E882A: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBCAE: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70DE: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 64 bytes in 1 blocks are still reachable in loss record 28 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4998089: benchmark::CPUInfo::Get() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x498E228: benchmark::BenchmarkReporter::Context::Context() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495745B: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 64 bytes in 1 blocks are still reachable in loss record 29 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x10D227: allocate (new_allocator.h:121)
+==3186513==    by 0x10D227: allocate (allocator.h:173)
+==3186513==    by 0x10D227: allocate (alloc_traits.h:460)
+==3186513==    by 0x10D227: _M_allocate (stl_vector.h:346)
+==3186513==    by 0x10D227: void std::vector<std::thread, std::allocator<std::thread> >::_M_realloc_insert<std::thread>(__gnu_cxx::__normal_iterator<std::thread*, std::vector<std::thread, std::allocator<std::thread> > >, std::thread&&) (vector.tcc:440)
+==3186513==    by 0x10D38B: std::thread& std::vector<std::thread, std::allocator<std::thread> >::emplace_back<std::thread>(std::thread&&) (vector.tcc:121)
+==3186513==    by 0x10CC42: push_back (stl_vector.h:1204)
+==3186513==    by 0x10CC42: nextBoard(BoardMeta&) (next.h:118)
+==3186513==    by 0x10CF39: BM_NextBoard(benchmark::State&) (benchmark.cpp:15)
+==3186513==    by 0x495EC37: benchmark::internal::BenchmarkInstance::Run(unsigned long, int, benchmark::internal::ThreadTimer*, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) const (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4979D2A: benchmark::internal::(anonymous namespace)::RunInThread(benchmark::internal::BenchmarkInstance const*, unsigned long, int, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497B8F8: benchmark::internal::BenchmarkRunner::DoNIterations() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497BF0F: benchmark::internal::BenchmarkRunner::DoOneRepetition() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495799C: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 72 bytes in 3 blocks are still reachable in loss record 30 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4965D6E: void std::vector<std::vector<long, std::allocator<long> >, std::allocator<std::vector<long, std::allocator<long> > > >::_M_realloc_insert<std::vector<long, std::allocator<long> > const&>(__gnu_cxx::__normal_iterator<std::vector<long, std::allocator<long> >*, std::vector<std::vector<long, std::allocator<long> >, std::allocator<std::vector<long, std::allocator<long> > > > >, std::vector<long, std::allocator<long> > const&) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4960F45: benchmark::internal::Benchmark::Args(std::vector<long, std::allocator<long> > const&) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4963DA5: benchmark::internal::BenchmarkFamilies::FindBenchmarks(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> >*, std::ostream*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x496454D: benchmark::internal::FindBenchmarksInternal(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> >*, std::ostream*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959AAC: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 80 bytes in 1 blocks are possibly lost in loss record 31 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x52FFD27: ??? (in /usr/lib/libGLdispatch.so.0.0.0)
+==3186513==    by 0x53003D6: __glDispatchInit (in /usr/lib/libGLdispatch.so.0.0.0)
+==3186513==    by 0x53BE069: ??? (in /usr/lib/libOpenGL.so.0.0.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 80 bytes in 1 blocks are possibly lost in loss record 32 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x52FFD27: ??? (in /usr/lib/libGLdispatch.so.0.0.0)
+==3186513==    by 0x53005EB: __glDispatchRegisterStubCallbacks (in /usr/lib/libGLdispatch.so.0.0.0)
+==3186513==    by 0x53BE076: ??? (in /usr/lib/libOpenGL.so.0.0.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 80 bytes in 1 blocks are possibly lost in loss record 33 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x52FFD27: ??? (in /usr/lib/libGLdispatch.so.0.0.0)
+==3186513==    by 0x53005EB: __glDispatchRegisterStubCallbacks (in /usr/lib/libGLdispatch.so.0.0.0)
+==3186513==    by 0x4A90076: ??? (in /usr/lib/libGL.so.1.7.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 93 bytes in 3 blocks are still reachable in loss record 34 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4C7814E: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (basic_string.tcc:307)
+==3186513==    by 0x4C79AE3: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_append(char const*, unsigned long) (basic_string.tcc:395)
+==3186513==    by 0x495E6B8: benchmark::internal::BenchmarkInstance::BenchmarkInstance(benchmark::internal::Benchmark*, int, int, std::vector<long, std::allocator<long> > const&, int) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x496340F: benchmark::internal::BenchmarkFamilies::FindBenchmarks(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> >*, std::ostream*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x496454D: benchmark::internal::FindBenchmarksInternal(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> >*, std::ostream*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959AAC: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 96 bytes in 1 blocks are still reachable in loss record 35 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x5606C69: g_malloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x561E042: g_slice_alloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBC6E: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x560705B: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70D4: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 96 bytes in 1 blocks are still reachable in loss record 36 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x5606C69: g_malloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x561E042: g_slice_alloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBC6E: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70DE: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 96 bytes in 1 blocks are still reachable in loss record 37 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4953C48: benchmark::internal::(anonymous namespace)::CreateReporter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, benchmark::ConsoleReporter::OutputOptions) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959ED5: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 160 bytes in 1 blocks are still reachable in loss record 38 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x496605F: void std::vector<benchmark::internal::Statistics, std::allocator<benchmark::internal::Statistics> >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, double (*&)(std::vector<double, std::allocator<double> > const&)>(__gnu_cxx::__normal_iterator<benchmark::internal::Statistics*, std::vector<benchmark::internal::Statistics, std::allocator<benchmark::internal::Statistics> > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, double (*&)(std::vector<double, std::allocator<double> > const&)) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4960FE6: benchmark::internal::Benchmark::ComputeStatistics(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, double (*)(std::vector<double, std::allocator<double> > const&)) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x49611B1: benchmark::internal::Benchmark::Benchmark(char const*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10B70B: FunctionBenchmark (benchmark.h:1038)
+==3186513==    by 0x10B70B: __static_initialization_and_destruction_0(int, int) (benchmark.cpp:19)
+==3186513==    by 0x10CF9D: _GLOBAL__sub_I_PROBABLY_OPTIMAL_THREAD_COUNT (benchmark.cpp:41)
+==3186513==    by 0x10D3DC: __libc_csu_init (in /home/jamie/repos/game-of-speed/build/bench)
+==3186513==    by 0x4ED3AB0: (below main) (in /usr/lib/libc-2.33.so)
+==3186513== 
+==3186513== 160 bytes in 1 blocks are still reachable in loss record 39 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x496605F: void std::vector<benchmark::internal::Statistics, std::allocator<benchmark::internal::Statistics> >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, double (*&)(std::vector<double, std::allocator<double> > const&)>(__gnu_cxx::__normal_iterator<benchmark::internal::Statistics*, std::vector<benchmark::internal::Statistics, std::allocator<benchmark::internal::Statistics> > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, double (*&)(std::vector<double, std::allocator<double> > const&)) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4960FE6: benchmark::internal::Benchmark::ComputeStatistics(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, double (*)(std::vector<double, std::allocator<double> > const&)) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x49611B1: benchmark::internal::Benchmark::Benchmark(char const*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10B781: FunctionBenchmark (benchmark.h:1038)
+==3186513==    by 0x10B781: __static_initialization_and_destruction_0(int, int) (benchmark.cpp:29)
+==3186513==    by 0x10CF9D: _GLOBAL__sub_I_PROBABLY_OPTIMAL_THREAD_COUNT (benchmark.cpp:41)
+==3186513==    by 0x10D3DC: __libc_csu_init (in /home/jamie/repos/game-of-speed/build/bench)
+==3186513==    by 0x4ED3AB0: (below main) (in /usr/lib/libc-2.33.so)
+==3186513== 
+==3186513== 160 bytes in 1 blocks are still reachable in loss record 40 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x496605F: void std::vector<benchmark::internal::Statistics, std::allocator<benchmark::internal::Statistics> >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, double (*&)(std::vector<double, std::allocator<double> > const&)>(__gnu_cxx::__normal_iterator<benchmark::internal::Statistics*, std::vector<benchmark::internal::Statistics, std::allocator<benchmark::internal::Statistics> > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, double (*&)(std::vector<double, std::allocator<double> > const&)) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4960FE6: benchmark::internal::Benchmark::ComputeStatistics(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, double (*)(std::vector<double, std::allocator<double> > const&)) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x49611B1: benchmark::internal::Benchmark::Benchmark(char const*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10B7DA: FunctionBenchmark (benchmark.h:1038)
+==3186513==    by 0x10B7DA: __static_initialization_and_destruction_0(int, int) (benchmark.cpp:39)
+==3186513==    by 0x10CF9D: _GLOBAL__sub_I_PROBABLY_OPTIMAL_THREAD_COUNT (benchmark.cpp:41)
+==3186513==    by 0x10D3DC: __libc_csu_init (in /home/jamie/repos/game-of-speed/build/bench)
+==3186513==    by 0x4ED3AB0: (below main) (in /usr/lib/libc-2.33.so)
+==3186513== 
+==3186513== 192 bytes in 1 blocks are still reachable in loss record 41 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x49983F6: void std::vector<benchmark::CPUInfo::CacheInfo, std::allocator<benchmark::CPUInfo::CacheInfo> >::_M_realloc_insert<benchmark::CPUInfo::CacheInfo const&>(__gnu_cxx::__normal_iterator<benchmark::CPUInfo::CacheInfo*, std::vector<benchmark::CPUInfo::CacheInfo, std::allocator<benchmark::CPUInfo::CacheInfo> > >, benchmark::CPUInfo::CacheInfo const&) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4997952: benchmark::(anonymous namespace)::GetCacheSizesFromKVFS() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4997F63: benchmark::CPUInfo::CPUInfo() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4998094: benchmark::CPUInfo::Get() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x498E228: benchmark::BenchmarkReporter::Context::Context() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495745B: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 200 bytes in 1 blocks are still reachable in loss record 42 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x10B6F9: __static_initialization_and_destruction_0(int, int) (benchmark.cpp:19)
+==3186513==    by 0x10CF9D: _GLOBAL__sub_I_PROBABLY_OPTIMAL_THREAD_COUNT (benchmark.cpp:41)
+==3186513==    by 0x10D3DC: __libc_csu_init (in /home/jamie/repos/game-of-speed/build/bench)
+==3186513==    by 0x4ED3AB0: (below main) (in /usr/lib/libc-2.33.so)
+==3186513== 
+==3186513== 200 bytes in 1 blocks are still reachable in loss record 43 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x10B76F: __static_initialization_and_destruction_0(int, int) (benchmark.cpp:29)
+==3186513==    by 0x10CF9D: _GLOBAL__sub_I_PROBABLY_OPTIMAL_THREAD_COUNT (benchmark.cpp:41)
+==3186513==    by 0x10D3DC: __libc_csu_init (in /home/jamie/repos/game-of-speed/build/bench)
+==3186513==    by 0x4ED3AB0: (below main) (in /usr/lib/libc-2.33.so)
+==3186513== 
+==3186513== 200 bytes in 1 blocks are still reachable in loss record 44 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x10B7C8: __static_initialization_and_destruction_0(int, int) (benchmark.cpp:39)
+==3186513==    by 0x10CF9D: _GLOBAL__sub_I_PROBABLY_OPTIMAL_THREAD_COUNT (benchmark.cpp:41)
+==3186513==    by 0x10D3DC: __libc_csu_init (in /home/jamie/repos/game-of-speed/build/bench)
+==3186513==    by 0x4ED3AB0: (below main) (in /usr/lib/libc-2.33.so)
+==3186513== 
+==3186513== 200 bytes in 5 blocks are still reachable in loss record 45 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x10CCE6: thread<nextBoard(BoardMeta&)::<lambda()> > (std_thread.h:143)
+==3186513==    by 0x10CCE6: nextBoard(BoardMeta&) (next.h:119)
+==3186513==    by 0x10CF39: BM_NextBoard(benchmark::State&) (benchmark.cpp:15)
+==3186513==    by 0x495EC37: benchmark::internal::BenchmarkInstance::Run(unsigned long, int, benchmark::internal::ThreadTimer*, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) const (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4979D2A: benchmark::internal::(anonymous namespace)::RunInThread(benchmark::internal::BenchmarkInstance const*, unsigned long, int, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497B8F8: benchmark::internal::BenchmarkRunner::DoNIterations() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497BF0F: benchmark::internal::BenchmarkRunner::DoOneRepetition() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495799C: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 320 bytes in 1 blocks are still reachable in loss record 46 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4989B04: std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::vector(std::initializer_list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > const&) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495397A: __static_initialization_and_destruction_0(int, int) [clone .constprop.0] (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 400 bytes in 1 blocks are still reachable in loss record 47 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x497B6DA: benchmark::internal::BenchmarkRunner::DoNIterations() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497BF0F: benchmark::internal::BenchmarkRunner::DoOneRepetition() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495799C: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 775 bytes in 43 blocks are still reachable in loss record 48 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x4F3B34E: strdup (in /usr/lib/libc-2.33.so)
+==3186513==    by 0x538C421: ??? (in /usr/lib/libGLX.so.0.0.0)
+==3186513==    by 0x5379670: ??? (in /usr/lib/libGLX.so.0.0.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 816 bytes in 1 blocks are still reachable in loss record 49 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4957CD0: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 1,024 bytes in 1 blocks are still reachable in loss record 50 of 56
+==3186513==    at 0x483E6D5: malloc (vg_replace_malloc.c:379)
+==3186513==    by 0x538C400: ??? (in /usr/lib/libGLX.so.0.0.0)
+==3186513==    by 0x5379670: ??? (in /usr/lib/libGLX.so.0.0.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 1,040 bytes in 1 blocks are still reachable in loss record 51 of 56
+==3186513==    at 0x48435FF: calloc (vg_replace_malloc.c:1117)
+==3186513==    by 0x4EEB831: __new_exitfn (in /usr/lib/libc-2.33.so)
+==3186513==    by 0x4EEB8C5: __internal_atexit (in /usr/lib/libc-2.33.so)
+==3186513==    by 0x49BC734: _GLOBAL__sub_I_RenderTextureImplFBO.cpp (in /home/jamie/repos/game-of-speed/build/_deps/sfml-build/lib/libsfml-graphics.so.2.5.1)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 1,104 bytes in 1 blocks are still reachable in loss record 52 of 56
+==3186513==    at 0x483EF3F: operator new(unsigned long) (vg_replace_malloc.c:417)
+==3186513==    by 0x4963D53: benchmark::internal::BenchmarkFamilies::FindBenchmarks(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> >*, std::ostream*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x496454D: benchmark::internal::FindBenchmarksInternal(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> >*, std::ostream*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959AAC: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== 2,032 bytes in 1 blocks are still reachable in loss record 53 of 56
+==3186513==    at 0x48435FF: calloc (vg_replace_malloc.c:1117)
+==3186513==    by 0x5607151: g_malloc0 (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x561E2AF: g_slice_alloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55EBC6E: g_hash_table_new_full (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x560705B: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70D4: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 2,240 bytes in 7 blocks are possibly lost in loss record 54 of 56
+==3186513==    at 0x48435FF: calloc (vg_replace_malloc.c:1117)
+==3186513==    by 0x4012D5B: _dl_allocate_tls (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x487AFC8: pthread_create@@GLIBC_2.2.5 (in /usr/lib/libpthread-2.33.so)
+==3186513==    by 0x4C086AA: __gthread_create (gthr-default.h:663)
+==3186513==    by 0x4C086AA: std::thread::_M_start_thread(std::unique_ptr<std::thread::_State, std::default_delete<std::thread::_State> >, void (*)()) (thread.cc:147)
+==3186513==    by 0x10CC1C: thread<nextBoard(BoardMeta&)::<lambda()> > (std_thread.h:143)
+==3186513==    by 0x10CC1C: nextBoard(BoardMeta&) (next.h:119)
+==3186513==    by 0x10CF39: BM_NextBoard(benchmark::State&) (benchmark.cpp:15)
+==3186513==    by 0x495EC37: benchmark::internal::BenchmarkInstance::Run(unsigned long, int, benchmark::internal::ThreadTimer*, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) const (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4979D2A: benchmark::internal::(anonymous namespace)::RunInThread(benchmark::internal::BenchmarkInstance const*, unsigned long, int, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497B8F8: benchmark::internal::BenchmarkRunner::DoNIterations() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497BF0F: benchmark::internal::BenchmarkRunner::DoOneRepetition() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495799C: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513== 
+==3186513== 16,384 bytes in 1 blocks are still reachable in loss record 55 of 56
+==3186513==    at 0x483E7C5: malloc (vg_replace_malloc.c:380)
+==3186513==    by 0x5606C69: g_malloc (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x560706D: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x55C70D4: ??? (in /usr/lib/libglib-2.0.so.0.7000.0)
+==3186513==    by 0x400FE2D: call_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x400FF1B: _dl_init (in /usr/lib/ld-2.33.so)
+==3186513==    by 0x40010C9: ??? (in /usr/lib/ld-2.33.so)
+==3186513== 
+==3186513== 7,388,808 bytes in 1 blocks are still reachable in loss record 56 of 56
+==3186513==    at 0x484021F: operator new[](unsigned long) (vg_replace_malloc.c:579)
+==3186513==    by 0x10CEE0: alloc (board.h:51)
+==3186513==    by 0x10CEE0: BoardMeta (board.h:60)
+==3186513==    by 0x10CEE0: BM_NextBoard(benchmark::State&) (benchmark.cpp:11)
+==3186513==    by 0x495EC37: benchmark::internal::BenchmarkInstance::Run(unsigned long, int, benchmark::internal::ThreadTimer*, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) const (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4979D2A: benchmark::internal::(anonymous namespace)::RunInThread(benchmark::internal::BenchmarkInstance const*, unsigned long, int, benchmark::internal::ThreadManager*, benchmark::internal::PerfCountersMeasurement*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497B8F8: benchmark::internal::BenchmarkRunner::DoNIterations() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x497BF0F: benchmark::internal::BenchmarkRunner::DoOneRepetition() (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x495799C: benchmark::internal::(anonymous namespace)::RunBenchmarks(std::vector<benchmark::internal::BenchmarkInstance, std::allocator<benchmark::internal::BenchmarkInstance> > const&, benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x4959EB6: benchmark::RunSpecifiedBenchmarks(benchmark::BenchmarkReporter*, benchmark::BenchmarkReporter*) (in /home/jamie/repos/game-of-speed/build/_deps/googlebenchmark-build/src/libbenchmark.so.1.5.5)
+==3186513==    by 0x10C07F: main (benchmark.cpp:41)
+==3186513== 
+==3186513== LEAK SUMMARY:
+==3186513==    definitely lost: 0 bytes in 0 blocks
+==3186513==    indirectly lost: 0 bytes in 0 blocks
+==3186513==      possibly lost: 2,480 bytes in 10 blocks
+==3186513==    still reachable: 7,415,645 bytes in 103 blocks
+==3186513==         suppressed: 0 bytes in 0 blocks
+==3186513== 
+==3186513== For lists of detected and suppressed errors, rerun with: -s
+==3186513== ERROR SUMMARY: 188 errors from 5 contexts (suppressed: 0 from 0)

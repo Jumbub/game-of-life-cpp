@@ -1,3 +1,6 @@
+#include <future>
+#include <iostream>
+#include <thread>
 #include "../board/loop.h"
 
 int main(int argc, char** args) {
