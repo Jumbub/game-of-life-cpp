@@ -55,7 +55,6 @@ void loop(LoopMeta loop, long maxComputations) {
       std::scoped_lock gaurd(boardMutex);
       nextBoard(board);
       computations++;
-      board.flip();
     }
   });
 

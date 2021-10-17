@@ -93,7 +93,9 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
   }
 }
 
-void nextBoard(const BoardMeta& board) {
+void nextBoard(BoardMeta& board) {
+  board.flip();
+
   const auto& width = board.width;
   const auto& height = board.height;
   const auto& input = board.input;

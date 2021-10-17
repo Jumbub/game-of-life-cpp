@@ -21,19 +21,19 @@ void benchmarkBoard(BoardMeta& board, uint width, uint height) {
       const uint y = ry - 1;
       if (y > height / 2) {
         if (x < width / 2)
-          board.input[i] = rand() % 2 ? ALIVE : DEAD;
+          board.output[i] = rand() % 2 ? ALIVE : DEAD;
         if (x >= width / 2)
-          board.input[i] = (x / 8) % 2 != (y / 8) % 2 ? ALIVE : DEAD;
+          board.output[i] = (x / 8) % 2 != (y / 8) % 2 ? ALIVE : DEAD;
       } else {
         const uint breederMarginY = (height / 2 - BREEDER_HEIGHT) / 2;
         const uint breederY = y - breederMarginY;
         if (breederY > 0 && breederY < BREEDER_HEIGHT && x < BREEDER_WIDTH) {
-          board.input[i] = BREEDER[breederY][x] ? ALIVE : DEAD;
+          board.output[i] = BREEDER[breederY][x] ? ALIVE : DEAD;
         } else {
-          board.input[i] = DEAD;
+          board.output[i] = DEAD;
         }
       }
     }
   }
-  padding(board.input, board.width, board.height);
+  padding(board.output, board.width, board.height);
 }

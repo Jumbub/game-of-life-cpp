@@ -7,19 +7,16 @@
 
 using BoardVector = std::vector<std::vector<bool>>;
 
-void generate(BoardMeta& board, BoardVector vector, bool a = true) {
+void generate(BoardMeta& board, BoardVector vector) {
   const auto height = (unsigned int)vector.size();
   const auto width = (unsigned int)vector[0].size();
 
   board.resize(width, height);
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
-      board.input[y * (width + 2) + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
+      board.output[y * (width + 2) + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
 
-  padding(board.input, width, height);
-
-  if (!a)
-    board.flip();
+  padding(board.output, width, height);
 }
 
 BoardVector ungenerate(BoardMeta& board) {
@@ -35,12 +32,13 @@ BoardVector ungenerate(BoardMeta& board) {
   return vector;
 }
 
-void compare(BoardVector a, BoardVector b) {
+void compare(BoardVector a, BoardVector b, uint generations = 1) {
   auto boardA = BoardMeta(1, 1);
   auto boardB = BoardMeta(1, 1);
-  generate(boardA, a, true);
-  generate(boardB, b, false);
-  nextBoard(boardA);
+  generate(boardA, a);
+  generate(boardB, b);
+  for (uint i = 0; i < generations; i++)
+    nextBoard(boardA);
   REQUIRE(ungenerate(boardA) == ungenerate(boardB));
 }
 
@@ -270,35 +268,47 @@ TEST_CASE("glider tall vertical wrap collision [tall board]", "[nextBoard]") {
        {0, 0, 1, 1, 0}});
 }
 
-TEST_CASE("glider 1 large", "[nextBoard]") {
+TEST_CASE("medium glider 25 generations", "[nextBoard]") {
   compare(
-      {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0}},
 
-      {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+      {{0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
+       {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0},
+       {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0}},
+
+      25);
 }
 
 TEST_CASE("2x2", "[padding]") {

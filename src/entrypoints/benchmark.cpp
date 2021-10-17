@@ -14,7 +14,6 @@ static void BM_NextBoard(benchmark::State& state) {
 
   for (auto _ : state) {
     nextBoard(board);
-    board.flip();
   }
 }
 
