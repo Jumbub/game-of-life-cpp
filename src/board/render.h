@@ -8,8 +8,8 @@
 #include "board.h"
 #include "generate.h"
 
-void render(
-    BoardMeta& board,
+void drawBoard(
+    Board& board,
     sf::RenderWindow& window,
     sf::Sprite& sprite,
     sf::Texture& texture,
@@ -17,7 +17,7 @@ void render(
     sf::Uint32* pixels) {
   const auto& output = board.output;
 
-  /* auto pixels64 = reinterpret_cast<sf::Uint64*>(pixels); */
+  // Generate the pixel texture data from the board output
   for (unsigned int y = 1; y < board.height + 1; y++) {
     for (unsigned int x = 1; x < board.width + 1; x++) {
       if (output[y * (board.width + 2) + x] == ALIVE) {

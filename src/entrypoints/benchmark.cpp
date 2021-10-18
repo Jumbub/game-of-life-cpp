@@ -8,32 +8,30 @@ const unsigned int TEST_WIDTH = 2560;
 const unsigned int TEST_HEIGHT = 1440;
 
 static void BM_NextBoard(benchmark::State& state) {
-  BoardMeta board(TEST_WIDTH, TEST_HEIGHT);
-  benchmarkBoard(board, TEST_WIDTH, TEST_HEIGHT);
+  Board board(TEST_WIDTH, TEST_HEIGHT);
+  assignBenchmarkCells(board);
 
   for (auto _ : state) {
-    nextBoard(board);
+    nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT);
   }
 }
 
 BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime()->Iterations(3000);
 
 static void BM_RenderBoard(benchmark::State& state) {
-  auto meta = setup();
+  Loop loop(true);
   for (auto _ : state) {
-    render(*meta.board, *meta.window, *meta.sprite, *meta.texture, *meta.image, meta.pixels);
-    meta.window->display();
+    drawBoard(loop.board, loop.window, loop.sprite, loop.texture, loop.image, loop.pixels);
+    loop.window.display();
   }
-  shutdown(meta);
 }
 BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime();
 
 static void BM_Main(benchmark::State& state) {
-  auto meta = setup(true);
+  Loop loop(true);
   for (auto _ : state) {
-    loop(meta, 2000);
+    loop.run(2000);
   }
-  shutdown(meta);
 }
 
 BENCHMARK(BM_Main)->Unit(benchmark::kSecond)->MeasureProcessCPUTime()->UseRealTime()->Repetitions(1)->Iterations(1);

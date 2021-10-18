@@ -1,44 +1,26 @@
 #pragma once
 
-#include <array>
-#include <iostream>
-#include <memory>
-#include <thread>
-#include <tuple>
-#include "threads.h"
-
-using uint = unsigned int;
+#include <mutex>
 
 using Cell = uint8_t;
 [[maybe_unused]] const Cell ALIVE = 1;
 [[maybe_unused]] const Cell DEAD = 0;
 
-using RenderCell = uint;
-[[maybe_unused]] const RenderCell ALIVE_RENDER = UINT32_MAX;
-[[maybe_unused]] const RenderCell DEAD_RENDER = 0;
-
-struct BoardMeta {
+struct Board {
   uint width;
   uint height;
-
-  uint rawWidth;
-  uint rawHeight;
 
   Cell* input = nullptr;
   Cell* output = nullptr;
   Cell* raw = nullptr;
 
-  uint threadsPerBoard = PROBABLY_OPTIMAL_THREAD_COUNT;
-  uint rendersPerSecond = 30;
-  uint generation = 1;
+  std::mutex modifyingMemory;
 
-  std::mutex mutex;
-
-  void flip() {
+  void setOutputToInput() {
     std::swap(input, output);
   }
 
-  void resize(const uint& width, const uint& height) {
+  void setSize(const uint& width, const uint& height) {
     if (this->width * this->height != width * height) {
       delete[] raw;
       raw = nullptr;
@@ -47,10 +29,11 @@ struct BoardMeta {
     this->width = width;
     this->height = height;
 
-    alloc(width, height);
+    allocateBoardMemory(width, height);
   }
 
-  void alloc(const uint& width, const uint& height) {
+  void allocateBoardMemory(const uint& width, const uint& height) {
+    // Generate board with 1 cell of padding
     const uint size = (width + 2) * (height + 2);
     if (raw == nullptr) {
       raw = new Cell[size * 2];
@@ -59,14 +42,14 @@ struct BoardMeta {
     }
   }
 
-  BoardMeta(const uint& width, const uint& height) {
+  Board(const uint& width, const uint& height) {
     this->width = width;
     this->height = height;
-    alloc(width, height);
+    allocateBoardMemory(width, height);
   }
 
-  ~BoardMeta() { delete[] raw; }
+  ~Board() { delete[] raw; }
 
  private:
-  BoardMeta([[maybe_unused]] const BoardMeta& _){};
+  Board([[maybe_unused]] const Board& _){};
 };

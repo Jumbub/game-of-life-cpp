@@ -6,3 +6,4 @@ gmon.out
 chrome.profile
 *.o
 imgui.ini
+valgrind-out.txt

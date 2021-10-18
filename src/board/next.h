@@ -93,15 +93,15 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
   }
 }
 
-void nextBoard(BoardMeta& board) {
-  board.flip();
+void nextBoard(Board& board, const uint& threadCount) {
+  board.setOutputToInput();
 
   const auto& width = board.width;
   const auto& height = board.height;
   const auto& input = board.input;
   const auto& output = board.output;
 
-  const auto totalThreads = std::min(board.threadsPerBoard, (uint)height);
+  const auto totalThreads = std::min(threadCount, (uint)height);
   const auto threadLines = height / totalThreads;
   const auto threadLinesRemaining = height % totalThreads;
 
@@ -123,7 +123,5 @@ void nextBoard(BoardMeta& board) {
     thread.join();
   }
 
-  board.generation++;
-
-  padding(board.output, board.width, board.height);
+  assignBoardPadding(board.output, board.width, board.height);
 }

@@ -51,7 +51,7 @@ FetchContent_MakeAvailable(googletest)
 FetchContent_Declare(
   googlebenchmark
   GIT_REPOSITORY "https://github.com/google/benchmark.git"
-  GIT_TAG "master"
+  GIT_TAG "v1.5.6"
 )
 FetchContent_MakeAvailable(googlebenchmark)
 

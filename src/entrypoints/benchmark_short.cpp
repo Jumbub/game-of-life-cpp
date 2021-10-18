@@ -1,15 +1,13 @@
-#include <benchmark/benchmark.h>
+#include "../../build/_deps/googlebenchmark-src/include/benchmark/benchmark.h"
 #include "../board/generate.h"
 #include "../board/loop.h"
 #include "../board/next.h"
 
 static void BM_Real(benchmark::State& state) {
-  auto meta = setup();
-  meta.board->threads = state.range(0);
+  Loop loop(true);
   for (auto _ : state) {
-    loop(meta, 500);
+    loop.run(500, state.range(0));
   }
-  shutdown(meta);
 }
 
 BENCHMARK(BM_Real)

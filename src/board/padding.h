@@ -9,7 +9,7 @@
 #include <vector>
 #include "board.h"
 
-void padding(Cell* cells, uint innerWidth, uint innerHeight) {
+void assignBoardPadding(Cell* cells, uint innerWidth, uint innerHeight) {
   const uint width = innerWidth + 2;
   const uint height = innerHeight + 2;
 

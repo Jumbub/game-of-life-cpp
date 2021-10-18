@@ -11,9 +11,10 @@
  * - top-right:    chess grid of 8x8 alive/dead cells
  * - bottom:       breeder
  */
-void benchmarkBoard(BoardMeta& board, uint width, uint height) {
+void assignBenchmarkCells(Board& board) {
   srand(0);
-  board.resize(width, height);
+  const auto& width = board.width;
+  const auto& height = board.height;
   for (uint ry = 1; ry < height + 1; ++ry) {
     for (uint rx = 1; rx < width + 1; ++rx) {
       const uint i = ry * (width + 2) + rx;
@@ -35,5 +36,6 @@ void benchmarkBoard(BoardMeta& board, uint width, uint height) {
       }
     }
   }
-  padding(board.output, board.width, board.height);
+
+  assignBoardPadding(board.output, board.width, board.height);
 }

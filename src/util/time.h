@@ -19,7 +19,7 @@ void stopAndDelay(TimeMeta startTime, long minMacros) {
   std::this_thread::sleep_for(microseconds(sleepTime));
 }
 
-void stopAndFps(TimeMeta startTime, long renders, long logics) {
+void stopAndDisplayFps(TimeMeta startTime, long renders, long logics) {
   auto micros = duration_cast<microseconds>(steady_clock::now() - startTime).count();
   double seconds = (double)micros / (double)1000000;
   double rps = (double)renders / seconds;

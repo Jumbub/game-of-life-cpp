@@ -7,19 +7,19 @@
 
 using BoardVector = std::vector<std::vector<bool>>;
 
-void generate(BoardMeta& board, BoardVector vector) {
+void generate(Board& board, BoardVector vector) {
   const auto height = (unsigned int)vector.size();
   const auto width = (unsigned int)vector[0].size();
 
-  board.resize(width, height);
+  board.setSize(width, height);
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
       board.output[y * (width + 2) + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
 
-  padding(board.output, width, height);
+  assignBoardPadding(board.output, width, height);
 }
 
-BoardVector ungenerate(BoardMeta& board) {
+BoardVector ungenerate(Board& board) {
   const auto& output = board.output;
   const auto& width = board.width;
   const auto& height = board.height;
@@ -33,12 +33,12 @@ BoardVector ungenerate(BoardMeta& board) {
 }
 
 void compare(BoardVector a, BoardVector b, uint generations = 1) {
-  auto boardA = BoardMeta(1, 1);
-  auto boardB = BoardMeta(1, 1);
+  auto boardA = Board(1, 1);
+  auto boardB = Board(1, 1);
   generate(boardA, a);
   generate(boardB, b);
   for (uint i = 0; i < generations; i++)
-    nextBoard(boardA);
+    nextBoard(boardA, PROBABLY_OPTIMAL_THREAD_COUNT);
   REQUIRE(ungenerate(boardA) == ungenerate(boardB));
 }
 
@@ -318,7 +318,7 @@ TEST_CASE("2x2", "[padding]") {
   std::vector<Cell> expected{
       1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1,
   };
-  padding(&input[0], 2, 2);
+  assignBoardPadding(&input[0], 2, 2);
   REQUIRE(input == expected);
 }
 
@@ -329,6 +329,6 @@ TEST_CASE("4x3", "[padding]") {
   std::vector<Cell> expected{
       0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
   };
-  padding(&input[0], 4, 3);
+  assignBoardPadding(&input[0], 4, 3);
   REQUIRE(input == expected);
 }
