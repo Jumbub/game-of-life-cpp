@@ -1,10 +1,21 @@
 name: tests
 
 on: push
+
 jobs:
   tests:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: seanmiddleditch/gha-setup-ninja@v3
-      - run: make test
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Catch2
+        run: |
+          git clone https://github.com/catchorg/Catch2.git
+          cd Catch2
+          git checkout v2.x
+          cmake -Bbuild -H. -DBUILD_TESTING=OFF
+          sudo cmake --build build/ --target install
+      - name: Run tests
+        run: make test_github

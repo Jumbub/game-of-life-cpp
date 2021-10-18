@@ -43,3 +43,7 @@ benchmark_full: build/build.ninja
 
 build/build.ninja:
 	mkdir -p build && cd build && cmake -GNinja ../ || rm -rf build
+
+test_github:
+	g++ src/entrypoints/test.cpp -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread -O3 -o test
+	./test
