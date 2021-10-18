@@ -1,32 +1,32 @@
-main: build
+main: build/build.ninja
 	cmake --build build --target main
 	./build/main
 
-benchmark: build
+benchmark: build/build.ninja
 	cmake --build build --target bench
 	./build/bench > results/benchmark.txt
 	cat results/benchmark.txt
 
-benchmark_short: build
+benchmark_short: build/build.ninja
 	cmake --build build --target bench_short
 	./build/bench
 
-test: build
+test: build/build.ninja
 	cmake --build build --target test
 	./build/test
 
-debug_exe: build
+debug_exe: build/build.ninja
 	cmake --build build --target debug
 
-profile_exe: build
+profile_exe: build/build.ninja
 	cmake --build build --target profile
 
-benchmark_exe: build
+benchmark_exe: build/build.ninja
 	cmake --build build --target benchmark
 	cp ./build/benchmark ./build/out
 	./build/out
 
-benchmark_full: build
+benchmark_full: build/build.ninja
 	cmake --build build
 	echo Ofast >> results/benchmark_full.txt
 	./build/bench-Ofast >> results/benchmark_full.txt
@@ -41,5 +41,5 @@ benchmark_full: build
 	echo Os >> results/benchmark_full.txt
 	./build/bench-Os >> results/benchmark_full.txt
 
-build:
+build/build.ninja:
 	mkdir -p build && cd build && cmake -GNinja ../ || rm -rf build

@@ -20,25 +20,13 @@ _(the above gif is the benchmark scenario; slowed down to a fraction of the real
 
 `make`
 
-Requires:
-
-- https://www.libsdl.org/
-
 ### Running the tests
 
 `make test`
 
-Requires:
-
-- https://github.com/catchorg/Catch2
-
 ### Running a benchmark
 
 `make benchmark`
-
-Requires:
-
-- https://github.com/google/benchmark
 
 ## Log of benchmark improvements
 
