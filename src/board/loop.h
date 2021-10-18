@@ -7,6 +7,7 @@
 #include "../board/generate.h"
 #include "../board/next.h"
 #include "../board/render.h"
+#include "../board/gui.h"
 #include "../util/time.h"
 
 using namespace std::chrono;
@@ -44,60 +45,60 @@ void loop(LoopMeta loop, long maxComputations) {
   auto& board = *loop.board;
   auto& window = loop.window;
 
-  std::mutex boardMutex;
-
   long computations = 0;
   long renders = 0;
 
   // Computation loop
-  std::thread nextBoardThread([&board, &window, &boardMutex, &computations, &maxComputations]() {
+  std::thread nextBoardThread([&board, &window, &computations, &maxComputations]() {
     while (window->isOpen() && computations < maxComputations) {
       std::this_thread::sleep_for(std::chrono::nanoseconds(1));
-      std::scoped_lock gaurd(boardMutex);
+      std::scoped_lock gaurd(board.mutex);
       nextBoard(board);
       computations++;
     }
   });
 
+  sf::Clock deltaClock;
+
   // Render loop
   while (loop.window->isOpen() && computations < maxComputations) {
     auto renderTimer = start();
-  sf::Clock deltaClock;
     sf::Event event;
     while (loop.window->pollEvent(event)) {
       ImGui::SFML::ProcessEvent(event);
 
       if (event.type == sf::Event::Closed ||
           (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-        std::scoped_lock gaurd(boardMutex);
+        std::scoped_lock gaurd(board.mutex);
         loop.window->close();
       } else if (event.type == sf::Event::Resized) {
-        std::scoped_lock gaurd(boardMutex);
+        std::scoped_lock gaurd(board.mutex);
         window->setView(sf::View(sf::FloatRect(0,0,event.size.width, event.size.height)));
         delete[] loop.pixels;
         loop.pixels = new sf::Uint32[event.size.width * event.size.height];
         benchmarkBoard(board, event.size.width, event.size.height);
       } else if ((event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)) {
-        std::scoped_lock gaurd(boardMutex);
+        std::scoped_lock gaurd(board.mutex);
         benchmarkBoard(board, board.width, board.height);
       } else if ((event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::J)) {
-        std::scoped_lock gaurd(boardMutex);
-        board.threads = std::max(board.threads - 1, (uint)1);
+        std::scoped_lock gaurd(board.mutex);
+        board.threadsPerBoard = std::max(board.threadsPerBoard - 1, (uint)1);
       } else if ((event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K)) {
-        std::scoped_lock gaurd(boardMutex);
-        board.threads++;
+        std::scoped_lock gaurd(board.mutex);
+        board.threadsPerBoard++;
       }
     }
-    ImGui::SFML::Update(*loop.window, deltaClock.restart());
-        ImGui::Begin("Hello, world!");
-        ImGui::Button("Look at this pretty button");
-        ImGui::End();
+    const auto deltaTime = deltaClock.restart();
+    ImGui::SFML::Update(*loop.window, deltaTime);
+
+    gui(board, *loop.window, deltaTime, computations, renders);
+
     render(board, *loop.window, *loop.sprite, *loop.texture, *loop.image, loop.pixels);
     renders++;
     ImGui::SFML::Render(*loop.window);
     window->display();
 
-    stopAndDelay(renderTimer, board.microsPerRender);
+    stopAndDelay(renderTimer, 1000000 / board.rendersPerSecond);
   }
 
   nextBoardThread.join();

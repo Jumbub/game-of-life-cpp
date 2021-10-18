@@ -28,10 +28,15 @@ struct BoardMeta {
   Cell* output = nullptr;
   Cell* raw = nullptr;
 
-  uint threads = PROBABLY_OPTIMAL_THREAD_COUNT;
-  uint microsPerRender = 32000;  // 30fps
+  uint threadsPerBoard = PROBABLY_OPTIMAL_THREAD_COUNT;
+  uint rendersPerSecond = 30;
+  uint generation = 1;
 
-  void flip() { std::swap(input, output); }
+  std::mutex mutex;
+
+  void flip() {
+    std::swap(input, output);
+  }
 
   void resize(const uint& width, const uint& height) {
     if (this->width * this->height != width * height) {

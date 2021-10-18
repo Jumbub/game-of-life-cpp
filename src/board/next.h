@@ -101,7 +101,7 @@ void nextBoard(BoardMeta& board) {
   const auto& input = board.input;
   const auto& output = board.output;
 
-  const auto totalThreads = std::min(board.threads, (uint)height);
+  const auto totalThreads = std::min(board.threadsPerBoard, (uint)height);
   const auto threadLines = height / totalThreads;
   const auto threadLinesRemaining = height % totalThreads;
 
@@ -122,6 +122,8 @@ void nextBoard(BoardMeta& board) {
   for (auto& thread : threads) {
     thread.join();
   }
+
+  board.generation++;
 
   padding(board.output, board.width, board.height);
 }
