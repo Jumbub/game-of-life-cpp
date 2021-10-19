@@ -11,8 +11,6 @@
 #include "padding.h"
 #include "threads.h"
 
-const Cell EMPTY = 16;
-
 inline uint64_t val64(Cell* ns) {
   return *reinterpret_cast<uint64_t*>(ns);
 }
@@ -30,8 +28,6 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
   Cell* neighboursNext = nullptr;
 
   for (uint y = startY + 1; y < endY + 1; y++) {
-    // Compute new Y levels
-
     neighboursLast = &input[lastYBase];
     neighboursMiddle = &input[middleYBase];
     neighboursNext = &input[nextYBase];
@@ -40,9 +36,6 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
     middleYBase += realWidth;
     nextYBase += realWidth;
 
-    neighbours[0] = EMPTY;
-    neighbours[1] = EMPTY;
-
     for (uint x = 1; x < width + 1; x++) {
       const auto i = y * realWidth + x;
 
@@ -50,9 +43,6 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
       constexpr uint MAXIMUM_SKIP = 6;
       if (x < width &&
           val64(&neighboursNext[x - 1]) + val64(&neighboursMiddle[x - 1]) + val64(&neighboursLast[x - 1]) == 0) {
-        neighbours[0] = EMPTY;
-        neighbours[1] = EMPTY;
-        neighbours[2] = EMPTY;
         for (uint ii = 0; ii < MAXIMUM_SKIP; ii++)
           output[i + ii] = DEAD;
         x += MAXIMUM_SKIP - 1;
@@ -67,11 +57,7 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
       // Left neighbours
       const auto prevX = x - 1;
       neighbours[0] = neighboursLast[prevX] + neighboursMiddle[prevX] + neighboursNext[prevX];
-
-      // Middle neighbours
-      neighbours[1] = neighboursLast[x] + neighboursNext[x] + currentStateBool;
-
-      // Right neighbours
+      neighbours[1] = neighboursLast[x] + neighboursMiddle[x] + neighboursNext[x];
       const auto nextX = x + 1;
       neighbours[2] = neighboursLast[nextX] + neighboursMiddle[nextX] + neighboursNext[nextX];
 
