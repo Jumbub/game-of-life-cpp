@@ -7,10 +7,6 @@ benchmark: build/build.ninja
 	./build/bench > results/benchmark.txt
 	cat results/benchmark.txt
 
-benchmark_short: build/build.ninja
-	cmake --build build --target bench_short
-	./build/bench_short
-
 test: build/build.ninja
 	cmake --build build --target test
 	./build/test
