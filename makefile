@@ -9,7 +9,7 @@ benchmark: build/build.ninja
 
 benchmark_short: build/build.ninja
 	cmake --build build --target bench_short
-	./build/bench
+	./build/bench_short
 
 test: build/build.ninja
 	cmake --build build --target test
