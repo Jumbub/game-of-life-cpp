@@ -11,11 +11,18 @@
 #include "padding.h"
 #include "threads.h"
 
-inline uint64_t val64(Cell* ns) {
+inline uint64_t eightCellsInOneNumber(Cell* ns) {
   return *reinterpret_cast<uint64_t*>(ns);
 }
 
-void nextBoardSection(const uint startY, const uint endY, const uint width, Cell* input, Cell* output) {
+constexpr uint SKIPPABLE_CELLS = sizeof(uint64_t) - 2;
+
+void nextBoardSection(
+    const uint startY,
+    const uint endY,
+    const uint width,
+    Cell* input,
+    Cell* output) {
   const auto realWidth = width + 2;
 
   Cell neighbours[3] = {0, 0, 0};
@@ -39,37 +46,40 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
     for (uint x = 1; x < width + 1; x++) {
       const auto i = y * realWidth + x;
 
-      // Skip if we see sequential 0 neighbour counts
-      constexpr uint MAXIMUM_SKIP = 6;
-      if (x < width &&
-          val64(&neighboursNext[x - 1]) + val64(&neighboursMiddle[x - 1]) + val64(&neighboursLast[x - 1]) == 0) {
-        for (uint ii = 0; ii < MAXIMUM_SKIP; ii++)
-          output[i + ii] = DEAD;
-        x += MAXIMUM_SKIP - 1;
-        continue;
-      }
-
-      const auto currentStateBool = input[i];
-
-      neighbours[0] = neighbours[1];
-      neighbours[1] = neighbours[2];
-
-      // Left neighbours
       const auto prevX = x - 1;
-      neighbours[0] = neighboursLast[prevX] + neighboursMiddle[prevX] + neighboursNext[prevX];
-      neighbours[1] = neighboursLast[x] + neighboursMiddle[x] + neighboursNext[x];
-      const auto nextX = x + 1;
-      neighbours[2] = neighboursLast[nextX] + neighboursMiddle[nextX] + neighboursNext[nextX];
 
-      // Compute new cell state
-      const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
+      const auto noNearbyNeighbours = eightCellsInOneNumber(&neighboursNext[prevX]) +
+                                    eightCellsInOneNumber(&neighboursMiddle[prevX]) +
+                                    eightCellsInOneNumber(&neighboursLast[prevX]) ==
+                                0;
+      // Skip cells if possible
+      if (x < width && noNearbyNeighbours) {
+        for (uint ii = 0; ii < SKIPPABLE_CELLS; ii++)
+          output[i + ii] = DEAD;
+        x += SKIPPABLE_CELLS - 1;
 
-      if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4)) {
-        output[i] = DEAD;
-      } else if (!currentStateBool && totalNeighbours == 3) {
-        output[i] = ALIVE;
+        // Regular computation
       } else {
-        output[i] = currentStateBool;
+        // Left neighbours
+        neighbours[0] = neighboursLast[prevX] + neighboursMiddle[prevX] + neighboursNext[prevX];
+
+        // Middle neighbours
+        neighbours[1] = neighboursLast[x] + neighboursMiddle[x] + neighboursNext[x];
+        const auto nextX = x + 1;
+
+        // Right neighbours
+        neighbours[2] = neighboursLast[nextX] + neighboursMiddle[nextX] + neighboursNext[nextX];
+
+        // Compute new cell state
+        const auto currentStateBool = input[i];
+        const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
+        if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4)) {
+          output[i] = DEAD;
+        } else if (!currentStateBool && totalNeighbours == 3) {
+          output[i] = ALIVE;
+        } else {
+          output[i] = currentStateBool;
+        }
       }
     }
   }
@@ -97,8 +107,9 @@ void nextBoard(Board& board, const uint& threadCount) {
     if (t == totalThreads - 1)
       endY += threadLinesRemaining;
 
-    threads.push_back(
-        std::thread([startY, endY, width, input, output]() { nextBoardSection(startY, endY, width, input, output); }));
+    threads.push_back(std::thread([startY, endY, width, input, output]() {
+      nextBoardSection(startY, endY, width, input, output);
+    }));
   }
 
   for (auto& thread : threads) {

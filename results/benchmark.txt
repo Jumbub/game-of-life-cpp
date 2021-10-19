@@ -1,6 +1,6 @@
-Renders per second: 29.8219
-Boards per second: 710.045
+Renders per second: 29.7762
+Boards per second: 708.957
 ------------------------------------------------------------------------------------------------
 Benchmark                                                      Time             CPU   Iterations
 ------------------------------------------------------------------------------------------------
-BM_Main/iterations:1/repeats:1/process_time/real_time       2.82 s          7.53 s             1
+BM_Main/iterations:1/repeats:1/process_time/real_time       2.82 s          7.72 s             1
