@@ -39,7 +39,10 @@ struct Loop {
     sprite.setTexture(texture, true);
   }
 
-  void run(long maxComputations = DEFAULT_MAX_GENERATIONS, uint threadCount = PROBABLY_OPTIMAL_THREAD_COUNT) {
+  void run(
+      long maxComputations = DEFAULT_MAX_GENERATIONS,
+      uint threadCount = PROBABLY_OPTIMAL_THREAD_COUNT,
+      uint startTargetRendersPerSecond = 30) {
     auto& board = this->board;
     auto& window = this->window;
 
@@ -50,18 +53,20 @@ struct Loop {
     long computationsSinceLastGuiDraw = 0;
 
     // Configuration
-    uint targetRendersPerSecond = 30;
+    uint targetRendersPerSecond = startTargetRendersPerSecond;
+    bool running = true;
 
     // Computation loop
-    std::thread nextBoardThread([&board, &window, &totalComputations, &computationsSinceLastGuiDraw, &maxComputations, &threadCount]() {
-      while (window.isOpen() && totalComputations < maxComputations) {
-        std::this_thread::sleep_for(std::chrono::nanoseconds(1));
-        std::scoped_lock gaurd(board.modifyingMemory);
-        nextBoard(board, threadCount);
-        totalComputations++;
-        computationsSinceLastGuiDraw++;
-      }
-    });
+    std::thread nextBoardThread(
+        [&board, &running, &totalComputations, &computationsSinceLastGuiDraw, &maxComputations, &threadCount]() {
+          while (running && totalComputations < maxComputations) {
+            std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+            std::scoped_lock gaurd(board.modifyingMemory);
+            nextBoard(board, threadCount);
+            totalComputations++;
+            computationsSinceLastGuiDraw++;
+          }
+        });
 
     // Render loop
     sf::Clock renderDeltaClock;
@@ -113,7 +118,10 @@ struct Loop {
       totalRenders++;
     }
 
+    // Close computation thread
+    running = false;
     nextBoardThread.join();
+
     stopAndDisplayFps(totalTimer, totalRenders, totalComputations);
   }
 };
