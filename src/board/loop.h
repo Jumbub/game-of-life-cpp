@@ -124,6 +124,7 @@ struct Loop {
     // Close computation thread
     running = false;
     nextBoardThread.join();
+    delete[] pixels;
 
     stopAndDisplayFps(totalTimer, totalRenders, totalComputations);
   }
