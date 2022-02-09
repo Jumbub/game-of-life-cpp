@@ -14,6 +14,8 @@ using namespace std::chrono;
 
 constexpr uint INITIAL_WINDOW_WIDTH = 2560;
 constexpr uint INITIAL_WINDOW_HEIGHT = 1440;
+constexpr uint INITIAL_IMAGE_WIDTH = INITIAL_WINDOW_WIDTH + 2;
+constexpr uint INITIAL_IMAGE_HEIGHT = INITIAL_WINDOW_HEIGHT + 2;
 constexpr auto DEFAULT_MAX_GENERATIONS = std::numeric_limits<long>::max();
 
 struct Loop {
@@ -21,7 +23,7 @@ struct Loop {
   sf::Texture texture;
   sf::Sprite sprite;
   sf::Image image;
-  sf::Uint32* pixels = new sf::Uint32[INITIAL_WINDOW_WIDTH * INITIAL_WINDOW_HEIGHT];
+  sf::Uint32* pixels = new sf::Uint32[INITIAL_IMAGE_WIDTH * INITIAL_IMAGE_HEIGHT];
   Board board = Board(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
 
   Loop(bool noResize = false)
@@ -34,9 +36,10 @@ struct Loop {
 
     // Init graphics
     ImGui::SFML::Init(window);
-    image.create(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT, reinterpret_cast<sf::Uint8*>(pixels));
+    image.create(INITIAL_IMAGE_WIDTH, INITIAL_IMAGE_HEIGHT, reinterpret_cast<sf::Uint8*>(pixels));
     texture.loadFromImage(image);
     sprite.setTexture(texture, true);
+    sprite.setPosition(-1, -1);
   }
 
   void run(
@@ -102,7 +105,7 @@ struct Loop {
           std::scoped_lock gaurd(board.modifyingMemory);
           window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
           delete[] pixels;
-          pixels = new sf::Uint32[event.size.width * event.size.height];
+          pixels = new sf::Uint32[(event.size.width + 2) * (event.size.height + 2)];
           board.setSize(event.size.width, event.size.height);
           assignBenchmarkCells(board);
 

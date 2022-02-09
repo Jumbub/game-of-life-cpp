@@ -8,6 +8,10 @@
 #include "board.h"
 #include "generate.h"
 
+// I found this number by accident, it looks beautiful.
+constexpr uint MAGIC_NUMBER = 267386880;
+constexpr uint MAGIC_NUMBER_TO_MAX = UINT32_MAX - MAGIC_NUMBER;
+
 void drawBoard(
     Board& board,
     sf::RenderWindow& window,
@@ -18,17 +22,16 @@ void drawBoard(
   const auto& output = board.output;
 
   // Generate the pixel texture data from the board output
-  for (unsigned int y = 1; y < board.height + 1; y++) {
-    for (unsigned int x = 1; x < board.width + 1; x++) {
-      if (output[y * (board.width + 2) + x] == ALIVE) {
-        pixels[(y - 1) * board.width + (x - 1)] = UINT32_MAX;
-      } else {
-        pixels[(y - 1) * board.width + (x - 1)] = 267386880;
-      }
+  uint width = board.width + 2;
+  uint height = board.height + 2;
+  for (unsigned int y = 0; y < height; y++) {
+    for (unsigned int x = 0; x < width; x++) {
+      const uint offset = y * width + x;
+      pixels[offset] = output[offset] * MAGIC_NUMBER_TO_MAX + MAGIC_NUMBER;
     }
   }
 
-  image.create(board.width, board.height, reinterpret_cast<sf::Uint8*>(pixels));
+  image.create(width, height, reinterpret_cast<sf::Uint8*>(pixels));
   texture.update(image);
   sprite.setTexture(texture, true);
   window.draw(sprite);
