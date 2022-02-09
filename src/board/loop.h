@@ -8,6 +8,7 @@
 #include "../board/gui.h"
 #include "../board/next.h"
 #include "../board/render.h"
+#include "../util/lock.h"
 #include "../util/time.h"
 
 using namespace std::chrono;
@@ -60,16 +61,15 @@ struct Loop {
     bool running = true;
 
     // Computation loop
-    std::thread nextBoardThread(
-        [&board, &running, &totalComputations, &computationsSinceLastGuiDraw, &maxComputations, &threadCount]() {
-          while (running && totalComputations < maxComputations) {
-            std::this_thread::sleep_for(std::chrono::nanoseconds(1));
-            std::scoped_lock gaurd(board.modifyingMemory);
-            nextBoard(board, threadCount);
-            totalComputations++;
-            computationsSinceLastGuiDraw++;
-          }
-        });
+    std::thread nextBoardThread([&]() {
+      while (running && totalComputations < maxComputations) {
+        board.lock.pauseIfRequested();
+
+        nextBoard(board, threadCount);
+        totalComputations++;
+        computationsSinceLastGuiDraw++;
+      }
+    });
 
     // Render loop
     sf::Clock renderDeltaClock;
@@ -102,7 +102,8 @@ struct Loop {
 
           // On window resize, update texture and board
         } else if (event.type == sf::Event::Resized) {
-          std::scoped_lock gaurd(board.modifyingMemory);
+          auto scope = LockForScope(board.lock);
+
           window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
           delete[] pixels;
           pixels = new sf::Uint32[(event.size.width + 2) * (event.size.height + 2)];
@@ -111,7 +112,8 @@ struct Loop {
 
           // On pressing enter, reset benchmark scenario
         } else if ((event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)) {
-          std::scoped_lock gaurd(board.modifyingMemory);
+          auto scope = LockForScope(board.lock);
+
           assignBenchmarkCells(board);
         }
       }

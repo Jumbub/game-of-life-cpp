@@ -27,7 +27,7 @@ void drawGui(
   int rps = (int)targetRendersPerSecond;
   ImGui::SliderInt("Target renders/second", &rps, 1, 300);
   if ((uint)rps != targetRendersPerSecond) {
-    std::scoped_lock gaurd(board.modifyingMemory);
+    auto scope = LockForScope(board.lock);
     targetRendersPerSecond = (uint)rps;
   }
 
@@ -36,13 +36,13 @@ void drawGui(
   int tpb = (int)threadCount;
   ImGui::SliderInt("Threads/computation", &tpb, 1, (int)PROBABLY_OPTIMAL_THREAD_COUNT * 4);
   if ((uint)tpb != threadCount) {
-    std::scoped_lock gaurd(board.modifyingMemory);
+    auto scope = LockForScope(board.lock);
     threadCount = (uint)tpb;
   }
 
   // Restart
   if (ImGui::Button("Restart")) {
-    std::scoped_lock gaurd(board.modifyingMemory);
+    auto scope = LockForScope(board.lock);
     assignBenchmarkCells(board);
   }
 

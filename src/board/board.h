@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mutex>
+#include "../util/lock.h"
 
 using Cell = uint8_t;
 [[maybe_unused]] const Cell ALIVE = 1;
@@ -14,11 +14,9 @@ struct Board {
   Cell* output = nullptr;
   Cell* raw = nullptr;
 
-  std::mutex modifyingMemory;
+  Lock lock;
 
-  void setOutputToInput() {
-    std::swap(input, output);
-  }
+  void setOutputToInput() { std::swap(input, output); }
 
   void setSize(const uint& width, const uint& height) {
     if (this->width * this->height != width * height) {

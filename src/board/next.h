@@ -17,12 +17,7 @@ inline uint64_t eightCellsInOneNumber(Cell* ns) {
 
 constexpr uint SKIPPABLE_CELLS = sizeof(uint64_t) - 2;
 
-void nextBoardSection(
-    const uint startY,
-    const uint endY,
-    const uint width,
-    Cell* input,
-    Cell* output) {
+void nextBoardSection(const uint startY, const uint endY, const uint width, Cell* input, Cell* output) {
   const auto realWidth = width + 2;
 
   Cell neighbours[3] = {0, 0, 0};
@@ -49,9 +44,9 @@ void nextBoardSection(
       const auto prevX = x - 1;
 
       const auto noNearbyNeighbours = eightCellsInOneNumber(&neighboursNext[prevX]) +
-                                    eightCellsInOneNumber(&neighboursMiddle[prevX]) +
-                                    eightCellsInOneNumber(&neighboursLast[prevX]) ==
-                                0;
+                                          eightCellsInOneNumber(&neighboursMiddle[prevX]) +
+                                          eightCellsInOneNumber(&neighboursLast[prevX]) ==
+                                      0;
       // Skip cells if possible
       if (x < width && noNearbyNeighbours) {
         for (uint ii = 0; ii < SKIPPABLE_CELLS; ii++)
@@ -107,9 +102,8 @@ void nextBoard(Board& board, const uint& threadCount) {
     if (t == totalThreads - 1)
       endY += threadLinesRemaining;
 
-    threads.push_back(std::thread([startY, endY, width, input, output]() {
-      nextBoardSection(startY, endY, width, input, output);
-    }));
+    threads.push_back(
+        std::thread([startY, endY, width, input, output]() { nextBoardSection(startY, endY, width, input, output); }));
   }
 
   for (auto& thread : threads) {
