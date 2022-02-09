@@ -21,9 +21,9 @@ void drawBoard(
   for (unsigned int y = 1; y < board.height + 1; y++) {
     for (unsigned int x = 1; x < board.width + 1; x++) {
       if (output[y * (board.width + 2) + x] == ALIVE) {
-        pixels[(y - 1) * board.width + (x - 1)] = 0xffffffff;
+        pixels[(y - 1) * board.width + (x - 1)] = UINT32_MAX;
       } else {
-        pixels[(y - 1) * board.width + (x - 1)] = 0xff000000;
+        pixels[(y - 1) * board.width + (x - 1)] = 267386880;
       }
     }
   }
