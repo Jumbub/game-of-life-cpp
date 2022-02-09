@@ -166,6 +166,14 @@ If we read the 8 cells above, adjacent and below and find that we have 0 total a
 
 [67762ed7fbb419eea90d763bd8cbe0fe4596f5c1](https://github.com/Jumbub/game-of-speed/commit/67762ed7fbb419eea90d763bd8cbe0fe4596f5c1)
 
+### 6.5% speed increase overall
+
+By replacing the system level mutex (std::mutex) with a more simple "request worker pause" spin lock.
+
+We don't need a complex mutex when the communication is tied from a main thread to a single worker thread.
+
+[ed7b50d50eb512cd558e1c7c6ac22e311d0018c5](https://github.com/Jumbub/game-of-speed/commit/ed7b50d50eb512cd558e1c7c6ac22e311d0018c5)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
