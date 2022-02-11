@@ -1,10 +1,16 @@
-build
+# IDE
 .ccls-cache
+
+# Build
+build
+*.o
+
+# Profiling
 uftrace.data
 uftrace.data.old
 gmon.out
 chrome.profile
-*.o
-imgui.ini
 valgrind-out.txt
-results
+
+# Storage
+imgui.ini
