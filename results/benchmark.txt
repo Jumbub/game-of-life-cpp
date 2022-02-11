@@ -1,8 +1,8 @@
 ------------------------------------------------------------------------------------------------
 Benchmark                                                      Time             CPU   Iterations
 ------------------------------------------------------------------------------------------------
-BM_NextBoard/iterations:3000/process_time/real_time         1.00 ms         3.09 ms         3000
-BM_RenderBoard/process_time/real_time                       7.07 ms         6.97 ms           89
-Renders per second: 29.8839
-Boards per second: 796.903
-BM_Main/iterations:1/repeats:1/process_time/real_time       2.51 s          6.92 s             1
+BM_NextBoard/iterations:3000/process_time/real_time        0.979 ms         2.88 ms         3000
+BM_RenderBoard/process_time/real_time                       7.11 ms         7.10 ms           90
+Renders per second: 29.8936
+Boards per second: 879.223
+BM_Main/iterations:1/repeats:1/process_time/real_time       2.27 s          6.35 s             1

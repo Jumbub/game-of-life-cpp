@@ -17,6 +17,10 @@ inline uint64_t eightCellsInOneNumber(Cell* ns) {
 
 constexpr uint SKIPPABLE_CELLS = sizeof(uint64_t) - 2;
 
+constexpr uint8_t LOOKUP[20] = {
+    0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+};
+
 void nextBoardSection(const uint startY, const uint endY, const uint width, Cell* input, Cell* output) {
   const auto realWidth = width + 2;
 
@@ -68,7 +72,7 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
         // Compute new cell state
         const uint8_t currentStateBool = input[i];
         const uint8_t totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
-        output[i] = totalNeighbours == 3 || (totalNeighbours == 4 && currentStateBool);
+        output[i] = LOOKUP[totalNeighbours + currentStateBool * 9];
       }
     }
   }
