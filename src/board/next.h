@@ -66,15 +66,9 @@ void nextBoardSection(const uint startY, const uint endY, const uint width, Cell
         neighbours[2] = neighboursLast[nextX] + neighboursMiddle[nextX] + neighboursNext[nextX];
 
         // Compute new cell state
-        const auto currentStateBool = input[i];
-        const auto totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
-        if (currentStateBool && (totalNeighbours < 3 || totalNeighbours > 4)) {
-          output[i] = DEAD;
-        } else if (!currentStateBool && totalNeighbours == 3) {
-          output[i] = ALIVE;
-        } else {
-          output[i] = currentStateBool;
-        }
+        const uint8_t currentStateBool = input[i];
+        const uint8_t totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
+        output[i] = totalNeighbours == 3 || (totalNeighbours == 4 && currentStateBool);
       }
     }
   }
