@@ -175,6 +175,12 @@ We don't need a complex mutex when the communication is tied from a main thread 
 
 [ed7b50d50eb512cd558e1c7c6ac22e311d0018c5](https://github.com/Jumbub/game-of-speed/commit/ed7b50d50eb512cd558e1c7c6ac22e311d0018c5)
 
+### 15% speed increase overall
+
+By replacing the primitive multi-branching cell state calculation with a lookup table.
+
+[4f54fa8..41067a2](https://github.com/jumbub/game-of-speed/compare/4f54fa8..41067a2)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
