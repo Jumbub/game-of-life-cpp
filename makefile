@@ -1,47 +1,49 @@
-main: build/build.ninja
-	cmake --build build --target main
+# Build & run executables
+
+main: main_exe
 	./build/main
 
-benchmark: build/build.ninja results
-	cmake --build build --target bench
-	./build/bench > results/benchmark.txt
-	cat results/benchmark.txt
-
-test: build/build.ninja
-	cmake --build build --target test
+test: test_exe
 	./build/test
+
+benchmark: benchmark_exe
+	./build/bench
+
+benchmark_all: all_exe
+	echo "\nOfast" >> benchmark_all.txt
+	./build/bench-Ofast >> benchmark_all.txt
+	echo "\nO3" >> benchmark_all.txt
+	./build/bench-O3 >> benchmark_all.txt
+	echo "\nO2" >> benchmark_all.txt
+	./build/bench-O2 >> benchmark_all.txt
+	echo "\nO1" >> benchmark_all.txt
+	./build/bench-O1 >> benchmark_all.txt
+	echo "\nO0" >> benchmark_all.txt
+	./build/bench-O0 >> benchmark_all.txt
+	echo "\nOs" >> benchmark_all.txt
+	./build/bench-Os >> benchmark_all.txt
+
+# Build executables
+
+main_exe: build/build.ninja
+	cmake --build build --target main
 
 debug_exe: build/build.ninja
 	cmake --build build --target debug
 
-profile_exe: build/build.ninja
-	cmake --build build --target profile
+test_exe: build/build.ninja
+	cmake --build build --target test
 
 benchmark_exe: build/build.ninja
-	cmake --build build --target benchmark
-	cp ./build/benchmark ./build/out
-	./build/out
+	cmake --build build --target bench
 
-benchmark_full: build/build.ninja
+all_exe: build/build.ninja
 	cmake --build build
-	echo Ofast >> results/benchmark_full.txt
-	./build/bench-Ofast >> results/benchmark_full.txt
-	echo O3 >> results/benchmark_full.txt
-	./build/bench-O3 >> results/benchmark_full.txt
-	echo O2 >> results/benchmark_full.txt
-	./build/bench-O2 >> results/benchmark_full.txt
-	echo O1 >> results/benchmark_full.txt
-	./build/bench-O1 >> results/benchmark_full.txt
-	echo O0 >> results/benchmark_full.txt
-	./build/bench-O0 >> results/benchmark_full.txt
-	echo Os >> results/benchmark_full.txt
-	./build/bench-Os >> results/benchmark_full.txt
+
+# Other
 
 build/build.ninja:
 	mkdir -p build && cd build && cmake -GNinja ../ || rm -rf build
-
-results:
-	mkdir results
 
 test_github:
 	g++ src/entrypoints/test.cpp -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread -O3 -o test
