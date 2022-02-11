@@ -11,6 +11,7 @@ uftrace.data.old
 gmon.out
 chrome.profile
 valgrind-out.txt
+benchmark_all.txt
 
 # Storage
 imgui.ini
