@@ -2,7 +2,7 @@ main: build/build.ninja
 	cmake --build build --target main
 	./build/main
 
-benchmark: build/build.ninja
+benchmark: build/build.ninja results
 	cmake --build build --target bench
 	./build/bench > results/benchmark.txt
 	cat results/benchmark.txt
@@ -39,6 +39,9 @@ benchmark_full: build/build.ninja
 
 build/build.ninja:
 	mkdir -p build && cd build && cmake -GNinja ../ || rm -rf build
+
+results:
+	mkdir results
 
 test_github:
 	g++ src/entrypoints/test.cpp -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread -O3 -o test
