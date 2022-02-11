@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include <array>
-#include <catch2/catch.hpp>
+#include "../../build/_deps/catch2-src/src/catch2/catch_all.hpp"
 #include "../board/next.h"
 #include "../board/padding.h"
 

@@ -1,27 +1,27 @@
 # Build & run executables
 
 main: main_exe
-	./build/main
+	./build/src/main
 
 test: test_exe
-	./build/test
+	./build/src/test
 
 benchmark: benchmark_exe
-	./build/bench
+	./build/src/bench
 
 benchmark_all: all_exe
-	echo "\nOfast" >> benchmark_all.txt
-	./build/bench-Ofast >> benchmark_all.txt
-	echo "\nO3" >> benchmark_all.txt
-	./build/bench-O3 >> benchmark_all.txt
-	echo "\nO2" >> benchmark_all.txt
-	./build/bench-O2 >> benchmark_all.txt
-	echo "\nO1" >> benchmark_all.txt
-	./build/bench-O1 >> benchmark_all.txt
-	echo "\nO0" >> benchmark_all.txt
-	./build/bench-O0 >> benchmark_all.txt
-	echo "\nOs" >> benchmark_all.txt
-	./build/bench-Os >> benchmark_all.txt
+	echo "Ofast" >> benchmark_all.txt
+	./build/src/bench-Ofast >> benchmark_all.txt
+	echo "O3" >> benchmark_all.txt
+	./build/src/bench-O3 >> benchmark_all.txt
+	echo "O2" >> benchmark_all.txt
+	./build/src/bench-O2 >> benchmark_all.txt
+	echo "O1" >> benchmark_all.txt
+	./build/src/bench-O1 >> benchmark_all.txt
+	echo "O0" >> benchmark_all.txt
+	./buil/src/bench-O0 >> benchmark_all.txt
+	echo "Os" >> benchmark_all.txt
+	./build/src/bench-Os >> benchmark_all.txt
 
 # Build executables
 
