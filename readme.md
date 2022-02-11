@@ -11,7 +11,7 @@ Conway's Game of Life, as fast as possible.
 
 - [Running the code](#gettings-started)
 
-[![The benchmark world](art/golblue.gif)](https://youtu.be/16G4Dir5br8)
+[![The benchmark world](https://user-images.githubusercontent.com/8686526/153599957-85b5a9cb-e57d-4d02-aa6e-c794e7d18d04.gif)](https://youtu.be/16G4Dir5br8)
 
 _(the above gif is the benchmark scenario; slowed down to a fraction of the real speed; [click for video](https://youtu.be/16G4Dir5br8))_
 
