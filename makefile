@@ -23,24 +23,32 @@ benchmark_all: all_exe
 	echo "Os" >> benchmark_all.txt
 	./build/src/bench-Os >> benchmark_all.txt
 
-# Build executables
+# Build executables & IDE compile commands
 
 main_exe: build/build.ninja
 	cmake --build build --target main
+	make compile_commands
 
 debug_exe: build/build.ninja
 	cmake --build build --target debug
+	make compile_commands
 
 test_exe: build/build.ninja
 	cmake --build build --target test
+	make compile_commands
 
 benchmark_exe: build/build.ninja
 	cmake --build build --target bench
+	make compile_commands
 
 all_exe: build/build.ninja
 	cmake --build build
+	make compile_commands
 
 # Other
+
+compile_commands:
+	ninja -C build -t compdb > compile_commands.json
 
 build/build.ninja:
 	mkdir -p build && cd build && cmake -GNinja ../ || rm -rf build
