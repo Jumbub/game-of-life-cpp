@@ -10,7 +10,7 @@ const unsigned int TEST_RENDERS_PER_SECOND = 30;
 const unsigned int TEST_GENERATIONS = 2000;
 
 static void BM_GraphicsOnly(benchmark::State& state) {
-  Loop loop(false);
+  Loop loop(TEST_WIDTH, TEST_HEIGHT, "Game of Speed (benchmark)", false);
   for (auto _ : state) {
     drawBoard(loop.board, loop.window, loop.sprite, loop.texture, loop.image, loop.pixels);
     loop.window.display();
@@ -30,7 +30,7 @@ static void BM_LogicOnly(benchmark::State& state) {
 BENCHMARK(BM_LogicOnly)->Unit(benchmark::kMillisecond)->Repetitions(2)->Iterations(TEST_GENERATIONS);
 
 static void BM_Main(benchmark::State& state) {
-  Loop loop(false);
+  Loop loop(TEST_WIDTH, TEST_HEIGHT, "Game of Speed (benchmark)", false);
   for (auto _ : state) {
     loop.run(TEST_GENERATIONS, MAYBE_OPTIMAL_THREAD_COUNT, TEST_RENDERS_PER_SECOND);
   }

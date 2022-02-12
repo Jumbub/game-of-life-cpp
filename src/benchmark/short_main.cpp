@@ -4,9 +4,9 @@
 #include "../logic/next.h"
 
 static void BM_Real(benchmark::State& state) {
-  Loop loop(false);
+  Loop loop(2560, 1440, "Game of Speed (benchmark)", false);
   for (auto _ : state) {
-    loop.run(500, state.range(0));
+    loop.run(500, state.range(0), 30);
   }
 }
 
