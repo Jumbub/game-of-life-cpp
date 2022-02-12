@@ -26,11 +26,11 @@ struct Loop {
   sf::Uint32* pixels = new sf::Uint32[INITIAL_IMAGE_WIDTH * INITIAL_IMAGE_HEIGHT];
   Board board = Board(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
 
-  Loop(bool noResize = false)
+  Loop(bool resize)
       : window(sf::RenderWindow(
             sf::VideoMode(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT),
             "Game of Speed",
-            noResize ? sf::Style::None : sf::Style::Resize)) {
+            resize ? sf::Style::Resize : sf::Style::None)) {
     // Init board
     assignBenchmarkCells(board);
 

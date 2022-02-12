@@ -4,7 +4,7 @@
 #include "../logic/next.h"
 
 static void BM_Real(benchmark::State& state) {
-  Loop loop(true);
+  Loop loop(false);
   for (auto _ : state) {
     loop.run(500, state.range(0));
   }
