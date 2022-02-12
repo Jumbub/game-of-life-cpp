@@ -2,9 +2,9 @@
 
 #include "../../build/_deps/imgui-src/imgui.h"
 #include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
-#include "board.h"
-#include "generate.h"
-#include "threads.h"
+#include "../logic/board.h"
+#include "../logic/generate.h"
+#include "../logic/threads.h"
 
 // ImGui decleration
 void drawGui(

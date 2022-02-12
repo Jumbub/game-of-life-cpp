@@ -1,7 +1,7 @@
 #include "../../build/_deps/googlebenchmark-src/include/benchmark/benchmark.h"
-#include "../board/generate.h"
-#include "../board/loop.h"
-#include "../board/next.h"
+#include "../graphics/loop.h"
+#include "../logic/generate.h"
+#include "../logic/next.h"
 
 static void BM_Real(benchmark::State& state) {
   Loop loop(true);

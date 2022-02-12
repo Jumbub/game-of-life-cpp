@@ -2,8 +2,8 @@
 
 #include <array>
 #include <catch2/catch.hpp>
-#include "../board/next.h"
-#include "../board/padding.h"
+#include "../logic/next.h"
+#include "../logic/padding.h"
 
 using BoardVector = std::vector<std::vector<bool>>;
 

@@ -5,8 +5,8 @@
 #include "../../build/_deps/imgui-sfml-src/imgui-SFML.h"
 #include "../../build/_deps/imgui-src/imgui.h"
 #include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
-#include "board.h"
-#include "generate.h"
+#include "../logic/board.h"
+#include "../logic/generate.h"
 
 // I found this number by accident, it looks beautiful.
 constexpr uint MAGIC_NUMBER = 267386880;
