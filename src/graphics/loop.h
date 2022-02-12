@@ -17,7 +17,6 @@ constexpr uint INITIAL_WINDOW_WIDTH = 2560;
 constexpr uint INITIAL_WINDOW_HEIGHT = 1440;
 constexpr uint INITIAL_IMAGE_WIDTH = INITIAL_WINDOW_WIDTH + 2;
 constexpr uint INITIAL_IMAGE_HEIGHT = INITIAL_WINDOW_HEIGHT + 2;
-constexpr auto DEFAULT_MAX_GENERATIONS = std::numeric_limits<long>::max();
 
 struct Loop {
   sf::RenderWindow window;
@@ -43,15 +42,11 @@ struct Loop {
     sprite.setPosition(-1, -1);
   }
 
-  void run(
-      long maxComputations = DEFAULT_MAX_GENERATIONS,
-      uint threadCount = PROBABLY_OPTIMAL_THREAD_COUNT,
-      uint startTargetRendersPerSecond = 30) {
+  void run(long maxComputations, uint threadCount, uint startTargetRendersPerSecond) {
     auto& board = this->board;
     auto& window = this->window;
 
     // Statistics
-    auto totalTimer = start();
     long totalComputations = 0;
     long totalRenders = 0;
     long computationsSinceLastGuiDraw = 0;
@@ -127,7 +122,5 @@ struct Loop {
     running = false;
     nextBoardThread.join();
     delete[] pixels;
-
-    stopAndDisplayFps(totalTimer, totalRenders, totalComputations);
   }
 };

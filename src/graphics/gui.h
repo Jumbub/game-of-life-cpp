@@ -34,7 +34,7 @@ void drawGui(
   // Compute
   ImGui::Text("Computations/second: %.2f", (float)computationsSinceLastRender / renderDelta.asSeconds());
   int tpb = (int)threadCount;
-  ImGui::SliderInt("Threads/computation", &tpb, 1, (int)PROBABLY_OPTIMAL_THREAD_COUNT * 4);
+  ImGui::SliderInt("Threads/computation", &tpb, 1, (int)MAYBE_OPTIMAL_THREAD_COUNT * 4);
   if ((uint)tpb != threadCount) {
     auto scope = LockForScope(board.lock);
     threadCount = (uint)tpb;

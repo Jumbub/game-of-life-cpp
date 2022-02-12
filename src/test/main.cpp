@@ -38,7 +38,7 @@ void compare(BoardVector a, BoardVector b, uint generations = 1) {
   generate(boardA, a);
   generate(boardB, b);
   for (uint i = 0; i < generations; i++)
-    nextBoard(boardA, PROBABLY_OPTIMAL_THREAD_COUNT);
+    nextBoard(boardA, MAYBE_OPTIMAL_THREAD_COUNT);
   REQUIRE(ungenerate(boardA) == ungenerate(boardB));
 }
 
