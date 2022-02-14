@@ -301,6 +301,8 @@ My only vague idea about how this first solution could be faster is that it is a
 
 ### Un-packing FOR the win
 
+Commit on which experiment was conducted: [39d49374ee69aba70c7ab093397e131ecbb80665](https://github.com/Jumbub/game-of-speed/tree/39d49374ee69aba70c7ab093397e131ecbb80665)
+
 This:
 
 ```
