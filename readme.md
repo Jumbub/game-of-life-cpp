@@ -299,6 +299,43 @@ I had assumed that the 3rd case would actually be the fastest, because _most_ ce
 
 My only vague idea about how this first solution could be faster is that it is able to do better branch prediction.
 
+### Un-packing FOR the win
+
+This:
+
+```
+output[i] = DEAD;
+output[i + 1] = DEAD;
+output[i + 2] = DEAD;
+output[i + 3] = DEAD;
+output[i + 4] = DEAD;
+output[i + 5] = DEAD;
+```
+```
+BM_Main/iterations:1/repeats:3/process_time/real_time              2.17 s          5.98 s             1
+BM_Main/iterations:1/repeats:3/process_time/real_time              2.14 s          5.96 s             1
+BM_Main/iterations:1/repeats:3/process_time/real_time              2.18 s          5.99 s             1
+BM_Main/iterations:1/repeats:3/process_time/real_time_mean         2.16 s          5.98 s             3
+BM_Main/iterations:1/repeats:3/process_time/real_time_median       2.17 s          5.98 s             3
+BM_Main/iterations:1/repeats:3/process_time/real_time_stddev      0.019 s         0.014 s             3
+```
+
+is way faster than this:
+
+```
+for (uint j = 0; j < 6; j++) {
+  output[i + j] = DEAD;
+}
+```
+```
+BM_Main/iterations:1/repeats:3/process_time/real_time              2.37 s          6.74 s             1
+BM_Main/iterations:1/repeats:3/process_time/real_time              2.41 s          6.77 s             1
+BM_Main/iterations:1/repeats:3/process_time/real_time              2.41 s          6.76 s             1
+BM_Main/iterations:1/repeats:3/process_time/real_time_mean         2.40 s          6.76 s             3
+BM_Main/iterations:1/repeats:3/process_time/real_time_median       2.41 s          6.76 s             3
+BM_Main/iterations:1/repeats:3/process_time/real_time_stddev      0.019 s         0.017 s             3
+```
+
 ### Struct memory layouts are slightly important
 
 So, I had this extra pointer `renderRaw` in my `Board` struct which was legacy from previous render strategies. I deleted the pointer and it's associated `malloc` in [this commit](https://github.com/Jumbub/game-of-speed/commit/e79b2f7a01bda0cf28925a4be90fb84cdabe3515), only to find out, it causes a 5% decrease in the overall performance of the app.

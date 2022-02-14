@@ -11,69 +11,50 @@
 #include "padding.h"
 #include "threads.h"
 
-inline uint64_t eightCellsInOneNumber(Cell* ns) {
+inline uint64_t uint8_to_uint64(Cell* ns) {
   return *reinterpret_cast<uint64_t*>(ns);
 }
 
-constexpr uint SKIPPABLE_CELLS = sizeof(uint64_t) - 2;
-
 constexpr uint8_t LOOKUP[20] = {
-    0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
 };
 
 void nextBoardSection(const uint startY, const uint endY, const uint width, Cell* input, Cell* output) {
   const auto realWidth = width + 2;
+  const auto realStart = startY + 1;
+  const auto realEnd = endY + 1;
 
-  Cell neighbours[3] = {0, 0, 0};
-  uint nextYBase = startY * realWidth;
-  uint middleYBase = (startY + 1) * realWidth;
-  uint lastYBase = (startY + 2) * realWidth;
+  const uint start = realStart * realWidth + 1;
 
-  Cell* neighboursLast = nullptr;
-  Cell* neighboursMiddle = nullptr;
-  Cell* neighboursNext = nullptr;
+  Cell* top = &input[start - realWidth - 1];
+  Cell* middle = &input[start - 1];
+  Cell* bottom = &input[start + realWidth - 1];
 
-  for (uint y = startY + 1; y < endY + 1; y++) {
-    neighboursLast = &input[lastYBase];
-    neighboursMiddle = &input[middleYBase];
-    neighboursNext = &input[nextYBase];
+  const uint stop = realEnd * realWidth - 1;
+  for (uint i = start; i < stop; i++) {
+    if (uint8_to_uint64(top) + uint8_to_uint64(middle) + uint8_to_uint64(bottom) == 0) {
+      output[i] = DEAD;
+      output[i + 1] = DEAD;
+      output[i + 2] = DEAD;
+      output[i + 3] = DEAD;
+      output[i + 4] = DEAD;
+      output[i + 5] = DEAD;
 
-    lastYBase += realWidth;
-    middleYBase += realWidth;
-    nextYBase += realWidth;
+      top += 6;
+      middle += 6;
+      bottom += 6;
 
-    for (uint x = 1; x < width + 1; x++) {
-      const auto i = y * realWidth + x;
+      i += 5;
+    } else {
+      const auto a = top[0] + middle[0] + bottom[0];
+      const auto b = top[1] + middle[1] * 9 + bottom[1];
+      const auto c = top[2] + middle[2] + bottom[2];
 
-      const auto prevX = x - 1;
+      output[i] = LOOKUP[a + b + c];
 
-      const auto noNearbyNeighbours = eightCellsInOneNumber(&neighboursNext[prevX]) +
-                                          eightCellsInOneNumber(&neighboursMiddle[prevX]) +
-                                          eightCellsInOneNumber(&neighboursLast[prevX]) ==
-                                      0;
-      // Skip cells if possible
-      if (x < width && noNearbyNeighbours) {
-        for (uint ii = 0; ii < SKIPPABLE_CELLS; ii++)
-          output[i + ii] = DEAD;
-        x += SKIPPABLE_CELLS - 1;
-
-        // Regular computation
-      } else {
-        // Left neighbours
-        neighbours[0] = neighboursLast[prevX] + neighboursMiddle[prevX] + neighboursNext[prevX];
-
-        // Middle neighbours
-        neighbours[1] = neighboursLast[x] + neighboursMiddle[x] + neighboursNext[x];
-        const auto nextX = x + 1;
-
-        // Right neighbours
-        neighbours[2] = neighboursLast[nextX] + neighboursMiddle[nextX] + neighboursNext[nextX];
-
-        // Compute new cell state
-        const uint8_t currentStateBool = input[i];
-        const uint8_t totalNeighbours = neighbours[0] + neighbours[1] + neighbours[2];
-        output[i] = LOOKUP[totalNeighbours + currentStateBool * 9];
-      }
+      top++;
+      middle++;
+      bottom++;
     }
   }
 }
