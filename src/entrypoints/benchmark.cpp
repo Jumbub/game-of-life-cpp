@@ -34,6 +34,6 @@ static void BM_Main(benchmark::State& state) {
   }
 }
 
-BENCHMARK(BM_Main)->Unit(benchmark::kSecond)->MeasureProcessCPUTime()->UseRealTime()->Repetitions(1)->Iterations(1);
+BENCHMARK(BM_Main)->Unit(benchmark::kSecond)->MeasureProcessCPUTime()->UseRealTime()->Repetitions(3)->Iterations(1);
 
 BENCHMARK_MAIN();
