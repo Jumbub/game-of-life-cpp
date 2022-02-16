@@ -2,9 +2,10 @@
 
 #include "../util/lock.h"
 
-using Cell = uint8_t;
-[[maybe_unused]] const Cell ALIVE = 1;
-[[maybe_unused]] const Cell DEAD = 0;
+// State, neighbours
+using Cell = uint8_t[2];
+[[maybe_unused]] const uint8_t ALIVE = 1;
+[[maybe_unused]] const uint8_t DEAD = 0;
 
 struct Board {
   uint width;

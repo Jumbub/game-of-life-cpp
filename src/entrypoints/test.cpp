@@ -14,9 +14,10 @@ void generate(Board& board, BoardVector vector) {
   board.setSize(width, height);
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
-      board.output[y * (width + 2) + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
+      board.output[y * (width + 2) + x][0] = vector[y - 1][x - 1] ? ALIVE : DEAD;
 
-  assignBoardPadding(board.output, width, height);
+  assignBoardNeighbours(board);
+  assignBorders(board);
 }
 
 BoardVector ungenerate(Board& board) {
@@ -27,14 +28,14 @@ BoardVector ungenerate(Board& board) {
   std::vector<std::vector<bool>> vector(height, std::vector<bool>(width));
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
-      vector[y - 1][x - 1] = output[y * (width + 2) + x] == ALIVE ? 1 : 0;
+      vector[y - 1][x - 1] = output[y * (width + 2) + x][0] == ALIVE ? 1 : 0;
 
   return vector;
 }
 
 void compare(BoardVector a, BoardVector b, uint generations = 1) {
-  auto boardA = Board(1, 1);
-  auto boardB = Board(1, 1);
+  Board boardA = {1, 1};
+  Board boardB = {1, 1};
   generate(boardA, a);
   generate(boardB, b);
   for (uint i = 0; i < generations; i++)
@@ -309,26 +310,4 @@ TEST_CASE("medium glider 25 generations", "[nextBoard]") {
        {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0}},
 
       25);
-}
-
-TEST_CASE("2x2", "[padding]") {
-  std::vector<Cell> input{
-      0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-  };
-  std::vector<Cell> expected{
-      1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1,
-  };
-  assignBoardPadding(&input[0], 2, 2);
-  REQUIRE(input == expected);
-}
-
-TEST_CASE("4x3", "[padding]") {
-  std::vector<Cell> input{
-      0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  };
-  std::vector<Cell> expected{
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-  };
-  assignBoardPadding(&input[0], 4, 3);
-  REQUIRE(input == expected);
 }

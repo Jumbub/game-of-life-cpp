@@ -27,7 +27,7 @@ void drawBoard(
   for (unsigned int y = 0; y < height; y++) {
     for (unsigned int x = 0; x < width; x++) {
       const uint offset = y * width + x;
-      pixels[offset] = output[offset] * MAGIC_NUMBER_TO_MAX + MAGIC_NUMBER;
+      pixels[offset] = output[offset][0] * MAGIC_NUMBER_TO_MAX + MAGIC_NUMBER;
     }
   }
 

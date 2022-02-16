@@ -30,7 +30,7 @@ struct Loop {
   Loop(bool noResize = false)
       : window(sf::RenderWindow(
             sf::VideoMode(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT),
-            "Game of Speed",
+            "NO_FOCUS",
             noResize ? sf::Style::None : sf::Style::Resize)) {
     // Init board
     assignBenchmarkCells(board);

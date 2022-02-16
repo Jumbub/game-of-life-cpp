@@ -22,20 +22,21 @@ void assignBenchmarkCells(Board& board) {
       const uint y = ry - 1;
       if (y > height / 2) {
         if (x < width / 2)
-          board.output[i] = rand() % 2 ? ALIVE : DEAD;
+          board.output[i][0] = rand() % 2 ? ALIVE : DEAD;
         if (x >= width / 2)
-          board.output[i] = (x / 8) % 2 != (y / 8) % 2 ? ALIVE : DEAD;
+          board.output[i][0] = (x / 8) % 2 != (y / 8) % 2 ? ALIVE : DEAD;
       } else {
         const uint breederMarginY = (height / 2 - BREEDER_HEIGHT) / 2;
         const uint breederY = y - breederMarginY;
         if (breederY > 0 && breederY < BREEDER_HEIGHT && x < BREEDER_WIDTH) {
-          board.output[i] = BREEDER[breederY][x] ? ALIVE : DEAD;
+          board.output[i][0] = BREEDER[breederY][x] ? ALIVE : DEAD;
         } else {
-          board.output[i] = DEAD;
+          board.output[i][0] = DEAD;
         }
       }
     }
   }
 
-  assignBoardPadding(board.output, board.width, board.height);
+  assignBoardNeighbours(board);
+  assignBorders(board);
 }
