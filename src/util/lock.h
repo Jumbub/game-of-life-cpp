@@ -10,14 +10,16 @@ struct Lock {
   void waitForPause() {
     requestPause = true;
     while (running) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      std::this_thread::sleep_for(std::chrono::microseconds(1));
     }
   }
 
   // Resume worker
   void resume() {
-    running = true;
     requestPause = false;
+    while (!running) {
+      std::this_thread::sleep_for(std::chrono::microseconds(1));
+    }
   }
 
   // Check for any pause requests, if there is, spin lock until un-paused
@@ -25,8 +27,9 @@ struct Lock {
     if (requestPause) {
       running = false;
       while (requestPause) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        std::this_thread::sleep_for(std::chrono::microseconds(1));
       }
+      running = true;
     }
   }
 

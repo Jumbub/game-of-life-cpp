@@ -111,6 +111,18 @@ struct Loop {
           assignBenchmarkCells(board);
 
           // On pressing enter, reset benchmark scenario
+        } else if (event.type == sf::Event::MouseMoved && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+          auto scope = LockForScope(board.lock);
+
+          constexpr int BRUSH_RADIUS = 30;
+          for (int x = event.mouseMove.x - BRUSH_RADIUS; x < event.mouseMove.x + BRUSH_RADIUS; x++) {
+            for (int y = event.mouseMove.y - BRUSH_RADIUS; y < event.mouseMove.y + BRUSH_RADIUS; y++) {
+              board.output
+                  [(uint)std::clamp(y, 1, (int)board.height + 1) * (board.width + 2) +
+                   (uint)std::clamp(x, 1, (int)board.width + 1) + 1] = ALIVE;
+            }
+          }
+
         } else if ((event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)) {
           auto scope = LockForScope(board.lock);
 
