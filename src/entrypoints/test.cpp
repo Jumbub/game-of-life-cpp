@@ -16,7 +16,7 @@ void generate(Board& board, BoardVector vector) {
     for (unsigned int x = 1; x < width + 1; ++x)
       board.output[y * (width + 2) + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
 
-  assignBoardPadding(board.output, width, height);
+  assignBoardPadding(board);
 }
 
 BoardVector ungenerate(Board& board) {
@@ -64,15 +64,27 @@ TEST_CASE("block (horizontal wrap)", "[nextBoard]") {
   compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}});
 }
 
+TEST_CASE("block (vertical wrap, 3 generations)", "[nextBoard]") {
+  compare({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, 3);
+}
+
+TEST_CASE("block (horizontal wrap, 3 generations)", "[nextBoard]") {
+  compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, 3);
+}
+
 TEST_CASE("block (corner wrap)", "[nextBoard]") {
   compare({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}});
+}
+
+TEST_CASE("block (corner wrap, 3 generations)", "[nextBoard]") {
+  compare({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, 3);
 }
 
 TEST_CASE("bee-hive", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0}, {0, 0, 1, 1, 0, 0}, {0, 1, 0, 0, 1, 0}, {0, 0, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0, 0}, {0, 0, 1, 1, 0, 0}, {0, 1, 0, 0, 1, 0}, {0, 0, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0}});
+      {{0, 0, 0, 0, 0, 0}, {0, 0, 1, 1, 0, 0}, {0, 1, 0, 0, 1, 0}, {0, 0, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0}}, 10);
 }
 
 TEST_CASE("loaf", "[nextBoard]") {
@@ -118,6 +130,20 @@ TEST_CASE("blinker 2", "[nextBoard]") {
       {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 1, 1, 1, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
 
       {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}});
+}
+
+TEST_CASE("blinker 1 (vertical wrap, 5 generations)", "[nextBoard]") {
+  compare(
+      {{0, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+
+      {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {1, 1, 0, 0, 1}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}, 5);
+}
+
+TEST_CASE("blinker 1 (corner wrap, 5 generations)", "[nextBoard]") {
+  compare(
+      {{1, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {1, 0, 0, 0, 0}},
+
+      {{1, 1, 0, 0, 1}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}, 5);
 }
 
 TEST_CASE("toad 1", "[nextBoard]") {
@@ -318,7 +344,7 @@ TEST_CASE("2x2", "[padding]") {
   std::vector<Cell> expected{
       1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1,
   };
-  assignBoardPadding(&input[0], 2, 2);
+  assignPadding(&input[0], 2, 2);
   REQUIRE(input == expected);
 }
 
@@ -329,6 +355,6 @@ TEST_CASE("4x3", "[padding]") {
   std::vector<Cell> expected{
       0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
   };
-  assignBoardPadding(&input[0], 4, 3);
+  assignPadding(&input[0], 4, 3);
   REQUIRE(input == expected);
 }

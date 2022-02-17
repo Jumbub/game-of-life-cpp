@@ -37,5 +37,6 @@ void assignBenchmarkCells(Board& board) {
     }
   }
 
-  assignBoardPadding(board.output, board.width, board.height);
+  board.clearSkips();
+  assignBoardPadding(board);
 }
