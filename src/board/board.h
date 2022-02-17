@@ -42,18 +42,20 @@ struct Board {
     // Generate board with 1 cell of padding
     const uint size = (width + 2) * (height + 2);
     if (raw == nullptr) {
-      raw = new Cell[size * 4];
-      std::memset(raw, 0, sizeof(Cell) * size * 4);
+      // (size + 1) for skip final values
+      raw = new Cell[size * 2 + (size + 1) * 2];
       input = raw;
       output = input + size;
       inSkip = output + size;
-      outSkip = inSkip + size;
+      outSkip = inSkip + 1 + size;
     }
+
+    clearSkips();
   }
 
   void clearSkips() {
     const uint size = (width + 2) * (height + 2);
-    std::memset(&raw[size * 2], false, size * 2);
+    std::memset(&raw[size * 2], false, (size + 1) * 2);
   }
 
   Board(const uint& width, const uint& height) {

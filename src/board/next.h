@@ -42,11 +42,13 @@ void nextBoardSection(
 
   const uint stop = realEnd * realWidth - 1;
   for (uint i = start; i < stop; i++) {
-    if (uint8s_to_uint64(&inSkip[i]) == SKIP_ALL) {
-      i += 7;
-      continue;
+    while (uint8s_to_uint64(&inSkip[i]) == SKIP_ALL) {
+      i += 8;
     }
-    if (inSkip[i])
+    while (inSkip[i]) {
+      i++;
+    }
+    if (i >= stop)
       continue;
 
     top = &input[i - realWidth - 1];
