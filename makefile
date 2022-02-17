@@ -9,6 +9,9 @@ test: test_exe
 benchmark: benchmark_exe
 	./build/src/bench
 
+debug: debug_exe
+	gdb ./build/src/debug
+
 benchmark_all: all_exe
 	echo "Ofast" >> benchmark_all.txt
 	./build/src/bench-Ofast >> benchmark_all.txt
