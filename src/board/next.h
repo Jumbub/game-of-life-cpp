@@ -48,8 +48,6 @@ void nextBoardSection(
     while (inSkip[i]) {
       i++;
     }
-    if (i >= stop)
-      continue;
 
     top = &input[i - realWidth - 1];
     middle = &input[i - 1];
@@ -91,6 +89,11 @@ void nextBoard(Board& board, const uint& threadCount) {
   const auto totalThreads = std::min(threadCount, (uint)height);
   const auto threadLines = height / totalThreads;
   const auto threadLinesRemaining = height % totalThreads;
+
+  const auto size = (width + 2) * (height + 2);
+
+  std::memset(board.outSkip, true, sizeof(Cell) * size);
+  board.inSkip[size - (width + 2) - 1] = false;  // Ensure the last cell is never skipped to minimise branches
 
   std::vector<std::thread> threads;
   for (uint t = 0; t < totalThreads; t++) {

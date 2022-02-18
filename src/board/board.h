@@ -22,8 +22,6 @@ struct Board {
   void setOutputToInput() {
     std::swap(input, output);
     std::swap(inSkip, outSkip);
-    const uint size = (width + 2) * (height + 2);
-    std::memset(outSkip, true, sizeof(Cell) * size);
   }
 
   void setSize(const uint& width, const uint& height) {
