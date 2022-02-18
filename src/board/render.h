@@ -8,9 +8,11 @@
 #include "board.h"
 #include "generate.h"
 
-// I found this number by accident, it looks beautiful.
-constexpr uint MAGIC_NUMBER = 267386880;
-constexpr uint MAGIC_NUMBER_TO_MAX = UINT32_MAX - MAGIC_NUMBER;
+constexpr uint32_t SKIP_DEAD = 0x10dd0000;
+constexpr uint32_t SKIP_ALIVE = 0xff888888 - SKIP_DEAD;
+
+constexpr uint32_t NO_SKIP_DEAD = 0x10dd0000;
+constexpr uint32_t NO_SKIP_ALIVE = 0xffffffff - NO_SKIP_DEAD;
 
 void drawBoard(
     Board& board,
@@ -24,11 +26,10 @@ void drawBoard(
   // Generate the pixel texture data from the board output
   uint width = board.width + 2;
   uint height = board.height + 2;
-  for (unsigned int y = 0; y < height; y++) {
-    for (unsigned int x = 0; x < width; x++) {
-      const uint offset = y * width + x;
-      pixels[offset] = output[offset] * MAGIC_NUMBER_TO_MAX + MAGIC_NUMBER;
-    }
+
+  const uint limit = width * height;
+  for (uint i = 0; i < limit; i++) {
+    pixels[i] = board.inSkip[i] ? SKIP_DEAD + SKIP_ALIVE * output[i] : NO_SKIP_DEAD + NO_SKIP_ALIVE * output[i];
   }
 
   image.create(width, height, reinterpret_cast<sf::Uint8*>(pixels));
