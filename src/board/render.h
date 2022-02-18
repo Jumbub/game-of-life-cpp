@@ -14,6 +14,8 @@ constexpr uint32_t SKIP_ALIVE = 0xff888888 - SKIP_DEAD;
 constexpr uint32_t NO_SKIP_DEAD = 0x10dd0000;
 constexpr uint32_t NO_SKIP_ALIVE = 0xffffffff - NO_SKIP_DEAD;
 
+constexpr bool SHOW_SKIPS = 0;
+
 void drawBoard(
     Board& board,
     sf::RenderWindow& window,
@@ -27,9 +29,13 @@ void drawBoard(
   uint width = board.width + 2;
   uint height = board.height + 2;
 
-  const uint limit = width * height;
-  for (uint i = 0; i < limit; i++) {
-    pixels[i] = board.inSkip[i] ? SKIP_DEAD + SKIP_ALIVE * output[i] : NO_SKIP_DEAD + NO_SKIP_ALIVE * output[i];
+  const uint limit = width * height - width;
+  for (uint i = width; i < limit; i++) {
+    if (SHOW_SKIPS) {
+      pixels[i] = board.inSkip[i] ? SKIP_DEAD + SKIP_ALIVE * output[i] : NO_SKIP_DEAD + NO_SKIP_ALIVE * output[i];
+    } else {
+      pixels[i] = NO_SKIP_DEAD + NO_SKIP_ALIVE * output[i];
+    }
   }
 
   image.create(width, height, reinterpret_cast<sf::Uint8*>(pixels));
