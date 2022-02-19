@@ -3,13 +3,13 @@
 #include <thread>
 #include "../common/lock.h"
 #include "../common/setBenchmarkBoard.h"
-#include "../common/time.h"
 #include "../logic/next.h"
 #include "gui.h"
 #include "imgui-SFML.h"
 #include "imgui.h"
 #include "loop.h"
 #include "render.h"
+#include "time.h"
 
 using namespace std::chrono;
 
