@@ -14,6 +14,4 @@ struct Loop {
   sf::Image image;
   sf::Uint32* pixels;
   Board board;
-
- private:
 };
