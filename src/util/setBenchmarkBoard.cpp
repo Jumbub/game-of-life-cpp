@@ -1,7 +1,5 @@
-#pragma once
-
-#include "../logic/board.h"
 #include "../logic/padding.h"
+#include "../util/setBenchmarkBoard.h"
 #include "breederPattern.h"
 
 /**

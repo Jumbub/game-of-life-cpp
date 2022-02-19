@@ -1,13 +1,5 @@
-#pragma once
-
-#include <algorithm>
-#include <array>
-#include <future>
-#include <iostream>
-#include <thread>
-#include <tuple>
-#include <vector>
-#include "board.h"
+using uint = unsigned int;
+#include "padding.h"
 
 void assignPadding(Cell* cells, uint innerWidth, uint innerHeight) {
   const uint width = innerWidth + 2;

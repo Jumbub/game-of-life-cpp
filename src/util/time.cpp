@@ -1,9 +1,8 @@
-#pragma once
-
 #include <chrono>
 #include <iomanip>
 #include <iostream>
 #include <thread>
+#include "time.h"
 
 using namespace std::chrono;
 

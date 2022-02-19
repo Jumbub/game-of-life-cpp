@@ -1,13 +1,13 @@
-#pragma once
-
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <future>
 #include <iostream>
 #include <thread>
 #include <tuple>
 #include <vector>
 #include "board.h"
+#include "next.h"
 #include "padding.h"
 #include "threads.h"
 

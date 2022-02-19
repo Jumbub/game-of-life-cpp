@@ -4,8 +4,10 @@ set(LinksNoGraphics pthread)
 set(Links ${LinksNoGraphics} sfml-graphics ImGui-SFML::ImGui-SFML)
 
 # Files
+file(GLOB LogicFiles CONFIGURE_DEPENDS "logic/*.cpp")
 file(GLOB GraphicsFiles CONFIGURE_DEPENDS "graphics/*.cpp")
-set(MainFiles ${GraphicsFiles})
+file(GLOB UtilFiles CONFIGURE_DEPENDS "util/*.cpp")
+set(MainFiles ${LogicFiles} ${GraphicsFiles} ${UtilFiles})
 
 # Main
 add_executable(main main.cpp ${MainFiles})
@@ -18,7 +20,7 @@ target_link_libraries(debug PUBLIC ${Links} ${Graphics})
 target_compile_options(debug PUBLIC ${Flags} -Og -ggdb)
 
 # Test
-add_executable(test test/main.cpp)
+add_executable(test test/main.cpp ${LogicFiles})
 target_link_libraries(test PUBLIC ${LinksNoGraphics} Catch2::Catch2WithMain)
 
 # Benchmark

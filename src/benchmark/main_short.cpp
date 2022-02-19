@@ -1,7 +1,7 @@
 #include <benchmark/benchmark.h>
-#include "../benchmark/setBenchmarkBoard.h"
 #include "../graphics/loop.h"
 #include "../logic/next.h"
+#include "../util/setBenchmarkBoard.h"
 
 static void BM_DifferentThreadCounts(benchmark::State& state) {
   Loop loop(2560, 1440, "Game of Speed [Benchmark]", false);
