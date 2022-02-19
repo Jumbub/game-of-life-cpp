@@ -1,11 +1,11 @@
+#include <imgui-SFML.h>
+#include <imgui.h>
+#include <SFML/Graphics.hpp>
 #include <cstring>
 #include <vector>
-#include "../../build/_deps/imgui-sfml-src/imgui-SFML.h"
-#include "../../build/_deps/imgui-src/imgui.h"
-#include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/board.h"
-#include "render.h"
+#include "renderBoard.h"
 
 constexpr uint32_t SKIP_DEAD = 0x10dd0000;
 constexpr uint32_t SKIP_ALIVE = 0xff888888 - SKIP_DEAD;
@@ -15,7 +15,7 @@ constexpr uint32_t NO_SKIP_ALIVE = 0xffffffff - NO_SKIP_DEAD;
 
 constexpr bool SHOW_SKIPS = 0;
 
-void drawBoard(
+void renderBoard(
     Board& board,
     sf::RenderWindow& window,
     sf::Sprite& sprite,

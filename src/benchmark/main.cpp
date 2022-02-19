@@ -1,7 +1,7 @@
 #include "../../../build/_deps/googlebenchmark-src/include/benchmark/benchmark.h"
 #include "../common/setBenchmarkBoard.h"
 #include "../graphics/loop.h"
-#include "../graphics/render.h"
+#include "../graphics/renderBoard.h"
 #include "../logic/next.h"
 #include "../logic/threads.h"
 
@@ -24,7 +24,7 @@ BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()-
 static void BM_RenderBoard(benchmark::State& state) {
   Loop loop(TEST_WIDTH, TEST_HEIGHT, TEST_TITLE, TEST_RESIZABLE);
   for (auto _ : state) {
-    drawBoard(loop.board, loop.window, loop.sprite, loop.texture, loop.image, loop.pixels);
+    renderBoard(loop.board, loop.window, loop.sprite, loop.texture, loop.image, loop.pixels);
     loop.window.display();
   }
 }
@@ -33,7 +33,7 @@ BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime(
 static void BM_Main(benchmark::State& state) {
   Loop loop(TEST_WIDTH, TEST_HEIGHT, TEST_TITLE, TEST_RESIZABLE);
   for (auto _ : state) {
-    loop.run(2000, PROBABLY_OPTIMAL_THREAD_COUNT, 30);
+    loop.run(2000, PROBABLY_OPTIMAL_THREAD_COUNT, 1000000 / 30);
   }
 }
 

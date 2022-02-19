@@ -3,7 +3,7 @@
 #include "../logic/board.h"
 #include "SFML/Graphics.hpp"
 
-void drawBoard(
+void renderBoard(
     Board& board,
     sf::RenderWindow& window,
     sf::Sprite& sprite,

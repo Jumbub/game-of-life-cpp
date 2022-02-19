@@ -5,9 +5,7 @@
 
 void renderImguiMenu(
     Board& board,
-    const sf::RenderWindow& window,
+    sf::RenderWindow& window,
     const sf::Time& renderDelta,
-    const uint& totalComputations,
-    const uint& computationsSinceLastRender,
-    uint& targetRendersPerSecond,
+    const ulong& computedGenerations,
     uint& threadCount);

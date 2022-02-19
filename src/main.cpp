@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
   const auto rendersPerSecond = argc > 3 ? (uint)atoi(argv[3]) : 30;
   const auto workerThreads = argc > 4 ? (uint)atoi(argv[4]) : PROBABLY_OPTIMAL_THREAD_COUNT;
 
-  Loop(2560, 1440, "Game of Speed", resizable).run(maxGenerations, workerThreads, rendersPerSecond);
+  Loop(2560, 1440, "Game of Speed", resizable, rendersPerSecond).run(maxGenerations, workerThreads);
 
   return EXIT_SUCCESS;
 }
