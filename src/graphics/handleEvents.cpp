@@ -1,5 +1,5 @@
 #include "../common/setBenchmarkBoard.h"
-#include "events.h"
+#include "handleEvents.h"
 
 bool isExitEvent(const sf::Event& event) {
   return event.type == sf::Event::Closed ||
@@ -37,7 +37,7 @@ void resizeBoard(const sf::Event& event, Board& board, sf::RenderWindow& window,
   setBenchmarkBoard(board);
 }
 
-void handleEvent(const sf::Event& event, sf::RenderWindow& window, Board& board, sf::Uint32*& pixels) {
+void handleEvents(const sf::Event& event, sf::RenderWindow& window, Board& board, sf::Uint32*& pixels) {
   if (isExitEvent(event)) {
     window.close();
   } else if (isResizeEvent(event)) {

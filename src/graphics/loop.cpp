@@ -4,7 +4,7 @@
 #include "../common/lock.h"
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/next.h"
-#include "events.h"
+#include "handleEvents.h"
 #include "imgui-SFML.h"
 #include "imgui.h"
 #include "loop.h"
@@ -58,7 +58,7 @@ void Loop::run(const ulong maxGenerations, uint threadCount, const ulong renderM
 
     sf::Event event;
     while (window.pollEvent(event)) {
-      handleEvent(event, window, board, pixels);
+      handleEvents(event, window, board, pixels);
 
       ImGui::SFML::ProcessEvent(event);
       if (isExitEvent(event))

@@ -10,4 +10,4 @@ bool isDrawEvent(const sf::Event& event);
 
 void drawToBoard(const sf::Event& event, Board& board);
 void resizeBoard(const sf::Event& event, Board& board, sf::RenderWindow& window, sf::Uint32*& pixels);
-void handleEvent(const sf::Event& event, sf::RenderWindow& window, Board& board, sf::Uint32*& pixels);
+void handleEvents(const sf::Event& event, sf::RenderWindow& window, Board& board, sf::Uint32*& pixels);
