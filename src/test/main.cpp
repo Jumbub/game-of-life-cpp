@@ -4,6 +4,7 @@
 #include <catch2/catch.hpp>
 #include "../logic/next.h"
 #include "../logic/padding.h"
+#include "../logic/threads.h"
 
 using BoardVector = std::vector<std::vector<bool>>;
 
@@ -335,26 +336,4 @@ TEST_CASE("medium glider 25 generations", "[nextBoard]") {
        {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0}},
 
       25);
-}
-
-TEST_CASE("2x2", "[padding]") {
-  std::vector<Cell> input{
-      0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-  };
-  std::vector<Cell> expected{
-      1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1,
-  };
-  assignPadding(&input[0], 2, 2);
-  REQUIRE(input == expected);
-}
-
-TEST_CASE("4x3", "[padding]") {
-  std::vector<Cell> input{
-      0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  };
-  std::vector<Cell> expected{
-      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
-  };
-  assignPadding(&input[0], 4, 3);
-  REQUIRE(input == expected);
 }

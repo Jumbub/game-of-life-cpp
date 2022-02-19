@@ -30,14 +30,14 @@ target_link_libraries(bench PUBLIC ${Links} ${Benchmark})
 target_compile_options(bench PUBLIC ${Flags})
 
 # Quick benchmark
-add_executable(bench_short benchmark/main_short.cpp)
+add_executable(bench_short benchmark/main_short.cpp ${MainFiles})
 target_link_libraries(bench_short PUBLIC ${Links} ${Benchmark})
 target_compile_options(bench_short PUBLIC ${Flags})
 
 # Permutations of quick benchmarks
 set(flag_overrides "-Ofast" "-O3" "-O2" "-O1" "-O0" "-Os")
 foreach(flag_override IN LISTS flag_overrides)
-  add_executable("bench${flag_override}" benchmark/main_short.cpp)
+  add_executable("bench${flag_override}" benchmark/main_short.cpp ${MainFiles})
   target_link_libraries("bench${flag_override}" PUBLIC ${Links} ${Benchmark})
   target_compile_options("bench${flag_override}" PUBLIC ${Flags} ${flag_override})
 endforeach()
