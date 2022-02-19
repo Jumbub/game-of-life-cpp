@@ -2,7 +2,7 @@
 
 #include "../../build/_deps/imgui-src/imgui.h"
 #include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
-#include "../benchmark/generate.h"
+#include "../benchmark/setBenchmarkBoard.h"
 #include "../logic/board.h"
 #include "../logic/threads.h"
 
@@ -43,7 +43,7 @@ void drawGui(
   // Restart
   if (ImGui::Button("Restart")) {
     auto scope = LockForScope(board.lock);
-    assignBenchmarkCells(board);
+    setBenchmarkBoard(board);
   }
 
   ImGui::End();

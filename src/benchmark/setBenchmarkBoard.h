@@ -2,7 +2,7 @@
 
 #include "../logic/board.h"
 #include "../logic/padding.h"
-#include "breeder.h"
+#include "breederPattern.h"
 
 /**
  * Generates a board with 4 regions:
@@ -10,7 +10,7 @@
  * - top-right:    chess grid of 8x8 alive/dead cells
  * - bottom:       breeder
  */
-void assignBenchmarkCells(Board& board) {
+void setBenchmarkBoard(Board& board) {
   srand(0);
   const auto& width = board.width;
   const auto& height = board.height;

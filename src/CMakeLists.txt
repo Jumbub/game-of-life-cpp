@@ -3,13 +3,17 @@ set(Flags -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -O3)
 set(LinksNoGraphics pthread)
 set(Links ${LinksNoGraphics} sfml-graphics ImGui-SFML::ImGui-SFML)
 
+# Files
+file(GLOB GraphicsFiles CONFIGURE_DEPENDS "graphics/*.cpp")
+set(MainFiles ${GraphicsFiles})
+
 # Main
-add_executable(main main.cpp)
+add_executable(main main.cpp ${MainFiles})
 target_link_libraries(main PUBLIC ${Links} ${Graphics})
 target_compile_options(main PUBLIC ${Flags})
 
 # Debug
-add_executable(debug main.cpp)
+add_executable(debug main.cpp ${MainFiles})
 target_link_libraries(debug PUBLIC ${Links} ${Graphics})
 target_compile_options(debug PUBLIC ${Flags} -Og -ggdb)
 
@@ -19,7 +23,7 @@ target_link_libraries(test PUBLIC ${LinksNoGraphics} Catch2::Catch2WithMain)
 
 # Benchmark
 set(Benchmark benchmark::benchmark)
-add_executable(bench benchmark/main.cpp)
+add_executable(bench benchmark/main.cpp ${MainFiles})
 target_link_libraries(bench PUBLIC ${Links} ${Benchmark})
 target_compile_options(bench PUBLIC ${Flags})
 

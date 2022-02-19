@@ -1,5 +1,5 @@
 #include <benchmark/benchmark.h>
-#include "../benchmark/generate.h"
+#include "../benchmark/setBenchmarkBoard.h"
 #include "../graphics/loop.h"
 #include "../logic/next.h"
 
