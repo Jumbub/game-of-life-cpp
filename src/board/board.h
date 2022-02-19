@@ -7,6 +7,8 @@ using Cell = uint8_t;
 [[maybe_unused]] const Cell ALIVE = 1;
 [[maybe_unused]] const Cell DEAD = 0;
 
+constexpr uint PADDING = 2;  // Padding of board left+right or top+bottom.
+
 struct Board {
   uint width;
   uint height;

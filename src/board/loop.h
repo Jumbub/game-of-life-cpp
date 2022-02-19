@@ -13,40 +13,30 @@
 
 using namespace std::chrono;
 
-constexpr uint INITIAL_WINDOW_WIDTH = 2560;
-constexpr uint INITIAL_WINDOW_HEIGHT = 1440;
-constexpr uint INITIAL_IMAGE_WIDTH = INITIAL_WINDOW_WIDTH + 2;
-constexpr uint INITIAL_IMAGE_HEIGHT = INITIAL_WINDOW_HEIGHT + 2;
-constexpr auto DEFAULT_MAX_GENERATIONS = std::numeric_limits<long>::max();
-
 struct Loop {
   sf::RenderWindow window;
   sf::Texture texture;
   sf::Sprite sprite;
   sf::Image image;
-  sf::Uint32* pixels = new sf::Uint32[INITIAL_IMAGE_WIDTH * INITIAL_IMAGE_HEIGHT];
-  Board board = Board(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
+  sf::Uint32* pixels;
+  Board board;
 
-  Loop(bool noResize = false)
-      : window(sf::RenderWindow(
-            sf::VideoMode(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT),
-            "Game of Speed",
-            noResize ? sf::Style::None : sf::Style::Resize)) {
+  Loop(const uint width, const uint height, const std::string title, const bool resizable)
+      : window(sf::RenderWindow(sf::VideoMode(width, height), title, resizable ? sf::Style::Resize : sf::Style::None)),
+        pixels(new sf::Uint32[(width + PADDING) * (height + PADDING)]),
+        board(Board(width, height)) {
     // Init board
     assignBenchmarkCells(board);
 
     // Init graphics
     ImGui::SFML::Init(window);
-    image.create(INITIAL_IMAGE_WIDTH, INITIAL_IMAGE_HEIGHT, reinterpret_cast<sf::Uint8*>(pixels));
+    image.create(width + PADDING, height + PADDING, reinterpret_cast<sf::Uint8*>(pixels));
     texture.loadFromImage(image);
     sprite.setTexture(texture, true);
     sprite.setPosition(-1, -1);
   }
 
-  void run(
-      long maxComputations = DEFAULT_MAX_GENERATIONS,
-      uint threadCount = PROBABLY_OPTIMAL_THREAD_COUNT,
-      uint startTargetRendersPerSecond = 30) {
+  void run(const long maxComputations, uint threadCount, const uint startTargetRendersPerSecond) {
     auto& board = this->board;
     auto& window = this->window;
 
