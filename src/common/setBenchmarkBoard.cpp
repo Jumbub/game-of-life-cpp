@@ -1,5 +1,5 @@
+#include "../common/setBenchmarkBoard.h"
 #include "../logic/padding.h"
-#include "../util/setBenchmarkBoard.h"
 #include "breederPattern.h"
 
 /**

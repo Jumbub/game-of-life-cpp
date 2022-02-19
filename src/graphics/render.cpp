@@ -3,8 +3,8 @@
 #include "../../build/_deps/imgui-sfml-src/imgui-SFML.h"
 #include "../../build/_deps/imgui-src/imgui.h"
 #include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
+#include "../common/setBenchmarkBoard.h"
 #include "../logic/board.h"
-#include "../util/setBenchmarkBoard.h"
 #include "render.h"
 
 constexpr uint32_t SKIP_DEAD = 0x10dd0000;

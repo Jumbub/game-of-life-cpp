@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../util/lock.h"
+#include "../common/lock.h"
 
 using uint = unsigned int;
 using Cell = uint8_t;

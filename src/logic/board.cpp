@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <cstring>
-#include "../util/lock.h"
+#include "../common/lock.h"
 #include "board.h"
 
 void Board::setOutputToInput() {

@@ -1,10 +1,10 @@
 #include <future>
 #include <iostream>
 #include <thread>
+#include "../common/lock.h"
+#include "../common/setBenchmarkBoard.h"
+#include "../common/time.h"
 #include "../logic/next.h"
-#include "../util/lock.h"
-#include "../util/setBenchmarkBoard.h"
-#include "../util/time.h"
 #include "gui.h"
 #include "imgui-SFML.h"
 #include "imgui.h"

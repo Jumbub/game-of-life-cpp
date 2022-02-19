@@ -6,8 +6,8 @@ set(Links ${LinksNoGraphics} sfml-graphics ImGui-SFML::ImGui-SFML)
 # Files
 file(GLOB LogicFiles CONFIGURE_DEPENDS "logic/*.cpp")
 file(GLOB GraphicsFiles CONFIGURE_DEPENDS "graphics/*.cpp")
-file(GLOB UtilFiles CONFIGURE_DEPENDS "util/*.cpp")
-set(MainFiles ${LogicFiles} ${GraphicsFiles} ${UtilFiles})
+file(GLOB CommonFiles CONFIGURE_DEPENDS "common/*.cpp")
+set(MainFiles ${LogicFiles} ${GraphicsFiles} ${CommonFiles})
 
 # Main
 add_executable(main main.cpp ${MainFiles})

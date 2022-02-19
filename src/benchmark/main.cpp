@@ -1,9 +1,9 @@
 #include "../../../build/_deps/googlebenchmark-src/include/benchmark/benchmark.h"
+#include "../common/setBenchmarkBoard.h"
 #include "../graphics/loop.h"
 #include "../graphics/render.h"
 #include "../logic/next.h"
 #include "../logic/threads.h"
-#include "../util/setBenchmarkBoard.h"
 
 const unsigned int TEST_WIDTH = 2560;
 const unsigned int TEST_HEIGHT = 1440;
