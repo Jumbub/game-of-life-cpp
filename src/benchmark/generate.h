@@ -1,9 +1,8 @@
 #pragma once
 
-#include "board.h"
+#include "../logic/board.h"
+#include "../logic/padding.h"
 #include "breeder.h"
-#include "generate.h"
-#include "padding.h"
 
 /**
  * Generates a board with 4 regions:

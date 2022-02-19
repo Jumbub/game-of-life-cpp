@@ -5,8 +5,8 @@
 #include "../../build/_deps/imgui-sfml-src/imgui-SFML.h"
 #include "../../build/_deps/imgui-src/imgui.h"
 #include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
-#include "board.h"
-#include "generate.h"
+#include "../benchmark/generate.h"
+#include "../logic/board.h"
 
 constexpr uint32_t SKIP_DEAD = 0x10dd0000;
 constexpr uint32_t SKIP_ALIVE = 0xff888888 - SKIP_DEAD;

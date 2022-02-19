@@ -4,12 +4,12 @@
 #include "../../build/_deps/imgui-sfml-src/imgui-SFML.h"
 #include "../../build/_deps/imgui-src/imgui.h"
 #include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
-#include "../board/generate.h"
-#include "../board/gui.h"
-#include "../board/next.h"
-#include "../board/render.h"
+#include "../benchmark/generate.h"
+#include "../logic/next.h"
 #include "../util/lock.h"
 #include "../util/time.h"
+#include "gui.h"
+#include "render.h"
 
 using namespace std::chrono;
 

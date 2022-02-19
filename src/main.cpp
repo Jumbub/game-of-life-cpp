@@ -1,4 +1,4 @@
-#include "board/loop.h"
+#include "graphics/loop.h"
 
 int main(int argc, char** argv) {
   const auto resizable = argc > 1 ? (bool)atoi(argv[1]) : true;

@@ -1,8 +1,8 @@
 #include <benchmark/benchmark.h>
-#include "../board/generate.h"
-#include "../board/loop.h"
-#include "../board/next.h"
-#include "../board/render.h"
+#include "../benchmark/generate.h"
+#include "../graphics/loop.h"
+#include "../graphics/render.h"
+#include "../logic/next.h"
 
 const unsigned int TEST_WIDTH = 2560;
 const unsigned int TEST_HEIGHT = 1440;
