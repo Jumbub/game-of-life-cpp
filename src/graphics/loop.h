@@ -5,6 +5,7 @@
 
 struct Loop {
   Loop(const uint width, const uint height, const std::string title, const bool resizable);
+  ~Loop();
   void run(const long maxComputations, uint threadCount, const uint startTargetRendersPerSecond);
 
   sf::RenderWindow window;

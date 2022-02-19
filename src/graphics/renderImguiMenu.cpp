@@ -3,10 +3,9 @@
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/board.h"
 #include "../logic/threads.h"
-#include "gui.h"
+#include "renderImguiMenu.h"
 
-// ImGui decleration
-void drawGui(
+void renderImguiMenu(
     Board& board,
     const sf::RenderWindow& window,
     const sf::Time& renderDelta,
@@ -16,12 +15,12 @@ void drawGui(
     uint& threadCount) {
   ImGui::Begin("Configuration");
 
-  // Basic
+  // Info
   ImGui::Text("Total computations: %d", totalComputations);
   ImGui::Text("Board size: %dx%d", board.width, board.height);
   ImGui::Text("Window size: %dx%d", window.getSize().x, window.getSize().y);
 
-  // Render
+  // Renders per second
   ImGui::Text("Renders/second: %.2f", 1.0 / renderDelta.asSeconds());
   int rps = (int)targetRendersPerSecond;
   ImGui::SliderInt("Target renders/second", &rps, 1, 300);
@@ -30,7 +29,7 @@ void drawGui(
     targetRendersPerSecond = (uint)rps;
   }
 
-  // Compute
+  // Threads per frame
   ImGui::Text("Computations/second: %.2f", (float)computationsSinceLastRender / renderDelta.asSeconds());
   int tpb = (int)threadCount;
   ImGui::SliderInt("Threads/computation", &tpb, 1, (int)PROBABLY_OPTIMAL_THREAD_COUNT * 4);
@@ -39,7 +38,7 @@ void drawGui(
     threadCount = (uint)tpb;
   }
 
-  // Restart
+  // Reset action
   if (ImGui::Button("Restart")) {
     auto scope = LockForScope(board.lock);
     setBenchmarkBoard(board);

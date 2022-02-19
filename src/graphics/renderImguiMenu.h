@@ -3,8 +3,7 @@
 #include "../logic/board.h"
 #include "SFML/Graphics.hpp"
 
-// ImGui decleration
-void drawGui(
+void renderImguiMenu(
     Board& board,
     const sf::RenderWindow& window,
     const sf::Time& renderDelta,

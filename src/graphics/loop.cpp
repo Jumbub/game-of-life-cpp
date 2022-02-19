@@ -4,11 +4,11 @@
 #include "../common/lock.h"
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/next.h"
-#include "gui.h"
 #include "imgui-SFML.h"
 #include "imgui.h"
 #include "loop.h"
 #include "render.h"
+#include "renderImguiMenu.h"
 #include "time.h"
 
 using namespace std::chrono;
@@ -28,12 +28,66 @@ Loop::Loop(const uint width, const uint height, const std::string title, const b
   sprite.setPosition(-1, -1);
 }
 
+Loop::~Loop() {
+  delete[] pixels;
+}
+
+bool isExitEvent(const sf::Event& event) {
+  return event.type == sf::Event::Closed ||
+         (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape);
+}
+
+bool isResizeEvent(const sf::Event& event) {
+  return event.type == sf::Event::Resized;
+}
+
+bool isResetEvent(const sf::Event& event) {
+  return event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter;
+}
+
+bool isDrawEvent(const sf::Event& event) {
+  return event.type == sf::Event::MouseMoved && sf::Mouse::isButtonPressed(sf::Mouse::Left);
+}
+
+void drawToBoard(const sf::Event& event, Board& board) {
+  constexpr int BRUSH_RADIUS = 30;
+  for (int x = event.mouseMove.x - BRUSH_RADIUS; x < event.mouseMove.x + BRUSH_RADIUS; x++) {
+    for (int y = event.mouseMove.y - BRUSH_RADIUS; y < event.mouseMove.y + BRUSH_RADIUS; y++) {
+      board.output
+          [(uint)std::clamp(y, 1, (int)board.height + 1) * (board.width + 2) +
+           (uint)std::clamp(x, 1, (int)board.width + 1) + 1] = ALIVE;
+    }
+  }
+}
+
+void resizeBoard(const sf::Event& event, Board& board, sf::RenderWindow& window, sf::Uint32*& pixels) {
+  window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
+  delete[] pixels;
+  pixels = new sf::Uint32[(event.size.width + 2) * (event.size.height + 2)];
+  board.setSize(event.size.width, event.size.height);
+  setBenchmarkBoard(board);
+}
+
+void handleEvent(const sf::Event& event, sf::RenderWindow& window, Board& board, sf::Uint32*& pixels) {
+  if (isExitEvent(event)) {
+    window.close();
+  } else if (isResizeEvent(event)) {
+    auto _ = LockForScope(board.lock);
+    resizeBoard(event, board, window, pixels);
+  } else if (isDrawEvent(event)) {
+    auto _ = LockForScope(board.lock);
+    drawToBoard(event, board);
+  } else if (isResetEvent(event)) {
+    auto _ = LockForScope(board.lock);
+    setBenchmarkBoard(board);
+  }
+}
+
 void Loop::run(const long maxComputations, uint threadCount, const uint startTargetRendersPerSecond) {
   auto& board = this->board;
   auto& window = this->window;
 
   // Statistics
-  auto totalTimer = start();
   long totalComputations = 0;
   long totalRenders = 0;
   long computationsSinceLastGuiDraw = 0;
@@ -59,57 +113,23 @@ void Loop::run(const long maxComputations, uint threadCount, const uint startTar
     const auto renderDelta = renderDeltaClock.restart();
     auto renderTimer = start();
 
-    // Update GUI
     ImGui::SFML::Update(window, renderDelta);
 
-    // Render everything
     drawBoard(board, window, sprite, texture, image, pixels);
-    drawGui(
+    renderImguiMenu(
         board, window, renderDelta, totalComputations, computationsSinceLastGuiDraw, targetRendersPerSecond,
         threadCount);
     computationsSinceLastGuiDraw = 0;
     ImGui::SFML::Render(window);
     window.display();
 
-    // Update window (handle window events, handle input)
     sf::Event event;
     while (window.pollEvent(event)) {
+      handleEvent(event, window, board, pixels);
+
       ImGui::SFML::ProcessEvent(event);
-
-      // On window close, exit
-      if (event.type == sf::Event::Closed ||
-          (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-        window.close();
+      if (isExitEvent(event))
         ImGui::SFML::Shutdown();
-
-        // On window resize, update texture and board
-      } else if (event.type == sf::Event::Resized) {
-        auto scope = LockForScope(board.lock);
-
-        window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
-        delete[] pixels;
-        pixels = new sf::Uint32[(event.size.width + 2) * (event.size.height + 2)];
-        board.setSize(event.size.width, event.size.height);
-        setBenchmarkBoard(board);
-
-        // On pressing enter, reset benchmark scenario
-      } else if (event.type == sf::Event::MouseMoved && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        auto scope = LockForScope(board.lock);
-
-        constexpr int BRUSH_RADIUS = 30;
-        for (int x = event.mouseMove.x - BRUSH_RADIUS; x < event.mouseMove.x + BRUSH_RADIUS; x++) {
-          for (int y = event.mouseMove.y - BRUSH_RADIUS; y < event.mouseMove.y + BRUSH_RADIUS; y++) {
-            board.output
-                [(uint)std::clamp(y, 1, (int)board.height + 1) * (board.width + 2) +
-                 (uint)std::clamp(x, 1, (int)board.width + 1) + 1] = ALIVE;
-          }
-        }
-
-      } else if ((event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)) {
-        auto scope = LockForScope(board.lock);
-
-        setBenchmarkBoard(board);
-      }
     }
 
     // Limit render rate
@@ -120,7 +140,4 @@ void Loop::run(const long maxComputations, uint threadCount, const uint startTar
   // Close computation thread
   running = false;
   nextBoardThread.join();
-  delete[] pixels;
-
-  stopAndDisplayFps(totalTimer, totalRenders, totalComputations);
 }
