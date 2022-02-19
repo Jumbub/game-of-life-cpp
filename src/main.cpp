@@ -1,7 +1,12 @@
-#include "../board/loop.h"
+#include "board/loop.h"
 
 int main(int argc, char** argv) {
-  Loop(argc > 2 ? (bool)atoi(argv[2]) : false).run(argc > 1 ? atol(argv[1]) : DEFAULT_MAX_GENERATIONS,PROBABLY_OPTIMAL_THREAD_COUNT,argc > 3 ? (uint)atoi(argv[3]) : 30);
+  const auto resizable = argc > 1 ? (bool)atoi(argv[1]) : true;
+  const auto maxGenerations = argc > 2 ? (uint)atoi(argv[2]) : UINT32_MAX;
+  const auto rendersPerSecond = argc > 3 ? (uint)atoi(argv[3]) : 30;
+  const auto workerThreads = argc > 4 ? (uint)atoi(argv[4]) : PROBABLY_OPTIMAL_THREAD_COUNT;
+
+  Loop(!resizable).run(maxGenerations, workerThreads, rendersPerSecond);
 
   return EXIT_SUCCESS;
 }

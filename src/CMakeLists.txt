@@ -4,12 +4,12 @@ set(LinksNoGraphics pthread)
 set(Links ${LinksNoGraphics} sfml-graphics ImGui-SFML::ImGui-SFML)
 
 # Main
-add_executable(main entrypoints/main.cpp)
+add_executable(main main.cpp)
 target_link_libraries(main PUBLIC ${Links} ${Graphics})
 target_compile_options(main PUBLIC ${Flags})
 
 # Debug
-add_executable(debug entrypoints/main.cpp)
+add_executable(debug main.cpp)
 target_link_libraries(debug PUBLIC ${Links} ${Graphics})
 target_compile_options(debug PUBLIC ${Flags} -Og -ggdb)
 
