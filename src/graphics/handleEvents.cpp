@@ -36,18 +36,3 @@ void resizeBoard(const sf::Event& event, Board& board, sf::RenderWindow& window,
   board.setSize(event.size.width, event.size.height);
   setBenchmarkBoard(board);
 }
-
-void handleEvents(const sf::Event& event, sf::RenderWindow& window, Board& board, sf::Uint32*& pixels) {
-  if (isExitEvent(event)) {
-    window.close();
-  } else if (isResizeEvent(event)) {
-    auto _ = LockForScope(board.lock);
-    resizeBoard(event, board, window, pixels);
-  } else if (isDrawEvent(event)) {
-    auto _ = LockForScope(board.lock);
-    drawToBoard(event, board);
-  } else if (isResetEvent(event)) {
-    auto _ = LockForScope(board.lock);
-    setBenchmarkBoard(board);
-  }
-}

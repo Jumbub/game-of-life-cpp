@@ -57,12 +57,29 @@ void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimum
     window.display();
 
     sf::Event event;
+    std::vector<sf::Event> mouseEvents;
     while (window.pollEvent(event)) {
-      handleEvents(event, window, board, pixels);
+      if (isExitEvent(event)) {
+        window.close();
+      } else if (isResizeEvent(event)) {
+        auto _ = LockForScope(board.lock);
+        resizeBoard(event, board, window, pixels);
+      } else if (isDrawEvent(event)) {
+        mouseEvents.push_back(event);
+      } else if (isResetEvent(event)) {
+        auto _ = LockForScope(board.lock);
+        setBenchmarkBoard(board);
+      }
 
       ImGui::SFML::ProcessEvent(event);
       if (isExitEvent(event))
         ImGui::SFML::Shutdown();
+    }
+    if (mouseEvents.size() > 0) {
+      auto _ = LockForScope(board.lock);
+      for (auto event : mouseEvents) {
+        drawToBoard(event, board);
+      }
     }
 
     std::this_thread::sleep_for(
