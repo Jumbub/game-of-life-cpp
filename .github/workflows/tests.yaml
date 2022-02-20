@@ -17,5 +17,6 @@ jobs:
           git checkout v2.x
           cmake -Bbuild -H. -DBUILD_TESTING=OFF
           sudo cmake --build build/ --target install
+
       - name: Run tests
         run: make test_github
