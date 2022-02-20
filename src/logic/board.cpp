@@ -9,7 +9,7 @@ void Board::setOutputToInput() {
 }
 
 void Board::setSize(const uint& width, const uint& height) {
-  if (this->width * this->height != width * height) {
+  if (raw != nullptr && this->width * this->height != width * height) {
     delete[] raw;
     raw = nullptr;
   }
@@ -17,12 +17,16 @@ void Board::setSize(const uint& width, const uint& height) {
   this->width = width;
   this->height = height;
 
+  this->rawWidth = width + PADDING;
+  this->rawHeight = height + PADDING;
+  this->rawSize = rawWidth * rawHeight;
+
   allocateBoardMemory(width, height);
 }
 
 void Board::allocateBoardMemory(const uint& width, const uint& height) {
   // Generate board with 1 cell of padding
-  const uint size = (width + 2) * (height + 2);
+  const uint size = (width + PADDING) * (height + PADDING);
   if (raw == nullptr) {
     // (size + 1) for skip final values
     raw = new Cell[size * 2 + (size + 1) * 2];
@@ -36,13 +40,11 @@ void Board::allocateBoardMemory(const uint& width, const uint& height) {
 }
 
 void Board::clearSkips() {
-  const uint size = (width + 2) * (height + 2);
-  std::memset(&raw[size * 2], false, (size + 1) * 2);
+  std::memset(&raw[rawSize * 2], false, (rawSize + 1) * 2);
 }
 
 Board::Board(const uint& width, const uint& height) {
-  this->width = width;
-  this->height = height;
+  setSize(width, height);
   allocateBoardMemory(width, height);
 }
 

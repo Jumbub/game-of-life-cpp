@@ -2,8 +2,8 @@ using uint = unsigned int;
 #include "padding.h"
 
 void assignPadding(Cell* cells, uint innerWidth, uint innerHeight) {
-  const uint width = innerWidth + 2;
-  const uint height = innerHeight + 2;
+  const uint width = innerWidth + PADDING;
+  const uint height = innerHeight + PADDING;
 
   for (uint i = 1; i <= width - 1; i++) {
     cells[i] = cells[i + width * innerHeight];
@@ -24,8 +24,8 @@ void assignPadding(Cell* cells, uint innerWidth, uint innerHeight) {
 }
 
 void assignSkips(Cell* cells, uint innerWidth, uint innerHeight) {
-  const uint width = innerWidth + 2;
-  const uint height = innerHeight + 2;
+  const uint width = innerWidth + PADDING;
+  const uint height = innerHeight + PADDING;
 
   for (uint i = 1; i <= width - 1; i++) {
     cells[i + width * innerHeight] = cells[i + width * innerHeight] & cells[i];

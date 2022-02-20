@@ -94,11 +94,10 @@ void nextBoard(Board& board, const uint& threadCount) {
   const auto threadLines = height / totalThreads;
   const auto threadLinesRemaining = height % totalThreads;
 
-  const auto& realWidth = board.width + 2;
-  const auto size = realWidth * (height + 2);
+  const auto size = board.rawWidth * board.rawHeight;
 
   std::memset(board.outSkip, true, sizeof(Cell) * size);
-  board.inSkip[size - realWidth - 1] = false;  // Ensure the last cell is never skipped to minimise branches
+  board.inSkip[size - board.rawWidth - 1] = false;  // Ensure the last cell is never skipped to minimise branches
 
   std::vector<std::thread> threads;
   for (uint t = 0; t < totalThreads; t++) {
@@ -110,8 +109,8 @@ void nextBoard(Board& board, const uint& threadCount) {
     if (t == totalThreads - 1)
       endY += threadLinesRemaining;
 
-    threads.push_back(std::thread([startY, endY, &board, &realWidth]() {
-      nextBoardSection(startY, endY, realWidth, board.input, board.output, board.inSkip, board.outSkip);
+    threads.push_back(std::thread([startY, endY, &board]() {
+      nextBoardSection(startY, endY, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     }));
   }
 

@@ -23,8 +23,8 @@ void drawToBoard(const sf::Event& event, Board& board) {
   for (int x = event.mouseMove.x - BRUSH_RADIUS; x < event.mouseMove.x + BRUSH_RADIUS; x++) {
     for (int y = event.mouseMove.y - BRUSH_RADIUS; y < event.mouseMove.y + BRUSH_RADIUS; y++) {
       board.output
-          [(uint)std::clamp(y, 1, (int)board.height + 1) * (board.width + 2) +
-           (uint)std::clamp(x, 1, (int)board.width + 1) + 1] = ALIVE;
+          [(uint)std::clamp(y, (int)PADDING / 2, (int)board.height + (int)PADDING / 2) * board.rawWidth +
+           (uint)std::clamp(x, (int)PADDING / 2, (int)board.width + (int)PADDING / 2) + 1] = ALIVE;
     }
   }
 }
@@ -37,8 +37,8 @@ void resizeBoard(
     sf::Texture& texture) {
   window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
   delete[] pixels;
-  pixels = new sf::Uint32[(event.size.width + 2) * (event.size.height + 2)];
+  pixels = new sf::Uint32[(event.size.width + PADDING) * (event.size.height + PADDING)];
   board.setSize(event.size.width, event.size.height);
-  texture.create(event.size.width + 2, event.size.height + 2);
+  texture.create(event.size.width + PADDING, event.size.height + PADDING);
   setBenchmarkBoard(board);
 }

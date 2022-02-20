@@ -20,7 +20,7 @@ Loop::Loop(const uint width, const uint height, const std::string title, const b
   setBenchmarkBoard(board);
 
   ImGui::SFML::Init(window);
-  texture.create(width + 2, height + 2);
+  texture.create(width + PADDING, height + PADDING);
   sprite.setTexture(texture, true);
   sprite.setPosition(-1, -1);
 }
