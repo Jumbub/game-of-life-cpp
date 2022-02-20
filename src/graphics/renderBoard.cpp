@@ -7,15 +7,15 @@
 #include "../logic/board.h"
 #include "renderBoard.h"
 
-constexpr uint32_t SKIP_DEAD = 0x10dd0000;
-constexpr uint32_t SKIP_ALIVE = 0xff888888 - SKIP_DEAD;
+constexpr uint32_t COLOR_DEAD = 0x10dd0000;
+constexpr uint32_t COLOR_ALIVE = 0xffffffff - COLOR_DEAD;
 
-constexpr uint32_t NO_SKIP_DEAD = 0x10dd0000;
-constexpr uint32_t NO_SKIP_ALIVE = 0xffffffff - NO_SKIP_DEAD;
-
-constexpr bool SHOW_SKIPS = 0;
-
-void renderBoard(Board& board, sf::RenderWindow& window, sf::Sprite& sprite, sf::Texture& texture, sf::Uint32* pixels) {
+void renderBoard(
+    Board& board,
+    [[maybe_unused]] sf::RenderWindow& window,
+    sf::Sprite& sprite,
+    sf::Texture& texture,
+    sf::Uint32* pixels) {
   const auto& output = board.output;
 
   // Generate the pixel texture data from the board output
@@ -24,11 +24,7 @@ void renderBoard(Board& board, sf::RenderWindow& window, sf::Sprite& sprite, sf:
 
   const uint limit = width * height - width;
   for (uint i = width; i < limit; i++) {
-    if (SHOW_SKIPS) {
-      pixels[i] = board.inSkip[i] ? SKIP_DEAD + SKIP_ALIVE * output[i] : NO_SKIP_DEAD + NO_SKIP_ALIVE * output[i];
-    } else {
-      pixels[i] = NO_SKIP_DEAD + NO_SKIP_ALIVE * output[i];
-    }
+    pixels[i] = COLOR_DEAD + COLOR_ALIVE * output[i];
   }
 
   texture.update(reinterpret_cast<sf::Uint8*>(pixels));
