@@ -29,10 +29,16 @@ void drawToBoard(const sf::Event& event, Board& board) {
   }
 }
 
-void resizeBoard(const sf::Event& event, Board& board, sf::RenderWindow& window, sf::Uint32*& pixels) {
+void resizeBoard(
+    const sf::Event& event,
+    Board& board,
+    sf::RenderWindow& window,
+    sf::Uint32*& pixels,
+    sf::Texture& texture) {
   window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
   delete[] pixels;
   pixels = new sf::Uint32[(event.size.width + 2) * (event.size.height + 2)];
   board.setSize(event.size.width, event.size.height);
+  texture.create(event.size.width + 2, event.size.height + 2);
   setBenchmarkBoard(board);
 }

@@ -15,13 +15,7 @@ constexpr uint32_t NO_SKIP_ALIVE = 0xffffffff - NO_SKIP_DEAD;
 
 constexpr bool SHOW_SKIPS = 0;
 
-void renderBoard(
-    Board& board,
-    sf::RenderWindow& window,
-    sf::Sprite& sprite,
-    sf::Texture& texture,
-    sf::Image& image,
-    sf::Uint32* pixels) {
+void renderBoard(Board& board, sf::RenderWindow& window, sf::Sprite& sprite, sf::Texture& texture, sf::Uint32* pixels) {
   const auto& output = board.output;
 
   // Generate the pixel texture data from the board output
@@ -37,8 +31,7 @@ void renderBoard(
     }
   }
 
-  image.create(width, height, reinterpret_cast<sf::Uint8*>(pixels));
-  texture.update(image);
+  texture.update(reinterpret_cast<sf::Uint8*>(pixels));
   sprite.setTexture(texture, true);
   window.draw(sprite);
 }

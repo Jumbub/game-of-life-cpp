@@ -20,8 +20,7 @@ Loop::Loop(const uint width, const uint height, const std::string title, const b
   setBenchmarkBoard(board);
 
   ImGui::SFML::Init(window);
-  image.create(width + PADDING, height + PADDING, reinterpret_cast<sf::Uint8*>(pixels));
-  texture.loadFromImage(image);
+  texture.create(width + 2, height + 2);
   sprite.setTexture(texture, true);
   sprite.setPosition(-1, -1);
 }
@@ -49,7 +48,7 @@ void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimum
 
     ImGui::SFML::Update(window, delta);
 
-    renderBoard(board, window, sprite, texture, image, pixels);
+    renderBoard(board, window, sprite, texture, pixels);
     renderImguiMenu(board, window, delta, computedGenerations, threadCount, renderMinimumMicroseconds);
 
     ImGui::SFML::Render(window);
@@ -63,7 +62,7 @@ void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimum
         window.close();
       } else if (isResizeEvent(event)) {
         auto _ = LockForScope(board.lock);
-        resizeBoard(event, board, window, pixels);
+        resizeBoard(event, board, window, pixels, texture);
       } else if (isDrawEvent(event)) {
         mouseEvents.push_back(event);
       } else if (isResetEvent(event)) {

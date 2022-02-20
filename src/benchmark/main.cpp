@@ -24,7 +24,7 @@ BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()-
 static void BM_RenderBoard(benchmark::State& state) {
   Loop loop(TEST_WIDTH, TEST_HEIGHT, TEST_TITLE, TEST_RESIZABLE);
   for (auto _ : state) {
-    renderBoard(loop.board, loop.window, loop.sprite, loop.texture, loop.image, loop.pixels);
+    renderBoard(loop.board, loop.window, loop.sprite, loop.texture, loop.pixels);
     loop.window.display();
   }
 }
