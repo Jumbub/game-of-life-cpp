@@ -35,27 +35,19 @@ uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
 }
 
 inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth) {
-  skips[i - realWidth - 1] = false;
-  skips[i - realWidth] = false;
-  skips[i - realWidth + 1] = false;
-
-  skips[i - 1] = false;
-  skips[i] = false;
-  skips[i + 1] = false;
-
-  skips[i + realWidth - 1] = false;
-  skips[i + realWidth] = false;
-  skips[i + realWidth + 1] = false;
+  *reinterpret_cast<uint32_t*>(&skips[i - realWidth - 1]) = false;
+  *reinterpret_cast<uint32_t*>(&skips[i - 1]) = false;
+  *reinterpret_cast<uint32_t*>(&skips[i + realWidth - 1]) = false;
 }
 
 void nextBoardSection(
     const uint startY,
     const uint endY,
     const uint realWidth,
-    Cell* input,
-    Cell* output,
-    uint8_t* inSkip,
-    uint8_t* outSkip) {
+    [[maybe_unused]] Cell* input,
+    [[maybe_unused]] Cell* output,
+    [[maybe_unused]] uint8_t* inSkip,
+    [[maybe_unused]] uint8_t* outSkip) {
   uint i = startY * realWidth + 1;
   const uint stop = endY * realWidth - 1;
 
