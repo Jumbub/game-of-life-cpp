@@ -19,20 +19,8 @@ constexpr uint8_t LOOKUP[20] = {
     0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
 };
 
-const uint64_t SKIP_ALL =
+const uint64_t SKIP_EIGHT =
     (1 << 0) + (1 << 8) + (1 << 16) + (1 << 24) + (1l << 32) + (1l << 40) + (1l << 48) + (1l << 56);
-
-void whileSkip8s(uint& i, uint8_t* skips) {
-  while (uint8s_to_uint64(&skips[i]) == SKIP_ALL) {
-    i += 8;
-  }
-}
-
-void whileSkip1s(uint& i, const uint8_t* skips) {
-  while (skips[i]) {
-    i++;
-  }
-}
 
 uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
   const Cell* top = &input[i - realWidth - 1];
@@ -72,8 +60,8 @@ void nextBoardSection(
   const uint stop = endY * realWidth - 1;
 
   while (i < stop) {
-    whileSkip8s(i, inSkip);
-    whileSkip1s(i, inSkip);
+    while (uint8s_to_uint64(&inSkip[i]) == SKIP_EIGHT)
+      i += 8;
 
     output[i] = isAlive(i, input, realWidth);
 
