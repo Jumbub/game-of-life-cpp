@@ -8,4 +8,5 @@ void renderImguiMenu(
     sf::RenderWindow& window,
     const sf::Time& renderDelta,
     const ulong& computedGenerations,
-    uint& threadCount);
+    uint& threadCount,
+    ulong& renderMinimumMicroseconds);

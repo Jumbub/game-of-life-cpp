@@ -10,7 +10,8 @@ void renderImguiMenu(
     sf::RenderWindow& window,
     const sf::Time& renderDelta,
     const ulong& computedGenerations,
-    uint& threadCount) {
+    uint& threadCount,
+    ulong& renderMinimumMicroseconds) {
   ImGui::Begin("Configuration");
 
   // Info
@@ -20,12 +21,13 @@ void renderImguiMenu(
 
   // Renders per second
   ImGui::Text("Renders/second: %.2f", 1.0 / renderDelta.asSeconds());
-  static int rendersPerSecond = 1;  // Initial value is arbitrary because SFML has no "get fps limit" method
+  static int rendersPerSecond = (int)renderMinimumMicroseconds /
+                                1000000;  // Initial value is arbitrary because SFML has no "get fps limit" method
   static int lastRendersPerSecond = rendersPerSecond;  // This 2 step process is necessary for the same reason above
   ImGui::SliderInt("Target renders/second", &rendersPerSecond, 1, 300);
   if (rendersPerSecond != lastRendersPerSecond) {
     auto scope = LockForScope(board.lock);
-    window.setFramerateLimit((uint)rendersPerSecond);
+    renderMinimumMicroseconds = 1000000 / (uint)rendersPerSecond;
   }
 
   // Threads per frame

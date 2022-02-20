@@ -30,7 +30,7 @@ Loop::~Loop() {
   delete[] pixels;
 }
 
-void Loop::run(const ulong maxGenerations, uint threadCount, const ulong renderMinimumMicroseconds) {
+void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimumMicroseconds) {
   ulong computedGenerations = 0;
 
   // Computation loop
@@ -50,7 +50,7 @@ void Loop::run(const ulong maxGenerations, uint threadCount, const ulong renderM
     ImGui::SFML::Update(window, delta);
 
     renderBoard(board, window, sprite, texture, image, pixels);
-    renderImguiMenu(board, window, delta, computedGenerations, threadCount);
+    renderImguiMenu(board, window, delta, computedGenerations, threadCount, renderMinimumMicroseconds);
 
     ImGui::SFML::Render(window);
 
