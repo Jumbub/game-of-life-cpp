@@ -35,6 +35,9 @@ void resizeBoard(
     sf::RenderWindow& window,
     sf::Uint32*& pixels,
     sf::Texture& texture) {
+  if (window.getSize().x == event.size.width && window.getSize().y == event.size.height)
+    return;
+
   window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
   delete[] pixels;
   pixels = new sf::Uint32[(event.size.width + PADDING) * (event.size.height + PADDING)];
