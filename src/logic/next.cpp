@@ -41,17 +41,14 @@ inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& real
 }
 
 void nextBoardSection(
-    const uint startY,
-    const uint endY,
+    uint i,
+    const uint endI,
     const uint realWidth,
-    [[maybe_unused]] Cell* input,
-    [[maybe_unused]] Cell* output,
-    [[maybe_unused]] uint8_t* inSkip,
-    [[maybe_unused]] uint8_t* outSkip) {
-  uint i = startY * realWidth + 1;
-  const uint stop = endY * realWidth - 1;
-
-  while (i < stop) {
+    Cell* input,
+    Cell* output,
+    uint8_t* inSkip,
+    uint8_t* outSkip) {
+  while (i < endI) {
     while (uint8s_to_uint64(&inSkip[i]) == SKIP_EIGHT)
       i += 8;
 
@@ -68,29 +65,21 @@ void nextBoardSection(
 void nextBoard(Board& board, const uint& threadCount) {
   board.setOutputToInput();
 
-  const auto& height = board.height;
-
-  const auto totalThreads = std::min(threadCount, (uint)height);
-  const auto threadLines = height / totalThreads;
-  const auto threadLinesRemaining = height % totalThreads;
-
-  const auto size = board.rawWidth * board.rawHeight;
-
-  std::memset(board.outSkip, true, sizeof(Cell) * size);
-  board.inSkip[size - board.rawWidth - 1] = false;  // Ensure the last cell is never skipped to minimise branches
+  std::memset(board.outSkip, true, sizeof(Cell) * board.rawSize);
+  board.inSkip[board.rawSize - board.rawWidth - 1] = false;  // Never skip last visible cell
 
   std::vector<std::thread> threads;
-  for (uint t = 0; t < totalThreads; t++) {
-    // Compute start and end indexes for threads
-    const auto startY = t * threadLines + 1;
-    auto endY = (t + 1) * threadLines + 1;
+  const uint segments = board.height / threadCount;
+  const uint remainder = board.height % threadCount;
+  for (uint t = 0; t < threadCount; t++) {
+    threads.push_back(std::thread([&, t]() {
+      const uint startY = segments * t + 1;
+      const uint finishY = startY + segments + ((t == threadCount - 1) * remainder);
 
-    // In the case of an uneven divide, the last thread gets the left-overs
-    if (t == totalThreads - 1)
-      endY += threadLinesRemaining;
+      const uint startI = startY * board.rawWidth + 1;
+      const uint finishI = finishY * board.rawWidth - 1;
 
-    threads.push_back(std::thread([startY, endY, &board]() {
-      nextBoardSection(startY, endY, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
+      nextBoardSection(startI, finishI, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     }));
   }
 
