@@ -66,7 +66,6 @@ void nextBoard(Board& board, const uint& threadCount) {
   board.setOutputToInput();
 
   std::memset(board.outSkip, true, sizeof(Cell) * board.rawSize);
-  board.inSkip[board.rawSize - board.rawWidth - 1] = false;  // Never skip last visible cell
 
   std::vector<std::thread> threads;
   const uint segments = board.height / threadCount;
@@ -78,6 +77,8 @@ void nextBoard(Board& board, const uint& threadCount) {
 
       const uint startI = startY * board.rawWidth + 1;
       const uint finishI = finishY * board.rawWidth - 1;
+
+      board.inSkip[finishI] = false;  // Never skip last cell
 
       nextBoardSection(startI, finishI, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     }));
