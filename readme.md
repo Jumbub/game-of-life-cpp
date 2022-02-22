@@ -33,7 +33,7 @@ _(the above gif is the benchmark scenario; slowed down to a fraction of the real
 
 **Benchmark setup:**
 - GCC v11.1.0
-- Intel® C++ Compiler Classic 2021.5.0
+- Intel(R) oneAPI DPC++/C++ Compiler 2022.0.0
 - Intel(R) Core(TM) i5-7600K CPU @ 3.80GHz (overclocked to 4.4GHz)
 
 **Benchmark conditions:**
@@ -186,7 +186,17 @@ By replacing the primitive multi-branching cell state calculation with a lookup 
 
 By using the Intel compiler.
 
-Intel® C++ Compiler Classic 2021.5.0
+Intel(R) C++ Compiler Classic 2021.5.0
+
+[b25f071659e718dfce5e8ad0a832a44267a8970d](https://github.com/Jumbub/game-of-speed/commit/b25f071659e718dfce5e8ad0a832a44267a8970d)
+
+### 2% speed increase overall
+
+By moving to the new Intel compiler.
+
+Intel(R) oneAPI DPC++/C++ Compiler 2022.0.0
+
+[ef55d32d9d77edd43c91bff7eba516ba7fa1e4a1](https://github.com/Jumbub/game-of-speed/commit/ef55d32d9d77edd43c91bff7eba516ba7fa1e4a1)
 
 ## Results of interesting findings
 
