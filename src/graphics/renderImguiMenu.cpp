@@ -1,5 +1,5 @@
-#include "../../build/_deps/imgui-src/imgui.h"
-#include "../../build/_deps/sfml-src/include/SFML/Graphics.hpp"
+#include <imgui.h>
+#include <SFML/Graphics.hpp>
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/board.h"
 #include "../logic/threads.h"

@@ -33,6 +33,7 @@ _(the above gif is the benchmark scenario; slowed down to a fraction of the real
 
 **Benchmark setup:**
 - GCC v11.1.0
+- Intel® C++ Compiler Classic 2021.5.0
 - Intel(R) Core(TM) i5-7600K CPU @ 3.80GHz (overclocked to 4.4GHz)
 
 **Benchmark conditions:**
@@ -180,6 +181,12 @@ We don't need a complex mutex when the communication is tied from a main thread 
 By replacing the primitive multi-branching cell state calculation with a lookup table.
 
 [4f54fa8..41067a2](https://github.com/jumbub/game-of-speed/compare/4f54fa8..41067a2)
+
+### 5% speed increase overall
+
+By using the Intel compiler.
+
+Intel® C++ Compiler Classic 2021.5.0
 
 ## Results of interesting findings
 

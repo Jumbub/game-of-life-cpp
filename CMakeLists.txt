@@ -15,12 +15,17 @@ endif(CCACHE_FOUND)
 include(FetchContent)
 set(SFML_BUILD_AUDIO FALSE)
 set(SFML_BUILD_NETWORK FALSE)
-FetchContent_Declare(
-  sfml
-  GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-  GIT_TAG "2.5.1"
-)
-FetchContent_MakeAvailable(sfml)
+if (CMAKE_CXX_COMPILER MATCHES ".*icpc.*")
+  # Need to install SFML manually when using Intel compiler,
+  # because I haven't bothered figuring out how to compile SFML separately with GCC
+else()
+  FetchContent_Declare(
+    sfml
+    GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+    GIT_TAG "2.5.1"
+  )
+  FetchContent_MakeAvailable(sfml)
+endif()
 FetchContent_Declare(
   imgui
   GIT_REPOSITORY "https://github.com/ocornut/imgui.git"
