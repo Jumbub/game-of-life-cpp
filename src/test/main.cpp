@@ -34,8 +34,8 @@ BoardVector ungenerate(Board& board) {
 }
 
 void compare(BoardVector a, BoardVector b, uint generations = 1) {
-  auto boardA = Board(1, 1);
-  auto boardB = Board(1, 1);
+  Board boardA = {1, 1};
+  Board boardB = {1, 1};
   generate(boardA, a);
   generate(boardB, b);
   for (uint i = 0; i < generations; i++)

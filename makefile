@@ -21,10 +21,6 @@ benchmark_all: all_exe
 	./build/src/bench-O2 >> benchmark_all.txt
 	echo "O1" >> benchmark_all.txt
 	./build/src/bench-O1 >> benchmark_all.txt
-	echo "O0" >> benchmark_all.txt
-	./buil/src/bench-O0 >> benchmark_all.txt
-	echo "Os" >> benchmark_all.txt
-	./build/src/bench-Os >> benchmark_all.txt
 
 # Build executables & IDE compile commands
 

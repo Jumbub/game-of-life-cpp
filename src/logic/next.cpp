@@ -1,7 +1,6 @@
 #include <cstring>
 #include <future>
 #include <iostream>
-#include <ranges>
 #include <thread>
 #include <vector>
 #include "board.h"

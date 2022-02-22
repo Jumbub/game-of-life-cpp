@@ -15,7 +15,8 @@ endif(CCACHE_FOUND)
 include(FetchContent)
 set(SFML_BUILD_AUDIO FALSE)
 set(SFML_BUILD_NETWORK FALSE)
-if (CMAKE_CXX_COMPILER MATCHES ".*icpc.*")
+if (CMAKE_CXX_COMPILER MATCHES ".*icpx.*")
+elseif (CMAKE_CXX_COMPILER MATCHES ".*icpc.*")
   # Need to install SFML manually when using Intel compiler,
   # because I haven't bothered figuring out how to compile SFML separately with GCC
 else()
