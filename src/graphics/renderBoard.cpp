@@ -26,6 +26,6 @@ void renderBoard(
   }
 
   texture.update(reinterpret_cast<sf::Uint8*>(pixels));
-  sprite.setTexture(texture, true);
+  sprite.setTexture(texture, false);
   window.draw(sprite);
 }

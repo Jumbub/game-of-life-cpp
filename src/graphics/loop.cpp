@@ -22,25 +22,16 @@ Loop::Loop(const uint width, const uint height, const std::string title, const b
   ImGui::SFML::Init(window);
   texture.create(width + PADDING, height + PADDING);
   sprite.setTexture(texture, true);
-  sprite.setPosition(-1, -1);
+  sprite.setPosition((int)-PADDING / 2, (int)-PADDING / 2);
 }
 
 Loop::~Loop() {
   delete[] pixels;
 }
 
-void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimumMicroseconds) {
+void Loop::run(ulong maxGenerations, uint threadCount, ulong renderMinimumMicroseconds) {
   ulong computedGenerations = 0;
-
-  // Computation loop
-  std::thread primaryWorkerThread([&]() {
-    while (computedGenerations < maxGenerations) {
-      board.lock.pauseIfRequested();
-
-      nextBoard(board, threadCount);
-      ++computedGenerations;
-    }
-  });
+  auto nextBoardThread = startNextBoardLoopThread(maxGenerations, threadCount, board, computedGenerations);
 
   sf::Clock clock;
   while (window.isOpen() && computedGenerations < maxGenerations) {
@@ -62,7 +53,7 @@ void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimum
         window.close();
       } else if (isResizeEvent(event)) {
         auto _ = LockForScope(board.lock);
-        resizeBoard(event, board, window, pixels, texture);
+        resizeBoard(event, board, window, pixels, texture, sprite);
       } else if (isDrawEvent(event)) {
         mouseEvents.push_back(event);
       } else if (isResetEvent(event)) {
@@ -74,7 +65,7 @@ void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimum
       if (isExitEvent(event))
         ImGui::SFML::Shutdown();
     }
-    if (mouseEvents.size() > 0) {
+    if (!mouseEvents.empty()) {
       auto _ = LockForScope(board.lock);
       for (auto event : mouseEvents) {
         drawToBoard(event, board);
@@ -85,6 +76,6 @@ void Loop::run(const ulong maxGenerations, uint threadCount, ulong renderMinimum
         std::chrono::microseconds(renderMinimumMicroseconds - (ulong)clock.getElapsedTime().asMicroseconds()));
   }
 
-  computedGenerations = std::numeric_limits<ulong>::max() - 1;
-  primaryWorkerThread.join();
+  maxGenerations = 0;  // Notify the next board thread to end execution
+  nextBoardThread.join();
 }

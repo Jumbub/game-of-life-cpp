@@ -34,7 +34,8 @@ void resizeBoard(
     Board& board,
     sf::RenderWindow& window,
     sf::Uint32*& pixels,
-    sf::Texture& texture) {
+    sf::Texture& texture,
+    sf::Sprite& sprite) {
   window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
 
   if (event.size.height == board.height && event.size.width == board.width)
@@ -44,5 +45,6 @@ void resizeBoard(
   pixels = new sf::Uint32[(event.size.width + PADDING) * (event.size.height + PADDING)];
   board.setSize(event.size.width, event.size.height);
   texture.create(event.size.width + PADDING, event.size.height + PADDING);
+  sprite.setTexture(texture, true);
   setBenchmarkBoard(board);
 }

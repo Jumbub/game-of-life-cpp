@@ -4,6 +4,7 @@
 #include "../common/lock.h"
 
 using uint = unsigned int;
+using ulong = unsigned long;
 using Cell = uint8_t;
 [[maybe_unused]] const Cell ALIVE = 1;
 [[maybe_unused]] const Cell DEAD = 0;

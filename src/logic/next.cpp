@@ -1,10 +1,8 @@
-#include <algorithm>
-#include <array>
 #include <cstring>
 #include <future>
 #include <iostream>
+#include <ranges>
 #include <thread>
-#include <tuple>
 #include <vector>
 #include "board.h"
 #include "next.h"
@@ -67,26 +65,40 @@ void nextBoard(Board& board, const uint& threadCount) {
 
   std::memset(board.outSkip, true, sizeof(Cell) * board.rawSize);
 
-  std::vector<std::thread> threads;
-  const uint segments = board.height / threadCount;
-  const uint remainder = board.height % threadCount;
-  for (uint t = 0; t < threadCount; t++) {
-    threads.push_back(std::thread([&, t]() {
-      const uint startY = segments * t + 1;
-      const uint finishY = startY + segments + ((t == threadCount - 1) * remainder);
+  const uint segmentSize = (board.height / threadCount + board.height % threadCount) * board.rawWidth;
+  uint endI = board.rawWidth + 1;
 
-      const uint startI = startY * board.rawWidth + 1;
-      const uint finishI = finishY * board.rawWidth - 1;
+  std::vector<std::thread> threads(threadCount);
 
-      board.inSkip[finishI] = false;  // Never skip last cell
+  for (auto& thread : threads) {
+    const uint beginI = endI;
+    endI = std::min(board.rawSize - board.rawWidth, endI + segmentSize);
 
-      nextBoardSection(startI, finishI, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
-    }));
-  }
+    thread = std::thread([&, beginI, endI]() {
+      board.inSkip[endI] = false;  // Never skip last cell
+
+      nextBoardSection(beginI, endI, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
+    });
+  };
 
   for (auto& thread : threads) {
     thread.join();
   }
 
   assignBoardPadding(board);
+}
+
+std::thread startNextBoardLoopThread(
+    const ulong& maxGenerations,
+    const uint& threadCount,
+    Board& board,
+    ulong& computedGenerations) {
+  return std::thread{[&]() {
+    while (computedGenerations < maxGenerations) {
+      board.lock.pauseIfRequested();
+
+      nextBoard(board, threadCount);
+      ++computedGenerations;
+    }
+  }};
 }
