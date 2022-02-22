@@ -53,5 +53,5 @@ build/build.ninja:
 	mkdir -p build && cd build && cmake -GNinja ../ || rm -rf build
 
 test_github:
-	g++ src/test/main.cpp src/logic/board.cpp src/logic/next.cpp src/logic/padding.cpp -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread -O3 -o test
+	g++ src/test/main.cpp src/logic/board.cpp src/logic/next.cpp src/logic/padding.cpp src/common/lock.cpp -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -lpthread -O3 -o test
 	./test

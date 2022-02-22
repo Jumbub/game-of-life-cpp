@@ -28,8 +28,8 @@ void Lock::pauseIfRequested() {
 
 LockForScope::LockForScope(Lock& lock) : lock(lock) {
   lock.waitForPause();
-};
+}
 
 LockForScope::~LockForScope() {
   lock.resume();
-};
+}
