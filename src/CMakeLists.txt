@@ -20,7 +20,7 @@ target_link_libraries(debug PUBLIC ${Links} ${Graphics})
 target_compile_options(debug PUBLIC ${Flags} -Og -ggdb)
 
 # Test
-add_executable(test test/main.cpp ${LogicFiles})
+add_executable(test test/main.cpp ${LogicFiles} ${CommonFiles})
 target_link_libraries(test PUBLIC ${LinksNoGraphics} Catch2::Catch2WithMain)
 
 # Benchmark

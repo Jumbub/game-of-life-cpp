@@ -1,3 +1,4 @@
+#include <random>
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/padding.h"
 #include "breederPattern.h"
