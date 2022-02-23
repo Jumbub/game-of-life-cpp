@@ -31,14 +31,17 @@ _(the above gif is the benchmark scenario; slowed down to a fraction of the real
 
 ## Log of benchmark improvements
 
-**Benchmark setup:**
-- GCC v11.1.0
-- Intel(R) oneAPI DPC++/C++ Compiler 2022.0.0
+**Benchmark hardware:**
 - Intel(R) Core(TM) i5-7600K CPU @ 3.80GHz (overclocked to 4.4GHz)
 
-**Benchmark conditions:**
-- The benchmark value is the average time to generate the "next board" over 10 seconds.
-- The first "board" is the same for every test in this log (while performance was slower it was a 500x500 grid, but later into the experiment it became 2560x1440)
+**Benchmark software:**
+- The benchmark is "time to compute 2000 generations; on a wrapping 2560x1440 sized board"
+- The initial board is always the same, and contains
+  - A [breeder](https://en.wikipedia.org/wiki/Breeder_(cellular_automaton)#:~:text=In%20cellular%20automata%20such%20as,copies%20of%20a%20tertiary%20pattern.) on the top half
+  - Seeded random cells in the bottom left
+  - Chess grid of 8x8 alive/dead cells in the bottom right
+
+> The benchmark has changed slightly over time - "total generations computed in 10 seconds" to "time to compute 2000 generations" - and "500x500" to "2560x1440"
 
 ### Functioning prototype
 
