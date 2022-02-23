@@ -1,4 +1,4 @@
-#include "../../../build/_deps/googlebenchmark-src/include/benchmark/benchmark.h"
+#include <benchmark/benchmark.h>
 #include "../common/setBenchmarkBoard.h"
 #include "../graphics/loop.h"
 #include "../graphics/renderBoard.h"
