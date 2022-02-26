@@ -44,51 +44,72 @@ void compare(BoardVector a, BoardVector b, uint generations = 1) {
 }
 
 TEST_CASE("nothing", "[nextBoard]") {
-  compare({{false}}, {{false}});
+  compare(
+      {{false}},
+
+      {{false}});
 }
 
 TEST_CASE("death", "[nextBoard]") {
-  compare({{true}}, {{false}});
+  compare(
+      {{true}},
+
+      {{false}});
 }
 
 TEST_CASE("block", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}},
+
       {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}});
 }
 
-TEST_CASE("block (vertical wrap)", "[nextBoard]") {
-  compare({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}});
-}
+TEST_CASE("block (3 generations)", "[nextBoard]") {
+  compare(
+      {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}},
 
-TEST_CASE("block (horizontal wrap)", "[nextBoard]") {
-  compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}});
-}
+      {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}},
 
-TEST_CASE("block (vertical wrap, 3 generations)", "[nextBoard]") {
-  compare({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, 3);
+      3);
 }
 
 TEST_CASE("block (horizontal wrap, 3 generations)", "[nextBoard]") {
-  compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, 3);
+  compare(
+      {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}},
+
+      {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("block (corner wrap)", "[nextBoard]") {
-  compare({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}});
+TEST_CASE("block (vertical wrap, 3 generations)", "[nextBoard]") {
+  compare(
+      {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}},
+
+      {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}},
+
+      3);
 }
 
 TEST_CASE("block (corner wrap, 3 generations)", "[nextBoard]") {
-  compare({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, 3);
+  compare(
+      {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}},
+
+      {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}},
+
+      3);
 }
 
-TEST_CASE("bee-hive", "[nextBoard]") {
+TEST_CASE("bee-hive (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0}, {0, 0, 1, 1, 0, 0}, {0, 1, 0, 0, 1, 0}, {0, 0, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0, 0}, {0, 0, 1, 1, 0, 0}, {0, 1, 0, 0, 1, 0}, {0, 0, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0}}, 10);
+      {{0, 0, 0, 0, 0, 0}, {0, 0, 1, 1, 0, 0}, {0, 1, 0, 0, 1, 0}, {0, 0, 1, 1, 0, 0}, {0, 0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("loaf", "[nextBoard]") {
+TEST_CASE("loaf (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0},
        {0, 0, 1, 1, 0, 0},
@@ -102,52 +123,66 @@ TEST_CASE("loaf", "[nextBoard]") {
        {0, 1, 0, 0, 1, 0},
        {0, 0, 1, 0, 1, 0},
        {0, 0, 0, 1, 0, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("boat", "[nextBoard]") {
+TEST_CASE("boat (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0}, {0, 1, 1, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0}, {0, 1, 1, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}});
+      {{0, 0, 0, 0, 0}, {0, 1, 1, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("tub", "[nextBoard]") {
+TEST_CASE("tub (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}});
+      {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("blinker 1", "[nextBoard]") {
+TEST_CASE("blinker 1 (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 1, 1, 1, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}});
+      {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 1, 1, 1, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("blinker 2", "[nextBoard]") {
+TEST_CASE("blinker 2 (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 1, 1, 1, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}});
+      {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}},
+
+      3);
 }
 
 TEST_CASE("blinker 1 (vertical wrap, 5 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
 
-      {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {1, 1, 0, 0, 1}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}, 5);
+      {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {1, 1, 0, 0, 1}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+
+      5);
 }
 
 TEST_CASE("blinker 1 (corner wrap, 5 generations)", "[nextBoard]") {
   compare(
       {{1, 0, 0, 0, 0}, {1, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {1, 0, 0, 0, 0}},
 
-      {{1, 1, 0, 0, 1}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}, 5);
+      {{1, 1, 0, 0, 1}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+
+      5);
 }
 
-TEST_CASE("toad 1", "[nextBoard]") {
+TEST_CASE("toad 1 (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0},
        {0, 0, 0, 0, 0, 0},
@@ -161,10 +196,12 @@ TEST_CASE("toad 1", "[nextBoard]") {
        {0, 1, 0, 0, 1, 0},
        {0, 1, 0, 0, 1, 0},
        {0, 0, 1, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("toad 2", "[nextBoard]") {
+TEST_CASE("toad 2 (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0},
        {0, 0, 0, 1, 0, 0},
@@ -178,10 +215,12 @@ TEST_CASE("toad 2", "[nextBoard]") {
        {0, 0, 1, 1, 1, 0},
        {0, 1, 1, 1, 0, 0},
        {0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("beacon 1", "[nextBoard]") {
+TEST_CASE("beacon 1 (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0},
        {0, 1, 1, 0, 0, 0},
@@ -195,10 +234,12 @@ TEST_CASE("beacon 1", "[nextBoard]") {
        {0, 1, 1, 0, 0, 0},
        {0, 0, 0, 1, 1, 0},
        {0, 0, 0, 1, 1, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}},
+
+      3);
 }
 
-TEST_CASE("beacon 2", "[nextBoard]") {
+TEST_CASE("beacon 2 (3 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0},
        {0, 1, 1, 0, 0, 0},
@@ -212,7 +253,9 @@ TEST_CASE("beacon 2", "[nextBoard]") {
        {0, 1, 0, 0, 0, 0},
        {0, 0, 0, 0, 1, 0},
        {0, 0, 0, 1, 1, 0},
-       {0, 0, 0, 0, 0, 0}});
+       {0, 0, 0, 0, 0, 0}},
+
+      3);
 }
 
 TEST_CASE("glider 1", "[nextBoard]") {
@@ -243,7 +286,16 @@ TEST_CASE("glider 4", "[nextBoard]") {
       {{0, 0, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1, 1}, {0, 0, 1, 1, 0}, {0, 0, 0, 0, 0}});
 }
 
-TEST_CASE("gliders wide horizontal wrap collision [long board]", "[nextBoard]") {
+TEST_CASE("glider (2 generations)", "[nextBoard]") {
+  compare(
+      {{1, 0, 0, 0, 0}, {0, 1, 1, 0, 0}, {1, 1, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+
+      {{0, 0, 0, 0, 0}, {1, 0, 1, 0, 0}, {0, 1, 1, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 0, 0, 0}},
+
+      2);
+}
+
+TEST_CASE("gliders wide horizontal wrap collision (long board)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
@@ -258,7 +310,7 @@ TEST_CASE("gliders wide horizontal wrap collision [long board]", "[nextBoard]") 
        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}});
 }
 
-TEST_CASE("glider tall vertical wrap collision [tall board]", "[nextBoard]") {
+TEST_CASE("glider tall vertical wrap collision (tall board)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 1, 0},
        {0, 1, 0, 1, 0},
@@ -295,7 +347,7 @@ TEST_CASE("glider tall vertical wrap collision [tall board]", "[nextBoard]") {
        {0, 0, 1, 1, 0}});
 }
 
-TEST_CASE("medium glider 25 generations", "[nextBoard]") {
+TEST_CASE("medium glider (25 generations)", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0},
        {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},

@@ -3,6 +3,8 @@
 #include <thread>
 #include "board.h"
 
+inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth);
+
 void nextBoard(Board& board, const uint& threadCount);
 
 std::thread startNextBoardLoopThread(

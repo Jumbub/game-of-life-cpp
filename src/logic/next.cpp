@@ -16,8 +16,7 @@ constexpr uint8_t LOOKUP[20] = {
     0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
 };
 
-const uint64_t SKIP_EIGHT =
-    (1 << 0) + (1 << 8) + (1 << 16) + (1 << 24) + (1l << 32) + (1l << 40) + (1l << 48) + (1l << 56);
+constexpr uint8_t SKIP_EIGHT = 1;
 
 uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
   const Cell* top = &input[i - realWidth - 1];
@@ -32,9 +31,31 @@ uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
 }
 
 inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth) {
-  *reinterpret_cast<uint32_t*>(&skips[i - realWidth - 1]) = false;
-  *reinterpret_cast<uint32_t*>(&skips[i - 1]) = false;
-  *reinterpret_cast<uint32_t*>(&skips[i + realWidth - 1]) = false;
+  const auto t = i - realWidth;
+  const auto m = i;
+  const auto b = i + realWidth;
+
+  const auto top = t / 8;
+  const auto middle = m / 8;
+  const auto bottom = b / 8;
+  skips[top] = 0;
+  skips[middle] = 0;
+  skips[bottom] = 0;
+
+  if (t % 8 == 0)
+    skips[top - 1] = 0;
+  if (t % 8 == 7)
+    skips[top + 1] = 0;
+
+  if (m % 8 == 0)
+    skips[middle - 1] = 0;
+  if (m % 8 == 7)
+    skips[middle + 1] = 0;
+
+  if (b % 8 == 0)
+    skips[bottom - 1] = 0;
+  if (b % 8 == 7)
+    skips[bottom + 1] = 0;
 }
 
 void nextBoardSection(
@@ -46,8 +67,8 @@ void nextBoardSection(
     uint8_t* inSkip,
     uint8_t* outSkip) {
   while (i < endI) {
-    while (uint8s_to_uint64(&inSkip[i]) == SKIP_EIGHT)
-      i += 8;
+    while (inSkip[i / 8] == SKIP_EIGHT && i < endI)
+      i++;
 
     output[i] = isAlive(i, input, realWidth);
 
@@ -62,7 +83,7 @@ void nextBoardSection(
 void nextBoard(Board& board, const uint& threadCount) {
   board.setOutputToInput();
 
-  std::memset(board.outSkip, true, sizeof(Cell) * board.rawSize);
+  std::memset(board.outSkip, SKIP_EIGHT, sizeof(Cell) * board.rawSize);
 
   const uint segmentSize = (board.height / threadCount + board.height % threadCount) * board.rawWidth;
   uint endI = board.rawWidth + 1;
