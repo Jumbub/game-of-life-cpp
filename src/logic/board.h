@@ -29,11 +29,11 @@ struct Board {
 
   void setOutputToInput();
   void setSize(const uint& width, const uint& height);
-  void allocateBoardMemory(const uint& width, const uint& height);
   void clearSkips();
   Board(const uint& width, const uint& height);
   ~Board();
 
  private:
+  void allocateBoardMemory(const uint& width, const uint& height);
   Board([[maybe_unused]] const Board& _){};
 };

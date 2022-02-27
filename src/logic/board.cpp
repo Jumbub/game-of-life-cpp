@@ -28,24 +28,22 @@ void Board::allocateBoardMemory(const uint& width, const uint& height) {
   // Generate board with 1 cell of padding
   const uint size = (width + PADDING) * (height + PADDING);
   if (raw == nullptr) {
-    // (size + 1) for skip final values
-    raw = new Cell[size * 2 + (size + 1) * 2];
+    raw = new Cell[size * 4];
     input = raw;
     output = input + size;
     inSkip = output + size;
-    outSkip = inSkip + 1 + size;
+    outSkip = inSkip + size;
   }
 
   clearSkips();
 }
 
 void Board::clearSkips() {
-  std::memset(&raw[rawSize * 2], false, (rawSize + 1) * 2);
+  std::memset(&raw[rawSize * 2], false, rawSize * 2);
 }
 
 Board::Board(const uint& width, const uint& height) {
   setSize(width, height);
-  allocateBoardMemory(width, height);
 }
 
 Board::~Board() {
