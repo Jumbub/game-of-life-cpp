@@ -201,6 +201,12 @@ Intel(R) oneAPI DPC++/C++ Compiler 2022.0.0
 
 [ef55d32d9d77edd43c91bff7eba516ba7fa1e4a1](https://github.com/Jumbub/game-of-speed/commit/ef55d32d9d77edd43c91bff7eba516ba7fa1e4a1)
 
+### 18% speed increase overall
+
+By creating a job pool, so that faster threads who previously sat idle could now do more actual work.
+
+[d350d8bf8b49191952a72b7cb74fa694b5c289c3](https://github.com/Jumbub/game-of-speed/commit/d350d8bf8b49191952a72b7cb74fa694b5c289c3)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.

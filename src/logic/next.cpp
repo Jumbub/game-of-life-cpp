@@ -93,7 +93,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   };
 
   for (auto& thread : threads) {
-    thread.join();  // TODO: experiment with detaching threads & using a "done" flag
+    thread.join();
   }
 
   assignBoardPadding(board);
