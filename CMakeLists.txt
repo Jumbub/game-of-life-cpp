@@ -13,14 +13,14 @@ endif(CCACHE_FOUND)
 
 # Dependencies
 include(FetchContent)
-set(SFML_BUILD_AUDIO FALSE)
-set(SFML_BUILD_NETWORK FALSE)
-FetchContent_Declare(
-  sfml
-  GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-  GIT_TAG "2.5.1"
-)
-FetchContent_MakeAvailable(sfml)
+# set(SFML_BUILD_AUDIO FALSE)
+# set(SFML_BUILD_NETWORK FALSE)
+# FetchContent_Declare(
+#   sfml
+#   GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+#   GIT_TAG "2.5.1"
+# )
+# FetchContent_MakeAvailable(sfml)
 FetchContent_Declare(
   imgui
   GIT_REPOSITORY "https://github.com/ocornut/imgui.git"

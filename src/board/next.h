@@ -122,23 +122,35 @@ void nextBoard(Board& board, const uint& threadCount) {
   const auto& input = board.input;
   const auto& output = board.output;
 
-  const auto totalThreads = std::min(threadCount, (uint)height);
-  const auto threadLines = height / totalThreads;
-  const auto threadLinesRemaining = height % totalThreads;
+  const auto totalJobs = 16;
+  const auto threadLines = height / totalJobs;
+  const auto threadLinesRemaining = height % totalJobs;
 
-  std::vector<std::thread> threads;
-  for (uint t = 0; t < totalThreads; t++) {
+  std::vector<std::function<void()>> jobs;
+  std::atomic<uint> job = {0};
+
+  std::vector<std::thread> threads(threadCount);
+  for (uint t = 0; t < 16; t++) {
     // Compute start and end indexes for threads
     const auto startY = t * threadLines;
     auto endY = (t + 1) * threadLines;
 
     // In the case of an uneven divide, the last thread gets the left-overs
-    if (t == totalThreads - 1)
+    if (t == totalJobs - 1)
       endY += threadLinesRemaining;
 
-    threads.push_back(
-        std::thread([startY, endY, width, input, output]() { nextBoardSection(startY, endY, width, input, output); }));
+    jobs.push_back([startY, endY, width, input, output]() { nextBoardSection(startY, endY, width, input, output); });
   }
+
+  for (auto& thread : threads) {
+    thread = std::thread([&]() {
+      uint current = job.fetch_add(1);
+      while (current < 16) {
+        jobs[current]();
+        current = job.fetch_add(1);
+      }
+    });
+  };
 
   for (auto& thread : threads) {
     thread.join();
