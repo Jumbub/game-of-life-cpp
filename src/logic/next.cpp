@@ -59,29 +59,41 @@ void nextBoardSection(
   }
 }
 
-void nextBoard(Board& board, const uint& threadCount) {
+void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   board.setOutputToInput();
 
   std::memset(board.outSkip, true, sizeof(Cell) * board.rawSize);
 
-  const uint segmentSize = (board.height / threadCount + board.height % threadCount) * board.rawWidth;
+  const uint segmentSize = (board.height / jobCount + board.height % jobCount) * board.rawWidth;
   uint endI = board.rawWidth + 1;
 
   std::vector<std::thread> threads(threadCount);
 
-  for (auto& thread : threads) {
+  std::vector<std::function<void()>> jobs(jobCount);
+  std::atomic<uint> job = {0};
+
+  for (auto& job : jobs) {
     const uint beginI = endI;
     endI = std::min(board.rawSize - board.rawWidth, endI + segmentSize);
+    board.inSkip[endI] = false;  // Never skip last cell
 
-    thread = std::thread([&, beginI, endI]() {
-      board.inSkip[endI] = false;  // Never skip last cell
-
+    job = [&, beginI, endI]() {
       nextBoardSection(beginI, endI, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
+    };
+  };
+
+  for (auto& thread : threads) {
+    thread = std::thread([&]() {
+      uint current = job.fetch_add(1);
+      while (current < jobCount) {
+        jobs[current]();
+        current = job.fetch_add(1);
+      }
     });
   };
 
   for (auto& thread : threads) {
-    thread.join();
+    thread.join();  // TODO: experiment with detaching threads & using a "done" flag
   }
 
   assignBoardPadding(board);
@@ -90,13 +102,14 @@ void nextBoard(Board& board, const uint& threadCount) {
 std::thread startNextBoardLoopThread(
     const ulong& maxGenerations,
     const uint& threadCount,
+    const uint& jobCount,
     Board& board,
     ulong& computedGenerations) {
   return std::thread{[&]() {
     while (computedGenerations < maxGenerations) {
       board.lock.pauseIfRequested();
 
-      nextBoard(board, threadCount);
+      nextBoard(board, threadCount, jobCount);
       ++computedGenerations;
     }
   }};

@@ -15,7 +15,7 @@ static void BM_NextBoard(benchmark::State& state) {
   setBenchmarkBoard(board);
 
   for (auto _ : state) {
-    nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT);
+    nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
   }
 }
 
@@ -33,7 +33,7 @@ BENCHMARK(BM_RenderBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime(
 static void BM_Main(benchmark::State& state) {
   Loop loop(TEST_WIDTH, TEST_HEIGHT, TEST_TITLE, TEST_RESIZABLE);
   for (auto _ : state) {
-    loop.run(2000, PROBABLY_OPTIMAL_THREAD_COUNT, 1000000 / 30);
+    loop.run(2000, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT, 1000000 / 30);
   }
 }
 
