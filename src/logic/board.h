@@ -11,6 +11,8 @@ using Cell = uint8_t;
 
 constexpr unsigned int PADDING = 2;  // Padding of board left+right or top+bottom.
 
+#define INDEX(index) (index) * 2
+
 struct Board {
   uint rawSize;
   uint rawWidth;

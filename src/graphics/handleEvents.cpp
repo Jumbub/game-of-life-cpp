@@ -22,9 +22,9 @@ void drawToBoard(const sf::Event& event, Board& board) {
   constexpr int BRUSH_RADIUS = 30;
   for (int x = event.mouseMove.x - BRUSH_RADIUS; x < event.mouseMove.x + BRUSH_RADIUS; x++) {
     for (int y = event.mouseMove.y - BRUSH_RADIUS; y < event.mouseMove.y + BRUSH_RADIUS; y++) {
-      board.output
-          [(uint)std::clamp(y, (int)PADDING / 2, (int)board.height + (int)PADDING / 2) * board.rawWidth +
-           (uint)std::clamp(x, (int)PADDING / 2, (int)board.width + (int)PADDING / 2) + 1] = ALIVE;
+      board.output[INDEX(
+          (uint)std::clamp(y, (int)PADDING / 2, (int)board.height + (int)PADDING / 2) * board.rawWidth +
+          (uint)std::clamp(x, (int)PADDING / 2, (int)board.width + (int)PADDING / 2) + 1)] = ALIVE;
     }
   }
 }

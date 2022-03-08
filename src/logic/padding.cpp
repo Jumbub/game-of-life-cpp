@@ -6,21 +6,21 @@ void assignPadding(Cell* cells, uint innerWidth, uint innerHeight) {
   const uint height = innerHeight + PADDING;
 
   for (uint i = 1; i <= width - 1; i++) {
-    cells[i] = cells[i + width * innerHeight];
+    cells[INDEX(i)] = cells[INDEX(i + width * innerHeight)];
   }
   for (uint i = width * (height - 1) + 1; i <= width * height - 2; i++) {
-    cells[i] = cells[i - width * innerHeight];
+    cells[INDEX(i)] = cells[INDEX(i - width * innerHeight)];
   }
   for (uint i = width; i <= width * (height - 1); i += width) {
-    cells[i] = cells[i + innerWidth];
+    cells[INDEX(i)] = cells[INDEX(i + innerWidth)];
   }
   for (uint i = (width * 2) - 1; i <= width * (height - 1) - 1; i += width) {
-    cells[i] = cells[i - innerWidth];
+    cells[INDEX(i)] = cells[INDEX(i - innerWidth)];
   }
-  cells[0] = cells[width * (height - 1) - 2];
-  cells[width - 1] = cells[width * (height - 2) + 1];
-  cells[width * (height - 1)] = cells[width * 2 - 2];
-  cells[width * height - 1] = cells[width + 1];
+  cells[INDEX(0)] = cells[INDEX(width * (height - 1) - 2)];
+  cells[INDEX(width - 1)] = cells[INDEX(width * (height - 2) + 1)];
+  cells[INDEX(width * (height - 1))] = cells[INDEX(width * 2 - 2)];
+  cells[INDEX(width * height - 1)] = cells[INDEX(width + 1)];
 }
 
 void assignSkips(Cell* cells, uint innerWidth, uint innerHeight) {

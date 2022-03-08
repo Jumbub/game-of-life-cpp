@@ -20,15 +20,35 @@ const uint64_t SKIP_EIGHT =
     (1 << 0) + (1 << 8) + (1 << 16) + (1 << 24) + (1l << 32) + (1l << 40) + (1l << 48) + (1l << 56);
 
 uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
-  const Cell* top = &input[i - realWidth - 1];
-  const Cell* middle = &input[i - 1];
-  const Cell* bottom = &input[i + realWidth - 1];
+  const Cell* top = &input[INDEX(i - realWidth - 1)];
+  const Cell* middle = &input[INDEX(i - 1)];
+  const Cell* bottom = &input[INDEX(i + realWidth - 1)];
 
   const auto a = top[0] + middle[0] + bottom[0];
-  const auto b = top[1] + middle[1] * 9 + bottom[1];
-  const auto c = top[2] + middle[2] + bottom[2];
+  const auto b = top[INDEX(1)] + middle[INDEX(1)] * 9 + bottom[INDEX(1)];
+  const auto c = top[INDEX(2)] + middle[INDEX(2)] + bottom[INDEX(2)];
 
   return LOOKUP[a + b + c];
+
+  /* std::cout << "-" << realWidth << std::endl; */
+  /* std::cout << "-" << INDEX(7 - realWidth - 1) << std::endl; */
+  /* std::cout << "___" << std::endl; */
+  /* std::cout << i << std::endl; */
+  /* std::cout << i * 2 << std::endl; */
+  /* std::cout << INDEX(i - realWidth - 1) << std::endl; */
+  /* std::cout << INDEX(i - 1) << std::endl; */
+  /* std::cout << INDEX(i + realWidth - 1) << std::endl; */
+
+  /* std::cout << "___" << std::endl; */
+  /* std::cout << INDEX(i) << std::endl; */
+  /* std::cout << a + b + c << std::endl; */
+
+  /* return LOOKUP */
+  /*     [input[INDEX(i - realWidth - 1)] + input[INDEX(i - realWidth)] + input[INDEX(i - realWidth + 1)] + */
+
+  /*      input[INDEX(i - 1)] + input[INDEX(i)] * 9 + input[INDEX(i + 1)] + */
+
+  /*      input[INDEX(i + realWidth - 1)] + input[INDEX(i + realWidth)] + input[INDEX(i + realWidth + 1)]]; */
 }
 
 inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth) {
@@ -49,9 +69,9 @@ void nextBoardSection(
     while (uint8s_to_uint64(&inSkip[i]) == SKIP_EIGHT)
       i += 8;
 
-    output[i] = isAlive(i, input, realWidth);
+    output[INDEX(i)] = isAlive(i, input, realWidth);
 
-    if (input[i] != output[i]) {
+    if (input[INDEX(i)] != output[INDEX(i)]) {
       revokeSkipForNeighbours(i, outSkip, realWidth);
     }
 

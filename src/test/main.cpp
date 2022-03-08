@@ -15,7 +15,7 @@ void generate(Board& board, BoardVector vector) {
   board.setSize(width, height);
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
-      board.output[y * board.rawWidth + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
+      board.output[INDEX(y * board.rawWidth + x)] = vector[y - 1][x - 1] ? ALIVE : DEAD;
 
   assignBoardPadding(board);
 }
@@ -28,7 +28,7 @@ BoardVector ungenerate(Board& board) {
   std::vector<std::vector<bool>> vector(height, std::vector<bool>(width));
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
-      vector[y - 1][x - 1] = output[y * board.rawWidth + x] == ALIVE ? 1 : 0;
+      vector[y - 1][x - 1] = output[INDEX(y * board.rawWidth + x)] == ALIVE ? 1 : 0;
 
   return vector;
 }

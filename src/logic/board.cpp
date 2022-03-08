@@ -30,9 +30,9 @@ void Board::allocateBoardMemory(const uint& width, const uint& height) {
   if (raw == nullptr) {
     raw = new Cell[size * 4];
     input = raw;
-    output = input + size;
-    inSkip = output + size;
-    outSkip = inSkip + size;
+    output = &raw[1];
+    inSkip = &raw[size * 2];
+    outSkip = &raw[size * 3];
   }
 
   clearSkips();

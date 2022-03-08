@@ -22,7 +22,7 @@ void renderBoard(
 
   const uint limit = board.rawWidth * board.rawHeight - board.rawWidth;
   for (uint i = board.rawWidth; i < limit; i++) {
-    pixels[i] = COLOR_DEAD + COLOR_ALIVE * output[i];
+    pixels[i] = COLOR_DEAD + COLOR_ALIVE * output[INDEX(i)];
   }
 
   texture.update(reinterpret_cast<sf::Uint8*>(pixels));
