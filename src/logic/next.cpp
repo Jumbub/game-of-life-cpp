@@ -84,7 +84,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
 
     board.inSkip[endI] = false;  // Never skip last cell
 
-    // Reset border skips
+    // Reset next border
     if (i == jobCount - 1) {
       std::memset(&board.outSkip[endI - board.rawWidth], true, board.rawSize - (endI - board.rawWidth));
     } else {
@@ -96,13 +96,14 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
       // Reset inner skips
       if (endI == beginI)
         return;
-      std::memset(&board.outSkip[beginI + board.rawWidth], true, endI - beginI - board.rawWidth);
+      const auto max = std::max(beginI + board.rawWidth, endI - board.rawWidth);
+      std::memset(&board.outSkip[beginI + board.rawWidth], true, max - beginI - board.rawWidth);
       nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     };
   };
 
   // Reset first border
-  std::memset(board.outSkip, true, sizeof(Cell) * board.width);
+  std::memset(board.outSkip, true, sizeof(Cell) * board.rawWidth);
 
   std::atomic<uint> job = {0};
   std::vector<std::thread> threads(threadCount - 1);

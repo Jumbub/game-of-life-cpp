@@ -2,6 +2,7 @@
 
 #include <array>
 #include <catch2/catch.hpp>
+#include "../common/setBenchmarkBoard.h"
 #include "../logic/next.h"
 #include "../logic/padding.h"
 #include "../logic/threads.h"
@@ -336,4 +337,52 @@ TEST_CASE("medium glider 25 generations", "[nextBoard]") {
        {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0}},
 
       25);
+}
+
+TEST_CASE("benchmark 2000 generations", "[nextBoard]") {
+  Board test(2560, 1440);
+  setBenchmarkBoard(test);
+
+  // Expected result created with the following code
+  /* Board board(2560, 1440); */
+  /* setBenchmarkBoard(board); */
+
+  /* for (uint i = 0; i < 2000; i++) { */
+  /*   nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT); */
+  /* } */
+
+  /* std::ofstream outfile; */
+  /* outfile.open("src/test/expected.txt"); */
+  /* for (uint i = 0; i < board.rawSize; i++) { */
+  /*   outfile << (int)board.output[i]; */
+  /* } */
+  /* outfile.close(); */
+
+  // Load expected benchmark result
+  Board expected(2560, 1440);
+  std::ifstream expectedFile("src/test/expected.txt");
+  if (expectedFile.is_open()) {
+    std::string line;
+    getline(expectedFile, line);
+    for (uint i = 0; i < expected.rawSize; i++) {
+      if (line[i] == '1')
+        expected.output[i] = 1;
+      else if (line[i] == '0')
+        expected.output[i] = 0;
+      else
+        throw std::runtime_error("not good man!");
+    }
+    expectedFile.close();
+  } else {
+    throw std::runtime_error("gotta go!");
+  }
+
+  // Run common benchmark scenario
+  for (uint i = 0; i < 2000; i++)
+    nextBoard(test, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
+
+  // Assert that output matches expected results
+  for (uint i = 0; i < test.rawSize; i++)
+    if (test.output[i] != expected.output[i])
+      throw std::runtime_error("2000 generations of the benchmark board, mismatched");
 }
