@@ -67,7 +67,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   const uint segmentSize = (board.height / jobCount + board.height % jobCount) * board.rawWidth;
   uint endI = board.rawWidth + 1;
 
-  std::vector<std::thread> threads(threadCount);
+  std::vector<std::thread> threads(threadCount - 1);
 
   std::vector<std::function<void()>> jobs(jobCount);
   std::atomic<uint> job = {0};
@@ -91,6 +91,12 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
       }
     });
   };
+
+  uint current = job.fetch_add(1);
+  while (current < jobCount) {
+    jobs[current]();
+    current = job.fetch_add(1);
+  }
 
   for (auto& thread : threads) {
     thread.join();
