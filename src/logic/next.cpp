@@ -62,26 +62,47 @@ void nextBoardSection(
 void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   board.setOutputToInput();
 
-  std::memset(board.outSkip, true, sizeof(Cell) * board.rawSize);
+  // Create segments
+
+  std::vector<std::tuple<uint, uint>> segments(jobCount);
 
   const uint segmentSize = (board.height / jobCount + board.height % jobCount) * board.rawWidth;
-  uint endI = board.rawWidth + 1;
-
-  std::vector<std::thread> threads(threadCount - 1);
-
-  std::vector<std::function<void()>> jobs(jobCount);
-  std::atomic<uint> job = {0};
-
-  for (auto& job : jobs) {
+  uint endI = board.rawWidth;
+  for (auto& segment : segments) {
     const uint beginI = endI;
     endI = std::min(board.rawSize - board.rawWidth, endI + segmentSize);
+    segment = {beginI, endI};
+  };
+
+  // Create jobs
+
+  std::vector<std::function<void()>> jobs(jobCount);
+
+  for (uint i = 0; i < segments.size(); i++) {
+    const auto& beginI = std::get<0>(segments[i]);
+    const auto& endI = std::get<1>(segments[i]);
+
     board.inSkip[endI] = false;  // Never skip last cell
 
-    job = [&, beginI, endI]() {
-      nextBoardSection(beginI, endI, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
+    // Reset border skips
+    if (i == segments.size() - 1) {
+      std::memset(&board.outSkip[endI - board.rawWidth], true, sizeof(Cell) * board.rawWidth * 2);
+    } else {
+      std::memset(&board.outSkip[endI - board.rawWidth], true, sizeof(Cell) * board.rawWidth * 3);
+    }
+
+    jobs[i] = [&, beginI, endI]() {
+      // Reset inner skips
+      std::memset(&board.outSkip[beginI + board.rawWidth], true, sizeof(Cell) * (endI - beginI - board.rawWidth));
+      nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     };
   };
 
+  // Reset first border
+  std::memset(board.outSkip, true, sizeof(Cell) * board.width);
+
+  std::atomic<uint> job = {0};
+  std::vector<std::thread> threads(threadCount - 1);
   for (auto& thread : threads) {
     thread = std::thread([&]() {
       uint current = job.fetch_add(1);
