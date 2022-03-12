@@ -78,22 +78,25 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
 
   std::vector<std::function<void()>> jobs(jobCount);
 
-  for (uint i = 0; i < segments.size(); i++) {
+  for (uint i = 0; i < jobCount; i++) {
     const auto& beginI = std::get<0>(segments[i]);
     const auto& endI = std::get<1>(segments[i]);
 
     board.inSkip[endI] = false;  // Never skip last cell
 
     // Reset border skips
-    if (i == segments.size() - 1) {
-      std::memset(&board.outSkip[endI - board.rawWidth], true, sizeof(Cell) * board.rawWidth * 2);
+    if (i == jobCount - 1) {
+      std::memset(&board.outSkip[endI - board.rawWidth], true, board.rawSize - (endI - board.rawWidth));
     } else {
-      std::memset(&board.outSkip[endI - board.rawWidth], true, sizeof(Cell) * board.rawWidth * 3);
+      const auto borderSize = std::min(board.rawSize, endI + board.rawWidth * 3);
+      std::memset(&board.outSkip[endI - board.rawWidth], true, borderSize - endI);
     }
 
     jobs[i] = [&, beginI, endI]() {
       // Reset inner skips
-      std::memset(&board.outSkip[beginI + board.rawWidth], true, sizeof(Cell) * (endI - beginI - board.rawWidth));
+      if (endI == beginI)
+        return;
+      std::memset(&board.outSkip[beginI + board.rawWidth], true, endI - beginI - board.rawWidth);
       nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     };
   };
