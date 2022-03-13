@@ -59,6 +59,9 @@ void Loop::run(ulong maxGenerations, uint threadCount, uint jobCount, ulong rend
       } else if (isResetEvent(event)) {
         auto _ = LockForScope(board.lock);
         setBenchmarkBoard(board);
+      } else if (isScreenshotEvent(event)) {
+        auto _ = LockForScope(board.lock);
+        screenshot(window);
       }
 
       ImGui::SFML::ProcessEvent(event);

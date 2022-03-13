@@ -1,3 +1,4 @@
+#include <chrono>
 #include "../common/setBenchmarkBoard.h"
 #include "handleEvents.h"
 
@@ -12,6 +13,10 @@ bool isResizeEvent(const sf::Event& event) {
 
 bool isResetEvent(const sf::Event& event) {
   return event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter;
+}
+
+bool isScreenshotEvent(const sf::Event& event) {
+  return event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space;
 }
 
 bool isDrawEvent(const sf::Event& event) {
@@ -47,4 +52,15 @@ void resizeBoard(
   texture.create(event.size.width + PADDING, event.size.height + PADDING);
   sprite.setTexture(texture, true);
   setBenchmarkBoard(board);
+}
+
+void screenshot(sf::RenderWindow& window) {
+  sf::Vector2u windowSize = window.getSize();
+  sf::Texture texture;
+  texture.create(windowSize.x, windowSize.y);
+  texture.update(window);
+  sf::Image screenshot = texture.copyToImage();
+  screenshot.saveToFile(
+      std::string("screenshot") + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
+      std::string(".png"));
 }
