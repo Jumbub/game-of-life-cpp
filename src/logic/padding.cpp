@@ -2,7 +2,7 @@ using uint = unsigned int;
 #include "padding.h"
 
 void assignPadding(Board& board) {
-  auto cells = board.output;
+  auto& cells = board.output;
   const auto innerWidth = board.width;
   const auto innerHeight = board.height;
   const auto width = board.paddedWidth;
@@ -27,7 +27,7 @@ void assignPadding(Board& board) {
 }
 
 void assignJobs(Board& board) {
-  auto cells = board.output;
+  auto& cells = board.nextJobs;
   const auto innerWidth = board.width;
   const auto innerHeight = board.height;
   const auto width = board.paddedWidth;

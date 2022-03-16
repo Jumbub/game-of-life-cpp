@@ -25,7 +25,7 @@ void nextBoardSection(
     const auto neighbours =
         input.test(i - paddedWidth - 1) + input.test(i - paddedWidth) + input.test(i - paddedWidth + 1)
 
-        + input.test(i - 1) + input.test(i) + input.test(i + 1)
+        + input.test(i - 1) + input.test(i) * 9 + input.test(i + 1)
 
         + input.test(i + paddedWidth - 1) + input.test(i + paddedWidth) + input.test(i + paddedWidth + 1);
     output[i] = LOOKUP[neighbours];
@@ -52,7 +52,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   board.setOutputToInput();
 
   board.jobs.set();
-  /* board.nextJobs.reset(); */
+  /* board.nextJobs.set(); */
 
   // Create segments
 
