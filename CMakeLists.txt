@@ -60,5 +60,11 @@ FetchContent_Declare(
   GIT_TAG "v1.6.1"
 )
 FetchContent_MakeAvailable(googlebenchmark)
+FetchContent_Declare(
+  Boost
+  GIT_REPOSITORY "https://github.com/boostorg/boost.git"
+  GIT_TAG "boost-1.78.0"
+)
+FetchContent_MakeAvailable(Boost)
 
 add_subdirectory(src)
