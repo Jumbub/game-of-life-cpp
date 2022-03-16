@@ -1,7 +1,7 @@
 # Common flags & links
 set(Flags -Wall -Wextra -Werror -Wpedantic -std=c++2a -O3)
-set(LinksNoGraphics pthread)
-set(Links ${LinksNoGraphics} sfml-graphics ImGui-SFML::ImGui-SFML Boost::dynamic_bitset)
+set(LinksNoGraphics pthread Boost::dynamic_bitset)
+set(Links ${LinksNoGraphics} sfml-graphics ImGui-SFML::ImGui-SFML)
 
 # Files
 file(GLOB LogicFiles CONFIGURE_DEPENDS "logic/*.cpp")

@@ -44,7 +44,7 @@ void nextBoardSection(
       nextJobs.set(i + paddedWidth + 1, DONT_SKIP);
     }
 
-    i = jobs.find_next(i);
+    i = jobs.find_next(i);  // Find next non-skippable (1)
   } while (i < endI);
 }
 
