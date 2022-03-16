@@ -34,5 +34,6 @@ void setBenchmarkBoard(Board& board) {
     }
   }
 
+  board.jobs.set();
   board.nextJobs.set();
 }

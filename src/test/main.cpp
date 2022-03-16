@@ -4,6 +4,7 @@
 #include <catch2/catch.hpp>
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/next.h"
+#include "../logic/padding.h"
 #include "../logic/threads.h"
 
 using BoardVector = std::vector<std::vector<bool>>;
@@ -16,6 +17,8 @@ void generate(Board& board, BoardVector vector) {
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
       board.output.set(y * board.paddedWidth + x, vector[y - 1][x - 1] ? ALIVE : DEAD);
+  board.jobs.set();
+  board.nextJobs.set();
 }
 
 BoardVector ungenerate(Board& board) {
@@ -42,41 +45,41 @@ void compare(BoardVector a, BoardVector b, uint generations = 1) {
 }
 
 TEST_CASE("nothing", "[nextBoard]") {
-  compare({{false}}, {{false}});
+  compare({{false}}, {{false}}, 5);
 }
 
 TEST_CASE("death", "[nextBoard]") {
-  compare({{true}}, {{false}});
+  compare({{true}}, {{false}}, 5);
 }
 
 TEST_CASE("block", "[nextBoard]") {
   compare(
       {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}},
-      {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}});
+      {{0, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}}, 5);
 }
 
 TEST_CASE("block (vertical wrap)", "[nextBoard]") {
-  compare({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}});
+  compare({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, 5);
 }
 
 TEST_CASE("block (horizontal wrap)", "[nextBoard]") {
-  compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}});
+  compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, 5);
 }
 
-TEST_CASE("block (vertical wrap, 3 generations)", "[nextBoard]") {
-  compare({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, 3);
+TEST_CASE("block (vertical wrap, 5 generations)", "[nextBoard]") {
+  compare({{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, {{0, 1, 1, 0}, {0, 0, 0, 0}, {0, 1, 1, 0}}, 5);
 }
 
-TEST_CASE("block (horizontal wrap, 3 generations)", "[nextBoard]") {
-  compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, 3);
+TEST_CASE("block (horizontal wrap, 5 generations)", "[nextBoard]") {
+  compare({{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, {{0, 0, 0}, {1, 0, 1}, {1, 0, 1}, {0, 0, 0}}, 5);
 }
 
 TEST_CASE("block (corner wrap)", "[nextBoard]") {
   compare({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}});
 }
 
-TEST_CASE("block (corner wrap, 3 generations)", "[nextBoard]") {
-  compare({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, 3);
+TEST_CASE("block (corner wrap, 5 generations)", "[nextBoard]") {
+  compare({{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}, 5);
 }
 
 TEST_CASE("bee-hive", "[nextBoard]") {
@@ -293,93 +296,127 @@ TEST_CASE("glider tall vertical wrap collision [tall board]", "[nextBoard]") {
        {0, 0, 1, 1, 0}});
 }
 
-TEST_CASE("medium glider 25 generations", "[nextBoard]") {
+TEST_CASE("random 1 generations", "[nextBoard]") {
   compare(
-      {{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0}},
+      {{0, 0, 0, 1, 1}, {1, 1, 1, 0, 1}, {0, 1, 0, 1, 0}, {1, 1, 0, 1, 0}, {0, 1, 0, 1, 0}},
 
-      {{0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-       {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0},
-       {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0}},
+      {{0, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 0, 1, 0}, {1, 1, 0, 1, 0}, {0, 1, 0, 1, 0}},
 
-      25);
+      1);
 }
 
-TEST_CASE("benchmark 2000 generations", "[nextBoard]") {
-  Board test(2560, 1440);
-  setBenchmarkBoard(test);
+TEST_CASE("random 2 generations", "[nextBoard]") {
+  compare(
+      {{0, 0, 0, 1, 1}, {1, 1, 1, 0, 1}, {0, 1, 0, 1, 0}, {1, 1, 0, 1, 0}, {0, 1, 0, 1, 0}},
 
-  // Expected result created with the following code
-  /* Board board(2560, 1440); */
-  /* setBenchmarkBoard(board); */
+      {{0, 0, 1, 0, 0}, {0, 0, 0, 0, 0}, {1, 1, 0, 0, 1}, {1, 1, 0, 1, 0}, {1, 1, 0, 0, 1}},
 
-  /* for (uint i = 0; i < 2000; i++) { */
-  /*   nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT); */
-  /* } */
-
-  /* std::ofstream outfile; */
-  /* outfile.open("src/test/expected.txt"); */
-  /* for (uint i = 0; i < board.paddedSize; i++) { */
-  /*   outfile << (int)board.output[i]; */
-  /* } */
-  /* outfile.close(); */
-
-  // Load expected benchmark result
-  Board expected(2560, 1440);
-  std::ifstream expectedFile("src/test/expected.txt");
-  if (expectedFile.is_open()) {
-    std::string line;
-    getline(expectedFile, line);
-    for (uint i = 0; i < expected.paddedSize; i++) {
-      if (line[i] == '1')
-        expected.output[i] = 1;
-      else if (line[i] == '0')
-        expected.output[i] = 0;
-      else
-        throw std::runtime_error("not good man!");
-    }
-    expectedFile.close();
-  } else {
-    throw std::runtime_error("gotta go!");
-  }
-
-  // Run common benchmark scenario
-  for (uint i = 0; i < 2000; i++)
-    nextBoard(test, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
-
-  // Assert that output matches expected results
-  for (uint i = 0; i < test.paddedSize; i++)
-    if (test.output[i] != expected.output[i])
-      throw std::runtime_error("2000 generations of the benchmark board, mismatched");
+      2);
 }
+
+TEST_CASE("random 3 generations", "[nextBoard]") {
+  compare(
+      {{0, 0, 0, 1, 1}, {1, 1, 1, 0, 1}, {0, 1, 0, 1, 0}, {1, 1, 0, 1, 0}, {0, 1, 0, 1, 0}},
+
+      {{1, 1, 0, 0, 0}, {1, 1, 0, 0, 0}, {0, 1, 1, 0, 1}, {0, 0, 0, 1, 0}, {0, 0, 0, 1, 1}},
+
+      3);
+}
+
+TEST_CASE("random 4 generations", "[nextBoard]") {
+  compare(
+      {{0, 0, 0, 1, 1}, {1, 1, 1, 0, 1}, {0, 1, 0, 1, 0}, {1, 1, 0, 1, 0}, {0, 1, 0, 1, 0}},
+
+      {{0, 1, 1, 0, 0}, {0, 0, 0, 0, 1}, {0, 1, 1, 1, 1}, {1, 0, 0, 0, 0}, {1, 0, 1, 1, 1}},
+
+      4);
+}
+
+TEST_CASE("glider 100 generations", "[nextBoard]") {
+  compare(
+      {
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+      },
+
+      {
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+      },
+
+      100);
+}
+
+/* TEST_CASE("benchmark 2000 generations", "[nextBoard]") { */
+/*   Board test(2560, 1440); */
+/*   setBenchmarkBoard(test); */
+
+/*   // Expected result created with the following code */
+/*   /1* Board board(2560, 1440); *1/ */
+/*   /1* setBenchmarkBoard(board); *1/ */
+
+/*   /1* for (uint i = 0; i < 2000; i++) { *1/ */
+/*   /1*   nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT); *1/ */
+/*   /1* } *1/ */
+
+/*   /1* std::ofstream outfile; *1/ */
+/*   /1* outfile.open("src/test/expected.txt"); *1/ */
+/*   /1* for (uint i = 0; i < board.paddedSize; i++) { *1/ */
+/*   /1*   outfile << (int)board.output[i]; *1/ */
+/*   /1* } *1/ */
+/*   /1* outfile.close(); *1/ */
+
+/*   // Load expected benchmark result */
+/*   Board expected(2560, 1440); */
+/*   std::ifstream expectedFile("src/test/expected.txt"); */
+/*   if (expectedFile.is_open()) { */
+/*     std::string line; */
+/*     getline(expectedFile, line); */
+/*     for (uint i = 0; i < expected.paddedSize; i++) { */
+/*       if (line[i] == '1') */
+/*         expected.output[i] = 1; */
+/*       else if (line[i] == '0') */
+/*         expected.output[i] = 0; */
+/*       else */
+/*         throw std::runtime_error("not good man!"); */
+/*     } */
+/*     expectedFile.close(); */
+/*   } else { */
+/*     throw std::runtime_error("gotta go!"); */
+/*   } */
+
+/*   // Run common benchmark scenario */
+/*   for (uint i = 0; i < 2000; i++) */
+/*     nextBoard(test, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT); */
+
+/*   // Assert that output matches expected results */
+/*   for (uint i = 0; i < test.paddedSize; i++) */
+/*     if (test.output[i] != expected.output[i]) */
+/*       throw std::runtime_error("2000 generations of the benchmark board, mismatched"); */
+/* } */

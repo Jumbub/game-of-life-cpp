@@ -55,13 +55,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   assignBoardPadding(board);
 
   board.nextJobs.reset();
-  board.jobs.reset();
-
-  /* std::cout << "nextBoard" << std::endl; */
-
-  /* for (uint i = 0; i < board.paddedSize; i++) */
-  /*   std::cout << board.input[i]; */
-  /* std::cout << std::endl; */
+  /* board.jobs.set(); */
 
   // Create segments
 

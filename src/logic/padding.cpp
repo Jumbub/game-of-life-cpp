@@ -7,12 +7,6 @@ void assignPadding(Board& board) {
   const auto width = board.paddedWidth;
   const auto height = board.paddedHeight;
 
-  /* std::cout << "assignPadding" << width << " " << height << std::endl; */
-
-  /* for (uint i = 0; i < width * height; i++) */
-  /*   std::cout << cells[i]; */
-  /* std::cout << std::endl; */
-
   for (uint i = 1; i <= width - 1; i++) {
     cells.set(i, cells.test(i + width * (height - 2)));
   }
@@ -29,10 +23,6 @@ void assignPadding(Board& board) {
   cells.set(width - 1, cells.test(width * (height - 2) + 1));
   cells.set(width * (height - 1), cells.test(width * 2 - 2));
   cells.set(width * height - 1, cells.test(width + 1));
-
-  /* for (uint i = 0; i < width * height; i++) */
-  /*   std::cout << cells[i]; */
-  /* std::cout << std::endl; */
 }
 
 void assignJobs(Board& board) {
