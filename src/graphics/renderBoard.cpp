@@ -20,8 +20,8 @@ void renderBoard(
 
   // Generate the pixel texture data from the board output
 
-  const uint limit = board.rawWidth * board.rawHeight - board.rawWidth;
-  for (uint i = board.rawWidth; i < limit; i++) {
+  const uint limit = board.paddedWidth * board.paddedHeight - board.paddedWidth;
+  for (uint i = board.paddedWidth; i < limit; i++) {
     pixels[i] = COLOR_DEAD + COLOR_ALIVE * output[i];
   }
 

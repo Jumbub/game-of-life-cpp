@@ -1,9 +1,12 @@
 using uint = unsigned int;
 #include "padding.h"
 
-void assignPadding(Cell* cells, uint innerWidth, uint innerHeight) {
-  const uint width = innerWidth + PADDING;
-  const uint height = innerHeight + PADDING;
+void assignPadding(Board& board) {
+  auto cells = board.output;
+  const auto innerWidth = board.width;
+  const auto innerHeight = board.height;
+  const auto width = board.paddedWidth;
+  const auto height = board.paddedHeight;
 
   for (uint i = 1; i <= width - 1; i++) {
     cells[i] = cells[i + width * innerHeight];
@@ -23,9 +26,12 @@ void assignPadding(Cell* cells, uint innerWidth, uint innerHeight) {
   cells[width * height - 1] = cells[width + 1];
 }
 
-void assignSkips(Cell* cells, uint innerWidth, uint innerHeight) {
-  const uint width = innerWidth + PADDING;
-  const uint height = innerHeight + PADDING;
+void assignJobs(Board& board) {
+  auto cells = board.output;
+  const auto innerWidth = board.width;
+  const auto innerHeight = board.height;
+  const auto width = board.paddedWidth;
+  const auto height = board.paddedHeight;
 
   for (uint i = 1; i <= width - 1; i++) {
     cells[i + width * innerHeight] = cells[i + width * innerHeight] & cells[i];
@@ -46,6 +52,6 @@ void assignSkips(Cell* cells, uint innerWidth, uint innerHeight) {
 }
 
 void assignBoardPadding(Board& board) {
-  assignPadding(board.output, board.width, board.height);
-  assignSkips(board.outSkip, board.width, board.height);
+  assignPadding(board);
+  assignJobs(board);
 }

@@ -5,7 +5,7 @@
 
 void Board::setOutputToInput() {
   input.swap(output);
-  skips.swap(nextSkips);
+  jobs.swap(nextJobs);
 }
 
 void Board::setSize(const uint& width, const uint& height) {
@@ -16,22 +16,22 @@ void Board::setSize(const uint& width, const uint& height) {
   this->paddedHeight = height + PADDING * 2;
   this->paddedSize = paddedWidth * paddedHeight;
 
-  input.resize(paddedSize, false);
+  input.resize(paddedSize, DEAD);
   input.reset();
 
-  output.resize(paddedSize, false);
+  output.resize(paddedSize, DEAD);
   output.reset();
 
-  skips.resize(paddedSize, false);
-  skips.reset();
+  jobs.resize(paddedSize, DONT_SKIP);
+  jobs.set();
 
-  nextSkips.resize(paddedSize, false);
-  nextSkips.reset();
+  nextJobs.resize(paddedSize, DONT_SKIP);
+  nextJobs.set();
 }
 
-void Board::clearSkips() {
-  skips.reset();
-  nextSkips.reset();
+void Board::setJobs() {
+  jobs.set();
+  nextJobs.set();
 }
 
 Board::Board(const uint& width, const uint& height) {

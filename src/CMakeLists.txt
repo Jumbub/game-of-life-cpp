@@ -1,5 +1,5 @@
 # Common flags & links
-set(Flags -Wall -Wextra -Werror -Wpedantic -Wsign-conversion -std=c++2a -O3)
+set(Flags -Wall -Wextra -Werror -Wpedantic -std=c++2a -O3)
 set(LinksNoGraphics pthread)
 set(Links ${LinksNoGraphics} sfml-graphics ImGui-SFML::ImGui-SFML Boost::dynamic_bitset)
 

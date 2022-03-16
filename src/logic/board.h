@@ -7,6 +7,12 @@
 using uint = unsigned int;
 using ulong = unsigned long;
 
+constexpr bool ALIVE = 1;
+constexpr bool DEAD = 0;
+
+constexpr bool DONT_SKIP = 1;
+constexpr bool SKIP = 0;
+
 constexpr unsigned int PADDING = 1;
 
 struct Board {
@@ -20,16 +26,15 @@ struct Board {
   // TODO: investigate different block & allocator types
   boost::dynamic_bitset<> input;
   boost::dynamic_bitset<> output;
-  boost::dynamic_bitset<> skips;
-  boost::dynamic_bitset<> nextSkips;
+  boost::dynamic_bitset<> jobs;
+  boost::dynamic_bitset<> nextJobs;
 
   Lock lock;
 
   void setOutputToInput();
   void setSize(const uint& width, const uint& height);
-  void clearSkips();
+  void setJobs();
   Board(const uint& width, const uint& height);
-  ~Board();
 
  private:
   Board([[maybe_unused]] const Board& _){};

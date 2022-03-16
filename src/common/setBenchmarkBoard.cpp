@@ -15,7 +15,7 @@ void setBenchmarkBoard(Board& board) {
   const auto& height = board.height;
   for (uint ry = 1; ry < height + 1; ++ry) {
     for (uint rx = 1; rx < width + 1; ++rx) {
-      const uint i = ry * board.rawWidth + rx;
+      const uint i = ry * board.paddedWidth + rx;
       const uint x = rx - 1;
       const uint y = ry - 1;
       if (y > height / 2) {
@@ -35,6 +35,6 @@ void setBenchmarkBoard(Board& board) {
     }
   }
 
-  board.clearSkips();
+  board.setJobs();
   assignBoardPadding(board);
 }

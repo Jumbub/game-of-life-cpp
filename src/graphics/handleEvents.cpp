@@ -28,8 +28,8 @@ void drawToBoard(const sf::Event& event, Board& board) {
   for (int x = event.mouseMove.x - BRUSH_RADIUS; x < event.mouseMove.x + BRUSH_RADIUS; x++) {
     for (int y = event.mouseMove.y - BRUSH_RADIUS; y < event.mouseMove.y + BRUSH_RADIUS; y++) {
       board.output
-          [(uint)std::clamp(y, (int)PADDING / 2, (int)board.height + (int)PADDING / 2) * board.rawWidth +
-           (uint)std::clamp(x, (int)PADDING / 2, (int)board.width + (int)PADDING / 2) + 1] = ALIVE;
+          [(uint)std::clamp(y, (int)PADDING, (int)board.height + (int)PADDING) * board.paddedWidth +
+           (uint)std::clamp(x, (int)PADDING, (int)board.width + (int)PADDING) + 1] = true;
     }
   }
 }
@@ -47,9 +47,9 @@ void resizeBoard(
     return;
 
   delete[] pixels;
-  pixels = new sf::Uint32[(event.size.width + PADDING) * (event.size.height + PADDING)];
+  pixels = new sf::Uint32[(event.size.width + PADDING * 2) * (event.size.height + PADDING * 2)];
   board.setSize(event.size.width, event.size.height);
-  texture.create(event.size.width + PADDING, event.size.height + PADDING);
+  texture.create(event.size.width + PADDING * 2, event.size.height + PADDING * 2);
   sprite.setTexture(texture, true);
   setBenchmarkBoard(board);
 }

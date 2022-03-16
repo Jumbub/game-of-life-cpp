@@ -15,14 +15,14 @@ using namespace std::chrono;
 
 Loop::Loop(const uint width, const uint height, const std::string title, const bool resizable)
     : window(sf::RenderWindow(sf::VideoMode(width, height), title, resizable ? sf::Style::Resize : sf::Style::None)),
-      pixels(new sf::Uint32[(width + PADDING) * (height + PADDING)]),
+      pixels(new sf::Uint32[(width + PADDING * 2) * (height + PADDING * 2)]),
       board(Board(width, height)) {
   setBenchmarkBoard(board);
 
   ImGui::SFML::Init(window);
-  texture.create(width + PADDING, height + PADDING);
+  texture.create(width + PADDING * 2, height + PADDING * 2);
   sprite.setTexture(texture, true);
-  sprite.setPosition((int)-PADDING / 2, (int)-PADDING / 2);
+  sprite.setPosition((int)-PADDING, (int)-PADDING);
 }
 
 Loop::~Loop() {
