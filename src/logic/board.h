@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost/dynamic_bitset.hpp>
+#include <bitset>
 #include <cstdint>
 #include "../common/lock.h"
 
@@ -24,10 +24,10 @@ struct Board {
   uint paddedHeight;
 
   // TODO: investigate different block & allocator types
-  boost::dynamic_bitset<> input;
-  boost::dynamic_bitset<> output;
-  boost::dynamic_bitset<> jobs;
-  boost::dynamic_bitset<> nextJobs;
+  std::bitset<2562 * 1442> input;
+  std::bitset<2562 * 1442> output;
+  std::bitset<2562 * 1442> jobs;
+  std::bitset<2562 * 1442> nextJobs;
 
   Lock lock;
 

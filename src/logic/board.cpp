@@ -4,8 +4,8 @@
 #include "board.h"
 
 void Board::setOutputToInput() {
-  input.swap(output);
-  jobs.swap(nextJobs);
+  std::swap(input, output);
+  std::swap(jobs, nextJobs);
 }
 
 void Board::setSize(const uint& width, const uint& height) {
@@ -16,16 +16,9 @@ void Board::setSize(const uint& width, const uint& height) {
   this->paddedHeight = height + PADDING * 2;
   this->paddedSize = paddedWidth * paddedHeight;
 
-  input.resize(paddedSize, DEAD);
   input.reset();
-
-  output.resize(paddedSize, DEAD);
   output.reset();
-
-  jobs.resize(paddedSize, DONT_SKIP);
   jobs.set();
-
-  nextJobs.resize(paddedSize, DONT_SKIP);
   nextJobs.set();
 }
 

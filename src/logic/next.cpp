@@ -1,3 +1,4 @@
+#include <bits/stdc++.h>
 #include <cstring>
 #include <future>
 #include <iostream>
@@ -16,10 +17,10 @@ void nextBoardSection(
     uint i,
     const uint endI,
     const uint paddedWidth,
-    const boost::dynamic_bitset<>& input,
-    boost::dynamic_bitset<>& output,
-    const boost::dynamic_bitset<>& jobs,
-    boost::dynamic_bitset<>& nextJobs) {
+    const std::bitset<2562 * 1442>& input,
+    std::bitset<2562 * 1442>& output,
+    const std::bitset<2562 * 1442>& jobs,
+    std::bitset<2562 * 1442>& nextJobs) {
   do {
     // Compute alive state
     const auto neighbours =
@@ -44,7 +45,7 @@ void nextBoardSection(
       nextJobs.set(i + paddedWidth + 1, DONT_SKIP);
     }
 
-    i = jobs.find_next(i);
+    i = jobs._Find_next(i);
   } while (i < endI);
 }
 
