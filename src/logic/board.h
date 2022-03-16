@@ -10,7 +10,7 @@ using ulong = unsigned long;
 constexpr bool ALIVE = 1;
 constexpr bool DEAD = 0;
 
-constexpr bool DONT_SKIP = 1;
+constexpr bool COMPUTE = 1;
 constexpr bool SKIP = 0;
 
 constexpr unsigned int PADDING = 1;

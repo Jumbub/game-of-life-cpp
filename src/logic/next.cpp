@@ -25,7 +25,7 @@ void nextBoardSection(
     const auto neighbours =
         input.test(i - paddedWidth - 1) + input.test(i - paddedWidth) + input.test(i - paddedWidth + 1)
 
-        + input.test(i - 1) + input.test(i) + input.test(i + 1)
+        + input.test(i - 1) + input.test(i) * 9 + input.test(i + 1)
 
         + input.test(i + paddedWidth - 1) + input.test(i + paddedWidth) + input.test(i + paddedWidth + 1);
     output[i] = LOOKUP[neighbours];
@@ -33,15 +33,15 @@ void nextBoardSection(
     // If state changed, mark as non-skippable
     if (input[i] != output[i]) {
       // TODO: check out if you can remove the size check assertions
-      nextJobs.set(i - paddedWidth - 1, DONT_SKIP);
-      nextJobs.set(i - paddedWidth, DONT_SKIP);
-      nextJobs.set(i - paddedWidth + 1, DONT_SKIP);
-      nextJobs.set(i - 1, DONT_SKIP);
-      nextJobs.set(i, DONT_SKIP);
-      nextJobs.set(i + 1, DONT_SKIP);
-      nextJobs.set(i + paddedWidth - 1, DONT_SKIP);
-      nextJobs.set(i + paddedWidth, DONT_SKIP);
-      nextJobs.set(i + paddedWidth + 1, DONT_SKIP);
+      nextJobs.set(i - paddedWidth - 1, COMPUTE);
+      nextJobs.set(i - paddedWidth, COMPUTE);
+      nextJobs.set(i - paddedWidth + 1, COMPUTE);
+      nextJobs.set(i - 1, COMPUTE);
+      nextJobs.set(i, COMPUTE);
+      nextJobs.set(i + 1, COMPUTE);
+      nextJobs.set(i + paddedWidth - 1, COMPUTE);
+      nextJobs.set(i + paddedWidth, COMPUTE);
+      nextJobs.set(i + paddedWidth + 1, COMPUTE);
     }
 
     i = jobs.find_next(i);  // Find next non-skippable (1)
@@ -51,8 +51,7 @@ void nextBoardSection(
 void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   board.setOutputToInput();
 
-  board.jobs.set();
-  /* board.nextJobs.reset(); */
+  board.nextJobs.reset();
 
   // Create segments
 

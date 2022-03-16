@@ -22,10 +22,10 @@ void Board::setSize(const uint& width, const uint& height) {
   output.resize(paddedSize, DEAD);
   output.reset();
 
-  jobs.resize(paddedSize, DONT_SKIP);
+  jobs.resize(paddedSize, COMPUTE);
   jobs.set();
 
-  nextJobs.resize(paddedSize, DONT_SKIP);
+  nextJobs.resize(paddedSize, COMPUTE);
   nextJobs.set();
 }
 
