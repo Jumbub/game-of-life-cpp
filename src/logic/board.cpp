@@ -4,48 +4,36 @@
 #include "board.h"
 
 void Board::setOutputToInput() {
-  std::swap(input, output);
-  std::swap(inSkip, outSkip);
+  input.swap(output);
+  skips.swap(nextSkips);
 }
 
 void Board::setSize(const uint& width, const uint& height) {
-  if (raw != nullptr && this->width * this->height != width * height) {
-    delete[] raw;
-    raw = nullptr;
-  }
-
   this->width = width;
   this->height = height;
 
-  this->rawWidth = width + PADDING;
-  this->rawHeight = height + PADDING;
-  this->rawSize = rawWidth * rawHeight;
+  this->paddedWidth = width + PADDING * 2;
+  this->paddedHeight = height + PADDING * 2;
+  this->paddedSize = paddedWidth * paddedHeight;
 
-  allocateBoardMemory(width, height);
-}
+  input.resize(paddedSize, false);
+  input.reset();
 
-void Board::allocateBoardMemory(const uint& width, const uint& height) {
-  // Generate board with 1 cell of padding
-  const uint size = (width + PADDING) * (height + PADDING);
-  if (raw == nullptr) {
-    raw = new Cell[size * 4];
-    input = raw;
-    output = input + size;
-    inSkip = output + size;
-    outSkip = inSkip + size;
-  }
+  output.resize(paddedSize, false);
+  output.reset();
 
-  clearSkips();
+  skips.resize(paddedSize, false);
+  skips.reset();
+
+  nextSkips.resize(paddedSize, false);
+  nextSkips.reset();
 }
 
 void Board::clearSkips() {
-  std::memset(&raw[rawSize * 2], false, rawSize * 2);
+  skips.reset();
+  nextSkips.reset();
 }
 
 Board::Board(const uint& width, const uint& height) {
   setSize(width, height);
-}
-
-Board::~Board() {
-  delete[] raw;
 }

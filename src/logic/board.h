@@ -1,29 +1,27 @@
 #pragma once
 
+#include <boost/dynamic_bitset.hpp>
 #include <cstdint>
 #include "../common/lock.h"
 
 using uint = unsigned int;
 using ulong = unsigned long;
-using Cell = uint8_t;
-[[maybe_unused]] const Cell ALIVE = 1;
-[[maybe_unused]] const Cell DEAD = 0;
 
-constexpr unsigned int PADDING = 2;  // Padding of board left+right or top+bottom.
+constexpr unsigned int PADDING = 1;
 
 struct Board {
-  uint rawSize;
-  uint rawWidth;
-  uint rawHeight;
-
   uint width;
   uint height;
 
-  Cell* input = nullptr;
-  Cell* output = nullptr;
-  Cell* inSkip = nullptr;
-  Cell* outSkip = nullptr;
-  Cell* raw = nullptr;
+  uint paddedSize;
+  uint paddedWidth;
+  uint paddedHeight;
+
+  // TODO: investigate different block & allocator types
+  boost::dynamic_bitset<> input;
+  boost::dynamic_bitset<> output;
+  boost::dynamic_bitset<> skips;
+  boost::dynamic_bitset<> nextSkips;
 
   Lock lock;
 
@@ -34,6 +32,5 @@ struct Board {
   ~Board();
 
  private:
-  void allocateBoardMemory(const uint& width, const uint& height);
   Board([[maybe_unused]] const Board& _){};
 };
