@@ -6,7 +6,7 @@
 struct Loop {
   Loop(const uint width, const uint height, const std::string title, const bool resizable);
   ~Loop();
-  void run(const ulong maxComputations, uint threadCount, const ulong renderMinimumMicroseconds);
+  void run(const ulong maxComputations, uint threadCount, uint jobCount, const ulong renderMinimumMicroseconds);
 
   sf::RenderWindow window;
   sf::Texture texture;

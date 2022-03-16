@@ -6,6 +6,7 @@
 bool isExitEvent(const sf::Event& event);
 bool isResizeEvent(const sf::Event& event);
 bool isResetEvent(const sf::Event& event);
+bool isScreenshotEvent(const sf::Event& event);
 bool isDrawEvent(const sf::Event& event);
 
 void drawToBoard(const sf::Event& event, Board& board);
@@ -16,3 +17,4 @@ void resizeBoard(
     sf::Uint32*& pixels,
     sf::Texture& texture,
     sf::Sprite& sprite);
+void screenshot(sf::RenderWindow& window);

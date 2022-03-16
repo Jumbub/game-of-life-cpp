@@ -11,6 +11,7 @@ void renderImguiMenu(
     const sf::Time& renderDelta,
     const ulong& computedGenerations,
     uint& threadCount,
+    uint& jobCount,
     ulong& renderMinimumMicroseconds) {
   ImGui::Begin("Configuration");
 
@@ -35,10 +36,18 @@ void renderImguiMenu(
       "Computations/second: %.2f", (float)(computedGenerations - lastComputedGenerations) / renderDelta.asSeconds());
   lastComputedGenerations = computedGenerations;
   int tpb = (int)threadCount;
-  ImGui::SliderInt("Threads/computation", &tpb, 1, (int)PROBABLY_OPTIMAL_THREAD_COUNT * 4);
+  ImGui::SliderInt("Threads/frame", &tpb, 1, (int)PROBABLY_OPTIMAL_THREAD_COUNT * 4);
   if ((uint)tpb != threadCount) {
     auto scope = LockForScope(board.lock);
     threadCount = (uint)tpb;
+  }
+
+  // Jobs per frame
+  int jobs = (int)jobCount;
+  ImGui::SliderInt("Jobs/frame", &jobs, 1, (int)PROBABLY_OPTIMAL_JOB_COUNT * 10);
+  if ((uint)jobs != jobCount) {
+    auto scope = LockForScope(board.lock);
+    jobCount = (uint)jobs;
   }
 
   // Reset action

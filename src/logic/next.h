@@ -3,12 +3,11 @@
 #include <thread>
 #include "board.h"
 
-inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth);
-
-void nextBoard(Board& board, const uint& threadCount);
+void nextBoard(Board& board, const uint& threadCount, const uint& jobCount);
 
 std::thread startNextBoardLoopThread(
     const ulong& maxGenerations,
     const uint& threadCount,
+    const uint& jobCount,
     Board& board,
     ulong& computedGenerations);

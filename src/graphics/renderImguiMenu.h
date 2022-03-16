@@ -9,4 +9,5 @@ void renderImguiMenu(
     const sf::Time& renderDelta,
     const ulong& computedGenerations,
     uint& threadCount,
+    uint& jobCount,
     ulong& renderMinimumMicroseconds);

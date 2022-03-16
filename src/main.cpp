@@ -6,8 +6,9 @@ int main(int argc, char** argv) {
   const uint maxGenerations = argc > 2 ? (uint)atoi(argv[2]) : UINT32_MAX;
   const ulong rendersPerSecond = argc > 3 ? (uint)atoi(argv[3]) : 30;
   const uint workerThreads = argc > 4 ? (uint)atoi(argv[4]) : PROBABLY_OPTIMAL_THREAD_COUNT;
+  const uint jobCount = argc > 4 ? (uint)atoi(argv[4]) : PROBABLY_OPTIMAL_JOB_COUNT;
 
-  Loop(2560, 1440, "Game of Speed", resizable).run(maxGenerations, workerThreads, 1000000 / rendersPerSecond);
+  Loop(2560, 1440, "Game of Speed", resizable).run(maxGenerations, workerThreads, jobCount, 1000000 / rendersPerSecond);
 
   return EXIT_SUCCESS;
 }

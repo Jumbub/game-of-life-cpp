@@ -29,9 +29,9 @@ Loop::~Loop() {
   delete[] pixels;
 }
 
-void Loop::run(ulong maxGenerations, uint threadCount, ulong renderMinimumMicroseconds) {
+void Loop::run(ulong maxGenerations, uint threadCount, uint jobCount, ulong renderMinimumMicroseconds) {
   ulong computedGenerations = 0;
-  auto nextBoardThread = startNextBoardLoopThread(maxGenerations, threadCount, board, computedGenerations);
+  auto nextBoardThread = startNextBoardLoopThread(maxGenerations, threadCount, jobCount, board, computedGenerations);
 
   sf::Clock clock;
   while (window.isOpen() && computedGenerations < maxGenerations) {
@@ -40,7 +40,7 @@ void Loop::run(ulong maxGenerations, uint threadCount, ulong renderMinimumMicros
     ImGui::SFML::Update(window, delta);
 
     renderBoard(board, window, sprite, texture, pixels);
-    renderImguiMenu(board, window, delta, computedGenerations, threadCount, renderMinimumMicroseconds);
+    renderImguiMenu(board, window, delta, computedGenerations, threadCount, jobCount, renderMinimumMicroseconds);
 
     ImGui::SFML::Render(window);
 
@@ -59,6 +59,9 @@ void Loop::run(ulong maxGenerations, uint threadCount, ulong renderMinimumMicros
       } else if (isResetEvent(event)) {
         auto _ = LockForScope(board.lock);
         setBenchmarkBoard(board);
+      } else if (isScreenshotEvent(event)) {
+        auto _ = LockForScope(board.lock);
+        screenshot(window);
       }
 
       ImGui::SFML::ProcessEvent(event);
