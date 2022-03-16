@@ -3,11 +3,6 @@
 #include "../common/lock.h"
 #include "board.h"
 
-void Board::setOutputToInput() {
-  input.swap(output);
-  jobs.swap(nextJobs);
-}
-
 void Board::setSize(const uint& width, const uint& height) {
   this->width = width;
   this->height = height;
@@ -26,11 +21,6 @@ void Board::setSize(const uint& width, const uint& height) {
   jobs.set();
 
   nextJobs.resize(paddedSize, COMPUTE);
-  nextJobs.set();
-}
-
-void Board::setJobs() {
-  jobs.set();
   nextJobs.set();
 }
 

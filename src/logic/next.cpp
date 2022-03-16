@@ -49,9 +49,19 @@ void nextBoardSection(
 }
 
 void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
-  board.setOutputToInput();
+  board.input.swap(board.output);
+  board.jobs.swap(board.nextJobs);
+
+  assignBoardPadding(board);
 
   board.nextJobs.reset();
+  board.jobs.reset();
+
+  /* std::cout << "nextBoard" << std::endl; */
+
+  /* for (uint i = 0; i < board.paddedSize; i++) */
+  /*   std::cout << board.input[i]; */
+  /* std::cout << std::endl; */
 
   // Create segments
 
@@ -103,8 +113,6 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
   for (auto& thread : threads) {
     thread.join();
   }
-
-  assignBoardPadding(board);
 }
 
 std::thread startNextBoardLoopThread(

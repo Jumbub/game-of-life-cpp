@@ -4,7 +4,6 @@
 #include <catch2/catch.hpp>
 #include "../common/setBenchmarkBoard.h"
 #include "../logic/next.h"
-#include "../logic/padding.h"
 #include "../logic/threads.h"
 
 using BoardVector = std::vector<std::vector<bool>>;
@@ -16,9 +15,7 @@ void generate(Board& board, BoardVector vector) {
   board.setSize(width, height);
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
-      board.output[y * board.paddedWidth + x] = vector[y - 1][x - 1] ? ALIVE : DEAD;
-
-  assignBoardPadding(board);
+      board.output.set(y * board.paddedWidth + x, vector[y - 1][x - 1] ? ALIVE : DEAD);
 }
 
 BoardVector ungenerate(Board& board) {
@@ -29,7 +26,7 @@ BoardVector ungenerate(Board& board) {
   std::vector<std::vector<bool>> vector(height, std::vector<bool>(width));
   for (unsigned int y = 1; y < height + 1; ++y)
     for (unsigned int x = 1; x < width + 1; ++x)
-      vector[y - 1][x - 1] = output[y * board.paddedWidth + x] == ALIVE ? 1 : 0;
+      vector[y - 1][x - 1] = output.test(y * board.paddedWidth + x) == ALIVE ? 1 : 0;
 
   return vector;
 }
@@ -353,7 +350,7 @@ TEST_CASE("benchmark 2000 generations", "[nextBoard]") {
 
   /* std::ofstream outfile; */
   /* outfile.open("src/test/expected.txt"); */
-  /* for (uint i = 0; i < board.rawSize; i++) { */
+  /* for (uint i = 0; i < board.paddedSize; i++) { */
   /*   outfile << (int)board.output[i]; */
   /* } */
   /* outfile.close(); */
@@ -364,7 +361,7 @@ TEST_CASE("benchmark 2000 generations", "[nextBoard]") {
   if (expectedFile.is_open()) {
     std::string line;
     getline(expectedFile, line);
-    for (uint i = 0; i < expected.rawSize; i++) {
+    for (uint i = 0; i < expected.paddedSize; i++) {
       if (line[i] == '1')
         expected.output[i] = 1;
       else if (line[i] == '0')
@@ -382,7 +379,7 @@ TEST_CASE("benchmark 2000 generations", "[nextBoard]") {
     nextBoard(test, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
 
   // Assert that output matches expected results
-  for (uint i = 0; i < test.rawSize; i++)
+  for (uint i = 0; i < test.paddedSize; i++)
     if (test.output[i] != expected.output[i])
       throw std::runtime_error("2000 generations of the benchmark board, mismatched");
 }

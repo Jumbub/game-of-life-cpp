@@ -1,6 +1,5 @@
 #include <random>
 #include "../common/setBenchmarkBoard.h"
-#include "../logic/padding.h"
 #include "breederPattern.h"
 
 /**
@@ -35,6 +34,5 @@ void setBenchmarkBoard(Board& board) {
     }
   }
 
-  board.setJobs();
-  assignBoardPadding(board);
+  board.nextJobs.set();
 }

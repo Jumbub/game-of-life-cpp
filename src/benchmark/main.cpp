@@ -14,9 +14,8 @@ static void BM_NextBoard(benchmark::State& state) {
   Board board(TEST_WIDTH, TEST_HEIGHT);
   setBenchmarkBoard(board);
 
-  for (auto _ : state) {
+  for (auto _ : state)
     nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
-  }
 }
 
 BENCHMARK(BM_NextBoard)->Unit(benchmark::kMillisecond)->MeasureProcessCPUTime()->UseRealTime()->Iterations(3000);

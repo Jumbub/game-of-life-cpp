@@ -31,9 +31,7 @@ struct Board {
 
   Lock lock;
 
-  void setOutputToInput();
   void setSize(const uint& width, const uint& height);
-  void setJobs();
   Board(const uint& width, const uint& height);
 
  private:
