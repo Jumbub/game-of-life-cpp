@@ -10,19 +10,10 @@
 constexpr uint32_t COLOR_DEAD = 0x10dd0000;
 constexpr uint32_t COLOR_ALIVE = 0xffffffff - COLOR_DEAD;
 
-void renderBoard(
-    Board& board,
-    [[maybe_unused]] sf::RenderWindow& window,
-    sf::Sprite& sprite,
-    sf::Texture& texture,
-    sf::Uint32* pixels) {
-  const auto& output = board.output;
-
-  // Generate the pixel texture data from the board output
-
-  const uint limit = board.rawWidth * board.rawHeight - board.rawWidth;
-  for (uint i = board.rawWidth; i < limit; i++) {
-    pixels[i] = COLOR_DEAD + COLOR_ALIVE * output[i];
+void renderBoard(Board& board, sf::RenderWindow& window, sf::Sprite& sprite, sf::Texture& texture, sf::Uint32* pixels) {
+  const uint limitI = board.rawWidth * board.rawHeight - board.rawWidth;
+  for (uint i = board.rawWidth; i < limitI; i++) {
+    pixels[i] = COLOR_DEAD + COLOR_ALIVE * board.output[i];
   }
 
   texture.update(reinterpret_cast<sf::Uint8*>(pixels));
