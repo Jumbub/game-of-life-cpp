@@ -207,6 +207,16 @@ By creating a job pool, so that faster threads who previously sat idle could now
 
 [d350d8bf8b49191952a72b7cb74fa694b5c289c3](https://github.com/Jumbub/game-of-speed/commit/d350d8bf8b49191952a72b7cb74fa694b5c289c3)
 
+### 20% speed increase overall
+
+By fitting 2 "skip" bits into a single byte.
+
+It turns out that adding more than 2 (ie. 4 or 8), actually decreased performance.
+
+With 8 skip bits in 1 byte, I was only getting 1.43s; which was actually slower than 1 bit per byte (1.37s).
+
+[07ca8c52e0397edf7dd60e864a479e1ebb10b060](https://github.com/Jumbub/game-of-speed/commit/07ca8c52e0397edf7dd60e864a479e1ebb10b060)
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
