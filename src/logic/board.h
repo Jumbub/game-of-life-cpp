@@ -6,8 +6,13 @@
 using uint = unsigned int;
 using ulong = unsigned long;
 using Cell = uint8_t;
+
 [[maybe_unused]] const Cell ALIVE = 1;
 [[maybe_unused]] const Cell DEAD = 0;
+
+[[maybe_unused]] const Cell SKIP_2 = (1 << 1) + (1 << 2);
+[[maybe_unused]] const Cell SKIP_1 = (1 << 2);
+[[maybe_unused]] const Cell SKIP_0 = 0;
 
 constexpr unsigned int PADDING = 2;  // Padding of board left+right or top+bottom.
 
