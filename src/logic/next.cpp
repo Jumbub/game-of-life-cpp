@@ -24,35 +24,34 @@ uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
   const Cell* middle = &input[i - 1];
   const Cell* bottom = &input[i + realWidth - 1];
 
-  const auto a = top[0] + middle[0] + bottom[0];
-  const auto b = top[1] + middle[1] * 9 + bottom[1];
-  const auto c = top[2] + middle[2] + bottom[2];
+  const auto a = testAlive(top[0]) + testAlive(middle[0]) + testAlive(bottom[0]);
+  const auto b = testAlive(top[1]) + testAlive(middle[1]) * 9 + testAlive(bottom[1]);
+  const auto c = testAlive(top[2]) + testAlive(middle[2]) + testAlive(bottom[2]);
 
   return LOOKUP[a + b + c];
 }
 
-inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth) {
-  *reinterpret_cast<uint32_t*>(&skips[i - realWidth - 1]) = false;
-  *reinterpret_cast<uint32_t*>(&skips[i - 1]) = false;
-  *reinterpret_cast<uint32_t*>(&skips[i + realWidth - 1]) = false;
+inline void revokeSkipForNeighbours(const uint& i, Cell* output, const uint& realWidth) {
+  resetSkip(output[i - realWidth - 1]);
+  resetSkip(output[i - realWidth]);
+  resetSkip(output[i - realWidth + 1]);
+  resetSkip(output[i - 1]);
+  resetSkip(output[i]);
+  resetSkip(output[i + 1]);
+  resetSkip(output[i + realWidth - 1]);
+  resetSkip(output[i + realWidth]);
+  resetSkip(output[i + realWidth + 1]);
 }
 
-void nextBoardSection(
-    uint i,
-    const uint endI,
-    const uint realWidth,
-    Cell* input,
-    Cell* output,
-    uint8_t* inSkip,
-    uint8_t* outSkip) {
+void nextBoardSection(uint i, const uint endI, const uint realWidth, Cell* input, Cell* output) {
   while (i < endI) {
-    while (uint8s_to_uint64(&inSkip[i]) == SKIP_EIGHT)
+    while ((uint8s_to_uint64(&input[i]) & SKIP_EIGHT) == SKIP_EIGHT)
       i += 8;
 
     output[i] = isAlive(i, input, realWidth);
 
     if (input[i] != output[i]) {
-      revokeSkipForNeighbours(i, outSkip, realWidth);
+      revokeSkipForNeighbours(i, output, realWidth);
     }
 
     i++;
@@ -82,14 +81,18 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
     const auto& beginI = std::get<0>(segments[i]);
     const auto& endI = std::get<1>(segments[i]);
 
-    board.inSkip[endI] = false;  // Never skip last cell
+    resetSkip(board.input[endI]);  // Never skip last cell
 
     // Reset next border
     if (i == jobCount - 1) {
-      std::memset(&board.outSkip[endI - board.rawWidth], true, board.rawSize - (endI - board.rawWidth));
+      for (uint i = endI - board.rawWidth; i < board.rawSize - (endI - board.rawWidth); i++) {
+        setSkip(board.output[i]);
+      }
     } else {
       const auto borderSize = std::min(board.rawSize, endI + board.rawWidth * 3);
-      std::memset(&board.outSkip[endI - board.rawWidth], true, borderSize - endI);
+      for (uint i = endI - board.rawWidth; i < borderSize - endI; i++) {
+        setSkip(board.output[i]);
+      }
     }
 
     jobs[i] = [&, beginI, endI]() {
@@ -97,13 +100,17 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
       if (endI == beginI)
         return;
       const auto max = std::max(beginI + board.rawWidth, endI - board.rawWidth);
-      std::memset(&board.outSkip[beginI + board.rawWidth], true, max - beginI - board.rawWidth);
-      nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
+      for (uint i = beginI + board.rawWidth; i < max - beginI - board.rawWidth; i++) {
+        setSkip(board.output[i]);
+      }
+      nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output);
     };
   };
 
   // Reset first border
-  std::memset(board.outSkip, true, sizeof(Cell) * board.rawWidth);
+  for (uint i = 0; i < board.rawWidth; i++) {
+    setSkip(board.output[i]);
+  }
 
   std::atomic<uint> job = {0};
   std::vector<std::thread> threads(threadCount - 1);

@@ -19,17 +19,31 @@ void setBenchmarkBoard(Board& board) {
       const uint x = rx - 1;
       const uint y = ry - 1;
       if (y > height / 2) {
-        if (x < width / 2)
-          board.output[i] = rand() % 2 ? ALIVE : DEAD;
-        if (x >= width / 2)
-          board.output[i] = (x / 8) % 2 != (y / 8) % 2 ? ALIVE : DEAD;
+        if (x < width / 2) {
+          if (rand() % 2) {
+            setAlive(board.output[i]);
+          } else {
+            resetAlive(board.output[i]);
+          }
+        }
+        if (x >= width / 2) {
+          if ((x / 8) % 2 != (y / 8) % 2) {
+            setAlive(board.output[i]);
+          } else {
+            resetAlive(board.output[i]);
+          }
+        }
       } else {
         const uint breederMarginY = (height / 2 - BREEDER_HEIGHT) / 2;
         const uint breederY = y - breederMarginY;
         if (breederY > 0 && breederY < BREEDER_HEIGHT && x < BREEDER_WIDTH) {
-          board.output[i] = BREEDER[breederY][x] ? ALIVE : DEAD;
+          if (BREEDER[breederY][x]) {
+            setAlive(board.output[i]);
+          } else {
+            resetAlive(board.output[i]);
+          }
         } else {
-          board.output[i] = DEAD;
+          resetAlive(board.output[i]);
         }
       }
     }

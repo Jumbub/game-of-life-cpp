@@ -5,7 +5,6 @@
 
 void Board::setOutputToInput() {
   std::swap(input, output);
-  std::swap(inSkip, outSkip);
 }
 
 void Board::setSize(const uint& width, const uint& height) {
@@ -28,18 +27,18 @@ void Board::allocateBoardMemory(const uint& width, const uint& height) {
   // Generate board with 1 cell of padding
   const uint size = (width + PADDING) * (height + PADDING);
   if (raw == nullptr) {
-    raw = new Cell[size * 4];
+    raw = new Cell[size * 2];
     input = raw;
     output = input + size;
-    inSkip = output + size;
-    outSkip = inSkip + size;
   }
 
   clearSkips();
 }
 
 void Board::clearSkips() {
-  std::memset(&raw[rawSize * 2], false, rawSize * 2);
+  for (uint i = 0; i < rawSize * 2; i++) {
+    resetSkip(raw[i]);
+  }
 }
 
 Board::Board(const uint& width, const uint& height) {

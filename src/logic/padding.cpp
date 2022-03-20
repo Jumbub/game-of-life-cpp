@@ -47,5 +47,5 @@ void assignSkips(Cell* cells, uint innerWidth, uint innerHeight) {
 
 void assignBoardPadding(Board& board) {
   assignPadding(board.output, board.width, board.height);
-  assignSkips(board.outSkip, board.width, board.height);
+  assignSkips(board.output, board.width, board.height);
 }

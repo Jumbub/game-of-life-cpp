@@ -6,8 +6,29 @@
 using uint = unsigned int;
 using ulong = unsigned long;
 using Cell = uint8_t;
-[[maybe_unused]] const Cell ALIVE = 1;
-[[maybe_unused]] const Cell DEAD = 0;
+
+const Cell SKIP_BIT = 1UL << 0;
+const Cell ALIVE_BIT = 1UL << 1;
+
+inline void setAlive(Cell& cell) {
+  cell |= ALIVE_BIT;
+}
+inline void resetAlive(Cell& cell) {
+  cell &= ~ALIVE_BIT;
+}
+inline bool testAlive(const Cell& cell) {
+  return cell >> 1 & 1UL;
+}
+
+inline void setSkip(Cell& cell) {
+  cell |= SKIP_BIT;
+}
+inline void resetSkip(Cell& cell) {
+  cell &= ~SKIP_BIT;
+}
+inline bool testSkip(const Cell& cell) {
+  return cell & 1;
+}
 
 constexpr unsigned int PADDING = 2;  // Padding of board left+right or top+bottom.
 
@@ -21,8 +42,6 @@ struct Board {
 
   Cell* input = nullptr;
   Cell* output = nullptr;
-  Cell* inSkip = nullptr;
-  Cell* outSkip = nullptr;
   Cell* raw = nullptr;
 
   Lock lock;
