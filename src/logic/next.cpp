@@ -16,9 +16,6 @@ constexpr uint8_t LOOKUP[20] = {
     0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
 };
 
-const uint64_t SKIP_SIXTEEN = (SKIP_2 << 0) + (SKIP_2 << 8) + (SKIP_2 << 16) + (SKIP_2 << 24) + ((long)SKIP_2 << 32) +
-                              ((long)SKIP_2 << 40) + ((long)SKIP_2 << 48) + ((long)SKIP_2 << 56);
-
 uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
   const Cell* top = &input[i - realWidth - 1];
   const Cell* middle = &input[i - 1];
@@ -32,9 +29,9 @@ uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
 }
 
 inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth) {
-  *reinterpret_cast<uint32_t*>(&skips[(i - realWidth - 1) / 2]) = SKIP_0;
-  *reinterpret_cast<uint32_t*>(&skips[(i - 1) / 2]) = SKIP_0;
-  *reinterpret_cast<uint32_t*>(&skips[(i + realWidth - 1) / 2]) = SKIP_0;
+  *reinterpret_cast<uint32_t*>(&skips[(i - realWidth - 1) / SKIPS_PER_BYTE]) = NO_SKIP_BYTE;
+  *reinterpret_cast<uint32_t*>(&skips[(i - 1) / SKIPS_PER_BYTE]) = NO_SKIP_BYTE;
+  *reinterpret_cast<uint32_t*>(&skips[(i + realWidth - 1) / SKIPS_PER_BYTE]) = NO_SKIP_BYTE;
 }
 
 void nextBoardSection(
@@ -46,8 +43,8 @@ void nextBoardSection(
     uint8_t* inSkip,
     uint8_t* outSkip) {
   while (i < endI) {
-    while (uint8s_to_uint64(&inSkip[i / 2]) == SKIP_SIXTEEN)
-      i += 16;
+    while (uint8s_to_uint64(&inSkip[i / SKIPS_PER_BYTE]) == SKIP_EIGHT_BYTES)
+      i += SKIPS_PER_BYTE * 8;
 
     output[i] = isAlive(i, input, realWidth);
 
@@ -84,10 +81,12 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
 
     // Reset next border
     if (i == jobCount - 1) {
-      std::memset(&board.outSkip[(endI - board.rawWidth) / 2], SKIP_2, (board.rawSize - (endI - board.rawWidth)) / 2);
+      std::memset(
+          &board.outSkip[(endI - board.rawWidth) / SKIPS_PER_BYTE], SKIP_BYTE,
+          (board.rawSize - (endI - board.rawWidth)) / SKIPS_PER_BYTE);
     } else {
       const auto borderSize = std::min(board.rawSize, endI + board.rawWidth * 3);
-      std::memset(&board.outSkip[endI - board.rawWidth], SKIP_2, (borderSize - endI) / 2);
+      std::memset(&board.outSkip[endI - board.rawWidth], SKIP_BYTE, (borderSize - endI) / SKIPS_PER_BYTE);
     }
 
     jobs[i] = [&, beginI, endI]() {
@@ -95,15 +94,17 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
       if (endI == beginI)
         return;
       const auto max = std::max(beginI + board.rawWidth, endI - board.rawWidth);
-      std::memset(&board.outSkip[(beginI + board.rawWidth) / 2], SKIP_2, (max - beginI - board.rawWidth) / 2);
+      std::memset(
+          &board.outSkip[(beginI + board.rawWidth) / SKIPS_PER_BYTE], SKIP_BYTE,
+          (max - beginI - board.rawWidth) / SKIPS_PER_BYTE);
       nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     };
 
-    board.inSkip[endI] = SKIP_0;  // Never skip last cell of segment
+    board.inSkip[endI] = NO_SKIP_BYTE;  // Never skip last cell of segment
   };
 
   // Reset first border
-  std::memset(board.outSkip, SKIP_2, (sizeof(Cell) * board.rawWidth) / 2);
+  std::memset(board.outSkip, SKIP_BYTE, (sizeof(Cell) * board.rawWidth) / SKIPS_PER_BYTE);
 
   std::atomic<uint> job = {0};
   std::vector<std::thread> threads(threadCount - 1);

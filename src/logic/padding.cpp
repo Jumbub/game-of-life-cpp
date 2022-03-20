@@ -28,21 +28,21 @@ void assignSkips(Cell* cells, uint innerWidth, uint innerHeight) {
   const uint height = innerHeight + PADDING;
 
   for (uint i = 1; i <= width - 1; i++) {
-    cells[(i + width * innerHeight) / 2] = SKIP_0;
+    cells[(i + width * innerHeight) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
   }
   for (uint i = width * (height - 1) + 1; i <= width * height - 2; i++) {
-    cells[(i - width * innerHeight) / 2] = SKIP_0;
+    cells[(i - width * innerHeight) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
   }
   for (uint i = width; i <= width * (height - 1); i += width) {
-    cells[(i + innerWidth) / 2] = SKIP_0;
+    cells[(i + innerWidth) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
   }
   for (uint i = (width * 2) - 1; i <= width * (height - 1) - 1; i += width) {
-    cells[(i - innerWidth) / 2] = SKIP_0;
+    cells[(i - innerWidth) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
   }
-  cells[(0) / 2] = SKIP_0;
-  cells[(width - 1) / 2] = SKIP_0;
-  cells[(width * (height - 1)) / 2] = SKIP_0;
-  cells[(width * height - 1) / 2] = SKIP_0;
+  cells[(0) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
+  cells[(width - 1) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
+  cells[(width * (height - 1)) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
+  cells[(width * height - 1) / SKIPS_PER_BYTE] = NO_SKIP_BYTE;
 }
 
 void assignBoardPadding(Board& board) {
