@@ -16,14 +16,16 @@ void Lock::resume() {
   }
 }
 
-void Lock::pauseIfRequested() {
+bool Lock::pauseIfRequested() {
   if (requestPause) {
     running = false;
     while (requestPause) {
       std::this_thread::sleep_for(std::chrono::microseconds(1));
     }
     running = true;
+    return true;
   }
+  return false;
 }
 
 LockForScope::LockForScope(Lock& lock) : lock(lock) {

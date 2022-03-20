@@ -14,8 +14,10 @@ static void BM_NextBoard(benchmark::State& state) {
   Board board(TEST_WIDTH, TEST_HEIGHT);
   setBenchmarkBoard(board);
 
+  const auto segments = createSegments(board, PROBABLY_OPTIMAL_JOB_COUNT);
+  const auto jobs = createJobs(board, segments, PROBABLY_OPTIMAL_JOB_COUNT);
   for (auto _ : state) {
-    nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
+    nextBoard(board, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT, segments, jobs);
   }
 }
 

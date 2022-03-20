@@ -39,8 +39,10 @@ void compare(BoardVector a, BoardVector b, uint generations = 1) {
   Board boardB = {1, 1};
   generate(boardA, a);
   generate(boardB, b);
+  auto segments = createSegments(boardA, PROBABLY_OPTIMAL_JOB_COUNT);
+  auto jobs = createJobs(boardA, segments, PROBABLY_OPTIMAL_JOB_COUNT);
   for (uint i = 0; i < generations; i++)
-    nextBoard(boardA, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
+    nextBoard(boardA, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT, segments, jobs);
   REQUIRE(ungenerate(boardA) == ungenerate(boardB));
 }
 
@@ -378,8 +380,10 @@ TEST_CASE("benchmark 2000 generations", "[nextBoard]") {
   }
 
   // Run common benchmark scenario
+  auto segments = createSegments(test, PROBABLY_OPTIMAL_JOB_COUNT);
+  auto jobs = createJobs(test, segments, PROBABLY_OPTIMAL_JOB_COUNT);
   for (uint i = 0; i < 2000; i++)
-    nextBoard(test, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT);
+    nextBoard(test, PROBABLY_OPTIMAL_THREAD_COUNT, PROBABLY_OPTIMAL_JOB_COUNT, segments, jobs);
 
   // Assert that output matches expected results
   for (uint i = 0; i < test.rawSize; i++)

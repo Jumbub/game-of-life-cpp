@@ -10,7 +10,7 @@ struct Lock {
   void resume();
 
   // Check for any pause requests, if there is, spin lock until un-paused
-  void pauseIfRequested();
+  bool pauseIfRequested();
 
  private:
   bool requestPause = false;

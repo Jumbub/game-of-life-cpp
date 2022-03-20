@@ -56,12 +56,8 @@ void nextBoardSection(
   }
 }
 
-void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
-  board.setOutputToInput();
-
-  // Create segments
-
-  std::vector<std::tuple<uint, uint>> segments(jobCount);
+Segments createSegments(const Board& board, const uint& jobCount) {
+  Segments segments(jobCount);
 
   const uint segmentSize = (board.height / jobCount + board.height % jobCount) * board.rawWidth;
   uint endI = board.rawWidth;
@@ -71,12 +67,34 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
     segment = {beginI, endI};
   };
 
-  // Create jobs
+  return segments;
+}
 
-  std::vector<std::function<void()>> jobs(jobCount);
+Jobs createJobs(const Board& board, const Segments& segments, const uint& jobCount) {
+  Jobs jobs(jobCount);
 
   for (uint i = 0; i < jobCount; i++) {
     const auto& beginI = std::get<0>(segments[i]);
+    const auto& endI = std::get<1>(segments[i]);
+
+    jobs[i] = [&, beginI, endI]() {
+      // Reset inner skips
+      if (endI == beginI)
+        return;
+      const auto max = std::max(beginI + board.rawWidth, endI - board.rawWidth);
+      std::memset(
+          &board.outSkip[(beginI + board.rawWidth) / SKIPS_PER_BYTE], SKIP_BYTE,
+          (max - beginI - board.rawWidth) / SKIPS_PER_BYTE);
+      board.inSkip[endI] = NO_SKIP_BYTE;  // Never skip last cell of segment
+      nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
+    };
+  };
+
+  return jobs;
+}
+
+inline void resetBorders(const Board& board, const Segments& segments, const uint& jobCount) {
+  for (uint i = 0; i < jobCount; i++) {
     const auto& endI = std::get<1>(segments[i]);
 
     // Reset next border
@@ -88,23 +106,19 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
       const auto borderSize = std::min(board.rawSize, endI + board.rawWidth * 3);
       std::memset(&board.outSkip[endI - board.rawWidth], SKIP_BYTE, (borderSize - endI) / SKIPS_PER_BYTE);
     }
-
-    jobs[i] = [&, beginI, endI]() {
-      // Reset inner skips
-      if (endI == beginI)
-        return;
-      const auto max = std::max(beginI + board.rawWidth, endI - board.rawWidth);
-      std::memset(
-          &board.outSkip[(beginI + board.rawWidth) / SKIPS_PER_BYTE], SKIP_BYTE,
-          (max - beginI - board.rawWidth) / SKIPS_PER_BYTE);
-      nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
-    };
-
-    board.inSkip[endI] = NO_SKIP_BYTE;  // Never skip last cell of segment
   };
 
-  // Reset first border
   std::memset(board.outSkip, SKIP_BYTE, (sizeof(Cell) * board.rawWidth) / SKIPS_PER_BYTE);
+}
+
+void nextBoard(
+    Board& board,
+    const uint& threadCount,
+    const uint& jobCount,
+    const Segments& segments,
+    const Jobs& jobs) {
+  board.setOutputToInput();
+  resetBorders(board, segments, jobCount);
 
   std::atomic<uint> job = {0};
   std::vector<std::thread> threads(threadCount - 1);
@@ -138,10 +152,16 @@ std::thread startNextBoardLoopThread(
     Board& board,
     ulong& computedGenerations) {
   return std::thread{[&]() {
-    while (computedGenerations < maxGenerations) {
-      board.lock.pauseIfRequested();
+    auto segments = createSegments(board, jobCount);
+    auto jobs = createJobs(board, segments, jobCount);
 
-      nextBoard(board, threadCount, jobCount);
+    while (computedGenerations < maxGenerations) {
+      if (board.lock.pauseIfRequested()) {
+        segments = createSegments(board, jobCount);
+        jobs = createJobs(board, segments, jobCount);
+      }
+
+      nextBoard(board, threadCount, jobCount, segments, jobs);
       ++computedGenerations;
     }
   }};
