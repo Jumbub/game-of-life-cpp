@@ -34,6 +34,5 @@ struct Board {
   ~Board();
 
  private:
-  void allocateBoardMemory(const uint& width, const uint& height);
   Board([[maybe_unused]] const Board& _){};
 };
