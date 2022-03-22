@@ -63,7 +63,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
 
   std::vector<std::tuple<uint, uint>> segments(jobCount);
 
-  const uint segmentSize = (board.height / jobCount + board.height % jobCount) * board.rawWidth;
+  const uint segmentSize = 230580;
   uint endI = board.rawWidth;
   for (auto& segment : segments) {
     const uint beginI = endI;
