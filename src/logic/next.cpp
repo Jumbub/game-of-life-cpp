@@ -74,11 +74,10 @@ Jobs createJobs(const Board& board, const Segments& segments, const uint& jobCou
   Jobs jobs(jobCount);
 
   for (uint i = 0; i < jobCount; i++) {
-    const auto& beginI = std::get<0>(segments[i]);
-    const auto& endI = std::get<1>(segments[i]);
+    const auto beginI = segments[i].begin;
+    const auto endI = segments[i].end;
 
     jobs[i] = [&, beginI, endI]() {
-      // Reset inner skips
       if (endI == beginI)
         return;
       const auto max = std::max(beginI + board.rawWidth, endI - board.rawWidth);
@@ -95,7 +94,7 @@ Jobs createJobs(const Board& board, const Segments& segments, const uint& jobCou
 
 inline void resetBorders(const Board& board, const Segments& segments, const uint& jobCount) {
   for (uint i = 0; i < jobCount; i++) {
-    const auto& endI = std::get<1>(segments[i]);
+    const auto& endI = segments[i].end;
 
     // Reset next border
     if (i == jobCount - 1) {

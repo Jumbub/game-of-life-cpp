@@ -6,7 +6,11 @@
 #include "board.h"
 
 using Jobs = std::vector<std::function<void()>>;
-using Segments = std::vector<std::tuple<uint, uint>>;
+struct Segment {
+  uint begin;
+  uint end;
+};
+using Segments = std::vector<Segment>;
 
 Segments createSegments(const Board& board, const uint& jobCount);
 Jobs createJobs(const Board& board, const Segments& segments, const uint& jobCount);
