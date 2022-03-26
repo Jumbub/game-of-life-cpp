@@ -23,6 +23,8 @@ void assignPadding(Cell* cells, uint innerWidth, uint innerHeight) {
   cells[width * height - 1] = cells[width + 1];
 }
 
+// TODO: investigate speed increase by assign mirrors properly here (not lazy always skip)
+// TODO: investigate casting to uint16, then we don't need to do the division (assuming SKIPS_PER_BYTE is 2)
 void assignSkips(Cell* cells, uint innerWidth, uint innerHeight) {
   const uint width = innerWidth + PADDING;
   const uint height = innerHeight + PADDING;

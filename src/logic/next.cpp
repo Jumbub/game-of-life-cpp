@@ -29,6 +29,8 @@ uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
 }
 
 inline void revokeSkipForNeighbours(const uint& i, Cell* skips, const uint& realWidth) {
+  // TODO: try storing an always casted uint32_t array of skips on board,
+  // maybe the compiler will be able to better optimise this
   *reinterpret_cast<uint32_t*>(&skips[(i - realWidth - 1) / SKIPS_PER_BYTE]) = NO_SKIP_BYTE;
   *reinterpret_cast<uint32_t*>(&skips[(i - 1) / SKIPS_PER_BYTE]) = NO_SKIP_BYTE;
   *reinterpret_cast<uint32_t*>(&skips[(i + realWidth - 1) / SKIPS_PER_BYTE]) = NO_SKIP_BYTE;
@@ -43,6 +45,9 @@ void nextBoardSection(
     uint8_t* inSkip,
     uint8_t* outSkip) {
   while (i < endI) {
+    // TODO: try removing the == check, and just do truthiness
+    // TODO: try removing the uint64, and instead increase skips per byte (less ram usage)
+    // TODO: try storing skips as uint64 and only casting down when assigning
     while (uint8s_to_uint64(&inSkip[i / SKIPS_PER_BYTE]) == SKIP_EIGHT_BYTES)
       i += SKIPS_PER_BYTE * 8;
 
