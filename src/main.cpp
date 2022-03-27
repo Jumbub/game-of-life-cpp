@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
   const uint workerThreads = argc > 4 ? (uint)atoi(argv[4]) : PROBABLY_OPTIMAL_THREAD_COUNT;
   const uint jobCount = argc > 4 ? (uint)atoi(argv[4]) : PROBABLY_OPTIMAL_JOB_COUNT;
 
-  Loop(2560, 1440, "Game of Speed", resizable).run(maxGenerations, workerThreads, jobCount, 1000000 / rendersPerSecond);
+  Loop(2560, 1440, "Game of Life", resizable).run(maxGenerations, workerThreads, jobCount, 1000000 / rendersPerSecond);
 
   return EXIT_SUCCESS;
 }

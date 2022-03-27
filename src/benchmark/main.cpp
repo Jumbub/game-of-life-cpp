@@ -7,7 +7,7 @@
 
 const unsigned int TEST_WIDTH = 2560;
 const unsigned int TEST_HEIGHT = 1440;
-const std::string TEST_TITLE = "Game of Speed [Benchmark]";
+const std::string TEST_TITLE = "Game of Life [Benchmark]";
 const bool TEST_RESIZABLE = false;
 
 static void BM_NextBoard(benchmark::State& state) {

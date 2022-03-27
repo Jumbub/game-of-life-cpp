@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8.2)
-project(game-of-speed
+project(game-of-life-cpp
   LANGUAGES CXX
   VERSION 1.0
 )

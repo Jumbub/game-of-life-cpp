@@ -5,7 +5,7 @@
 #include "../logic/threads.h"
 
 static void BM_DifferentThreadCounts(benchmark::State& state) {
-  Loop loop(2560, 1440, "Game of Speed [Benchmark]", false);
+  Loop loop(2560, 1440, "Game of Life [Benchmark]", false);
   for (auto _ : state) {
     loop.run(2000, 4, state.range(0), 1000000 / 30);
   }
