@@ -3,7 +3,7 @@
 ![tests](https://github.com/jumbub/game-of-speed/actions/workflows/.github/workflows/tests.yaml/badge.svg)
 ![speed](https://user-images.githubusercontent.com/8686526/153600499-e4fd92c4-3537-4fe9-a288-2aca03f88077.svg)
 
-Conway's Game of Life, as fast as possible.
+Conway's Game of Life, as fast as possible _without hashing_.
 
 - [Results of interesting findings](#results-of-interesting-findings)
 
