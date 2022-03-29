@@ -17,6 +17,9 @@ constexpr uint8_t LOOKUP[20] = {
 };
 
 uint isAlive(const uint& i, const Cell* input, const uint& realWidth) {
+  // TODO: investigate the float bitshift strategy:
+  // 00110000 # a live cell needs 2 or 3 left shifts
+  // 00010000 # a dead cell needs 3 left shifts
   const Cell* top = &input[i - realWidth - 1];
   const Cell* middle = &input[i - 1];
   const Cell* bottom = &input[i + realWidth - 1];
