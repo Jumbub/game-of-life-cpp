@@ -51,6 +51,7 @@ void nextBoardSection(
     // TODO: try removing the == check, and just do truthiness
     // TODO: try removing the uint64, and instead increase skips per byte (less ram usage)
     // TODO: try storing skips as uint64 and only casting down when assigning
+    // TODO: try doing i / SKIPS once, then pass to "revoke" function
     while (uint8s_to_uint64(&inSkip[i / SKIPS_PER_BYTE]) == SKIP_EIGHT_BYTES)
       i += SKIPS_PER_BYTE * 8;
 
@@ -94,7 +95,8 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
           (board.rawSize - (endI - board.rawWidth)) / SKIPS_PER_BYTE);
     } else {
       const auto borderSize = std::min(board.rawSize, endI + board.rawWidth * 3);
-      std::memset(&board.outSkip[endI - board.rawWidth], SKIP_BYTE, (borderSize - endI) / SKIPS_PER_BYTE);
+      // TODO: this next line was wrong im pretty sure
+      std::memset(&board.outSkip[(endI - board.rawWidth)/SKIPS_PER_BYTE], SKIP_BYTE, (borderSize - endI) / SKIPS_PER_BYTE);
     }
 
     jobs[i] = [&, beginI, endI]() {
