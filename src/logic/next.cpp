@@ -70,10 +70,12 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
 
   // Create segments
 
+  // TODO: try a non vectored tuple
   std::vector<std::tuple<uint, uint>> segments(jobCount);
 
   const uint segmentSize = (board.height / jobCount + board.height % jobCount) * board.rawWidth;
   uint endI = board.rawWidth;
+  // TODO: for loop?
   for (auto& segment : segments) {
     const uint beginI = endI;
     endI = std::min(board.rawSize - board.rawWidth, endI + segmentSize);
@@ -99,6 +101,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
       std::memset(&board.outSkip[(endI - board.rawWidth)/SKIPS_PER_BYTE], SKIP_BYTE, (borderSize - endI) / SKIPS_PER_BYTE);
     }
 
+    // TODO: what if this wasn't a lamda?
     jobs[i] = [&, beginI, endI]() {
       // Reset inner skips
       if (endI == beginI)
@@ -110,6 +113,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
       nextBoardSection(beginI + 1, endI - 1, board.rawWidth, board.input, board.output, board.inSkip, board.outSkip);
     };
 
+    // TODO: Does this actually have any impact
     board.inSkip[endI] = NO_SKIP_BYTE;  // Never skip last cell of segment
   };
 
