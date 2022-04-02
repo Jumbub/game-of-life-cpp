@@ -14,6 +14,7 @@ const uint8_t SKIPS_PER_BYTE = 2;
 const uint8_t SKIP_BYTE = 1 + 2;
 const uint8_t NO_SKIP_BYTE = 0;
 
+// TODO: experiment with skips pre byte AND the size of the cast when computing skips
 const uint64_t SKIP_EIGHT_BYTES = ((ulong)SKIP_BYTE << 0) + ((ulong)SKIP_BYTE << 8) + ((ulong)SKIP_BYTE << 16) +
                                   ((ulong)SKIP_BYTE << 24) + ((ulong)SKIP_BYTE << 32) + ((ulong)SKIP_BYTE << 40) +
                                   ((ulong)SKIP_BYTE << 48) + ((ulong)SKIP_BYTE << 56);
