@@ -11,6 +11,8 @@ Conway's Game of Life, as fast as possible _without hashing_.
 
 - [Running the code](#gettings-started)
 
+- [A JavaScript implementation, with competitive performance](https://github.com/Jumbub/game-of-life-js)
+
 [![The benchmark world](https://user-images.githubusercontent.com/8686526/153599957-85b5a9cb-e57d-4d02-aa6e-c794e7d18d04.gif)](https://youtu.be/16G4Dir5br8)
 
 _(the above gif is the benchmark scenario; slowed down to a fraction of the real speed; [click for video](https://youtu.be/16G4Dir5br8))_
