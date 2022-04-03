@@ -81,6 +81,7 @@ void nextBoard(Board& board, const uint& threadCount, const uint& jobCount) {
     endI = std::min(board.rawSize - board.rawWidth, endI + segmentSize);
     segment = {beginI, endI};
   };
+  // TODO: fix up segments logic to match JS, (currently biased)
 
   // Create jobs
 
