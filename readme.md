@@ -1,4 +1,4 @@
-# Game of Life (C++, SFML)
+# Game of Life (C++)
 
 ![tests](https://github.com/jumbub/game-of-life-cpp/actions/workflows/.github/workflows/tests.yaml/badge.svg)
 ![speed](https://user-images.githubusercontent.com/8686526/153600499-e4fd92c4-3537-4fe9-a288-2aca03f88077.svg)
@@ -9,41 +9,71 @@ Conway's Game of Life, as fast as possible _without hashing_.
 
 - [Log of benchmark improvements](#log-of-benchmark-improvements)
 
-- [Running the code](#gettings-started)
-
-- [A JavaScript implementation, with competitive performance](https://github.com/Jumbub/game-of-life-js)
+- [Also check out a **JavaScript implementation**, with competitive performance](https://github.com/Jumbub/game-of-life-js)
 
 [![The benchmark world](https://user-images.githubusercontent.com/8686526/153599957-85b5a9cb-e57d-4d02-aa6e-c794e7d18d04.gif)](https://youtu.be/16G4Dir5br8)
 
-_(the above gif is the benchmark scenario; slowed down to a fraction of the real speed; [click for video](https://youtu.be/16G4Dir5br8))_
+_(the above gif is the benchmark scenario; but because of video capture, it's slow as heck; [click for video](https://youtu.be/16G4Dir5br8))_
 
-## Gettings started
+<br>
 
-### Running the app
+## Strategies for high performance
+
+#### Dormat cell detection
+
+If it is impossible for the state of a group of cells to change in the next generation, mark them as skippable.
+
+When a group of cells are skippable, we can avoid a _large_ number of memory reads/writes.
+
+#### Parallel compute
+
+A thread will be spun up for every available cpu.
+
+#### Job queue
+
+To address the issue of fast and slow zones, we create a job queue which creates smaller more evenly balanced work.
+
+- threads who have a fast zone will pick up more work, rather than just waiting for slow zone threads to finish
+- this also limits the effect of a busy cpu (working on something other than this app); because if a cpu is blocked, it will only be blocking a small region
+
+#### Smudge rendering
+
+Locking the cell state to perform a render has an _extremely_ negative impact on performance, so we just don't. If you can notice the visual issues that this causes, I will be _very_ impressed (I can't).
+
+#### Branchless operations
+
+Yes that is a vague statement, but given how many speedups have come just from removing conditionals, it is worth mentioning explicitly.
+
+<br>
+
+## Getting started
+
+#### Running the app
 
 `make`
 
-### Running the tests
+#### Running the tests
 
 `make test`
 
-### Running a benchmark
+#### Running a benchmark
 
 `make benchmark`
+
+<br>
 
 ## Log of benchmark improvements
 
 **Benchmark hardware:**
-- Intel(R) Core(TM) i5-7600K CPU @ 3.80GHz (overclocked to 4.4GHz)
+- i5-7600K @ 4.4GHz
+- GTX 1080
 
-**Benchmark software:**
+**Benchmark scenario:**
 - The benchmark is "time to compute 2000 generations; on a wrapping 2560x1440 sized board"
 - The initial board is always the same, and contains
   - A [breeder](https://en.wikipedia.org/wiki/Breeder_(cellular_automaton)#:~:text=In%20cellular%20automata%20such%20as,copies%20of%20a%20tertiary%20pattern.) on the top half
   - Seeded random cells in the bottom left
   - Chess grid of 8x8 alive/dead cells in the bottom right
-
-> The benchmark has changed slightly over time - "total generations computed in 10 seconds" to "time to compute 2000 generations" - and "500x500" to "2560x1440"
 
 ### Functioning prototype
 
@@ -219,6 +249,8 @@ With 8 skip bits in 1 byte, I was only getting 1.43s; which was actually slower 
 
 [07ca8c52e0397edf7dd60e864a479e1ebb10b060](https://github.com/Jumbub/game-of-life-cpp/commit/07ca8c52e0397edf7dd60e864a479e1ebb10b060)
 
+<br>
+
 ## Results of interesting findings
 
 Bear in mind these findings were made on **my** computer(details of which are [here](#log-of-benchmark-improvements)), and may not be applicable to your machine or code.
@@ -379,6 +411,8 @@ BM_Main/iterations:1/repeats:3/process_time/real_time_stddev      0.019 s       
 ### Struct memory layouts are slightly important
 
 So, I had this extra pointer `renderRaw` in my `Board` struct which was legacy from previous render strategies. I deleted the pointer and it's associated `malloc` in [this commit](https://github.com/Jumbub/game-of-life-cpp/commit/e79b2f7a01bda0cf28925a4be90fb84cdabe3515), only to find out, it causes a 5% decrease in the overall performance of the app.
+
+<br>
 
 ## References
 
