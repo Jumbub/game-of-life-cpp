@@ -3,7 +3,7 @@
 ![tests](https://github.com/jumbub/game-of-life-cpp/actions/workflows/.github/workflows/tests.yaml/badge.svg)
 ![speed](https://user-images.githubusercontent.com/8686526/153600499-e4fd92c4-3537-4fe9-a288-2aca03f88077.svg)
 
-Conway's Game of Life, as fast as possible _without hashing_.
+Investigating C++ optimization techniques while building Game of Life.
 
 - [Results of interesting findings](#results-of-interesting-findings)
 
@@ -14,35 +14,6 @@ Conway's Game of Life, as fast as possible _without hashing_.
 [![The benchmark world](https://user-images.githubusercontent.com/8686526/153599957-85b5a9cb-e57d-4d02-aa6e-c794e7d18d04.gif)](https://youtu.be/16G4Dir5br8)
 
 _(the above gif is the benchmark scenario; but because of video capture, it's slow as heck; [click for video](https://youtu.be/16G4Dir5br8))_
-
-<br>
-
-## Strategies for high performance
-
-#### Dormat cell detection
-
-If it is impossible for the state of a group of cells to change in the next generation, mark them as skippable.
-
-When a group of cells are skippable, we can avoid a _large_ number of memory reads/writes.
-
-#### Parallel compute
-
-A thread will be spun up for every available cpu.
-
-#### Job queue
-
-To address the issue of fast and slow zones, we create a job queue which creates smaller more evenly balanced work.
-
-- threads who have a fast zone will pick up more work, rather than just waiting for slow zone threads to finish
-- this also limits the effect of a busy cpu (working on something other than this app); because if a cpu is blocked, it will only be blocking a small region
-
-#### Smudge rendering
-
-Locking the cell state to perform a render has an _extremely_ negative impact on performance, so we just don't. If you can notice the visual issues that this causes, I will be _very_ impressed (I can't).
-
-#### Branchless operations
-
-Yes that is a vague statement, but given how many speedups have come just from removing conditionals, it is worth mentioning explicitly.
 
 <br>
 
